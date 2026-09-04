@@ -1,0 +1,284 @@
+﻿@model GeniusOneAi.Modules.Common.CustomClasses.GlobalDashboardDataModel
+    @{
+        ViewData["Title"] = "Global Agency Dashboard";
+        ViewData["PageId"] = "Global Agency Dashboard";
+    }
+
+    @section Head {}
+
+    @section ContentHeader {
+        <h3>Global Agency Dashboard</h3>
+    }
+
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+            <div class="grid-title"><div class="title-text">Operational Metrics</div></div>
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-danger">@Model.RejectedProgressNotes</h3>
+                                    <a href="/Workflows/Activities?NoteStatus=Rejected">
+                                        <p class="mb-0">Rejected Notes</p>
+                                    </a>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-pencil text-danger fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-warning">@Model.SavedProgressNotes</h3>
+                                   <p class="mb-0">Saved Notes</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-pencil text-warning fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-primary">@Model.SubmittedProgressNotes</h3>
+                                    <a href="/Workflows/Activities?NoteStatus=Submitted">
+                                    <p class="mb-0">Submitted Notes</p></a>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-pencil text-primary fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-success">@Model.ApprovedProgressNotes</h3>
+                                    <a href="/Workflows/Activities?NoteStatus=Approved">
+                                    <p class="mb-0">Approved Notes</p></a>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-pencil text-success fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-success">@Model.ActiveCases</h3>
+                                    
+                                    <p class="mb-0">Active Cases</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-users text-success fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-secondary">@Model.InActiveCases</h3>
+                                    <p class="mb-0">Inactive Cases</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-users text-secondary fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-danger">@Model.AuthorizationsExpiringThisMonth</h3>
+                                    <p class="mb-0">Auths Exp. This Month </p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file-invoice text-danger fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-warning">@Model.AuthorizationsExpiringNextMonth</h3>
+                                    <p class="mb-0">Auths Exp. Next Month </p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file-invoice  text-warning fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-info">@Model.AppointmentsScheduled</h3>
+                                    <p class="mb-0">Appointments This Month</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-calendar text-info fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-orange">@Model.DocumentsPendingReview</h3>
+                                    <p class="mb-0">Documents Pending Review</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file text-orange fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-purple">@Model.DocumentsPendingSignature</h3>
+                                    <p class="mb-0">Documents Pending Signature</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file text-purple fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-danger">@Model.CredentialsExpiringThisMonth</h3>
+                                    <p class="mb-0">Credentials Exp. This Month</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-id-card text-danger fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="grid-title"><div class="title-text">Financial Metrics</div></div>
+            <div class="row">
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-primary">@Model.InvoicesSubmitted</h3>
+            
+                                    <p class="mb-0">Invoices Submitted</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file-invoice text-primary fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-purple">@Model.InvoicesPaid</h3> 
+                                 
+                                    <p class="mb-0">Invoices Paid</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-file-invoice text-purple fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-primary">$ @Model.TotalBilled</h3>
+                         
+                                    <p class="mb-0">Total Pending Billing</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-money text-primary fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-3 col-sm-6 col-12 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-md-1">
+                                <div>
+                                    <h3 class="text-orange">$ @Model.TotalPaid</h3>
+                                    
+                                    <p class="mb-0">Total Paid Billing</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fa fa-money text-orange fa-3x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+      </div>
+    </section>
+</div>
+
+    
+
+

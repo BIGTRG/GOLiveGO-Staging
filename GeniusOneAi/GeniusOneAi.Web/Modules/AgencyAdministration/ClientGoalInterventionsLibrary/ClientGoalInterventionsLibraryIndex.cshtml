@@ -1,0 +1,14 @@
+﻿@inject Serenity.ITextLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer.Get("Db.AgencyAdministration.ClientGoalInterventionsLibrary.EntityPlural");
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.AgencyAdministration.ClientGoalInterventionsLibraryGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

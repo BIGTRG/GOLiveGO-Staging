@@ -1,0 +1,92 @@
+﻿@model GeniusOneAi.AiAdvisor.AiAdvisorPageModel
+@{
+    ViewData["Title"] = "AiAdvisor";
+    ViewData["PageId"] = "AiAdvisor";
+}
+
+@section Head {}
+
+@section ContentHeader {
+    <h3>GeniusOneAi AiAdvisor</h3>
+}
+<div class="alert alert-danger" role="alert">
+    AiAdvisor is an artificial intelligence chatbot based on Generative Pre-trained Transformer series of large language models and is not to be used
+    to Diagnose, Treat, Cure or Prevent Any Disease.   Ask the AiAdvisor any question below.
+</div>
+<div class="">
+    <div class="container">
+        <section>
+            <div class="container py-5">
+                <div class="row d-flex justify-content-center">
+                    <div class="col-md-4 col-lg-4 col-xl-8">
+                        <div class="card" id="chat1" style="border-radius: 15px;">
+                            <div class="card-header d-flex justify-content-between align-items-center p-3 text-white border-bottom-0" style="border-top-left-radius: 15px; border-top-right-radius: 15px; background-color: #3D5FAE;">
+                                <i></i>
+                                <p class="mb-0 fw-bold">AiAdvisor v1.0 Chatbot (Beta)</p>
+                                <i></i>
+                            </div>
+                            <div class="card-body">
+                                <div id="chat-log">
+                                    <div class="d-flex flex-row justify-content-start mb-4">
+                                        <img src="~/content/serenity/images/blue-logo.png" alt="avatar 1" style="width: 50px; height: 100%;">
+                                        <div class="p-3 ms-3" style="border-radius: 15px; background-color: rgba(57, 192, 237,.2);">
+                                            <p class="small mb-0">Hello, please ask your question or request below.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="user-input" type="text" placeholder="Ask me question"><br/>
+                                </div>
+                                <div class="row"><div class="text-center">
+                                    <button id="send-btn" class="btn btn-primary">Submit</button>
+                                    <button id="clear-btn" class="btn btn-danger">Clear</button>
+                                </div></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#send-btn').on('click', function () {
+            var userInput = $('#user-input').val();
+            if (!userInput) { Q.alert("Please ask me a valid question."); return;}
+            $.ajax({
+                url: location.origin + '/AiAdvisor/GetMessage',
+                type: 'POST',
+                data: { message: userInput },
+                success: function (data) {
+                    $('#chat-log').append(data.Message);
+                    $.ajax({
+                        url: location.origin + '/AiAdvisor/SendMessage',
+                        type: 'POST',
+                        data: { message: userInput },
+                        success: function (data) {
+                            $('#chat-log').append(data.Message);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                           
+                           alert('Error occurred while processing the message.');
+                        }
+                    });
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+      
+                    alert('Error occurred while processing the message.');
+                }
+            });
+
+            $('#user-input').val('');
+
+
+        });
+        $('#clear-btn').on('click', function () { location.reload(); });
+    });
+</script>
+

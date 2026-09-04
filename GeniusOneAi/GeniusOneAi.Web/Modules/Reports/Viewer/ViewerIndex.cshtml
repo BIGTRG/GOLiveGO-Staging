@@ -1,0 +1,65 @@
+﻿@using GeniusOneAi.Reports
+@using GeniusOneAi.Web;
+@model GeniusOneAi.Reports.ReportModel;
+
+@{
+    ViewData["Title"] = "Report Viewer";
+    ViewData["PageId"] = "Report Viewer";
+}
+
+@section Head {
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.common.min.css" rel="stylesheet" />
+    <link href="https://kendo.cdn.telerik.com/2020.1.114/styles/kendo.default.min.css" rel="stylesheet" />
+}
+
+@section ContentHeader {
+    <h3>Report Viewer</h3>
+    }
+@{
+    var fileName = Model.fileName;
+    var tenantId = Model.tenantId;
+    var filePath = fileName;
+
+}
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-left">
+                            <button type="button" onclick="javascript: history.go(-1);" class="btn btn-danger"><i class="fa fa-arrow-left fa-lg"></i> Return</button>
+                            @{
+                                if (tenantId != -1)
+                                {
+                                   //<button type="button" onclick="location.href='/Reports/Builder/@Html.Raw(fileName.Remove(fileName.Length - 5))';" class="btn btn-primary"><i class="fa fa-note fa-lg"></i> Designer</button>
+                                }
+                            }
+                                <div class="mb-4"></div>
+                            <div class="text-center">
+                            <div id="reportViewer1" style="width:100%; height:1300px"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><br><br></div>
+        </div>
+    </section>
+</div>
+@* @section Scripts {
+    <script src="/api/reports/resources/js/telerikReportViewer"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#reportViewer1")
+            .telerik_ReportViewer({
+                    serviceUrl: "/api/reports",
+                reportSource: {
+                        report: "@Html.Raw(filePath)"
+                },
+                scaleMode: telerikReportViewer.ScaleModes.SPECIFIC,
+                scale: 1.0
+            });
+    });
+</script>
+} *@

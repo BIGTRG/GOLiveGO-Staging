@@ -1,0 +1,166 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <PreserveCompilationContext>true</PreserveCompilationContext>
+    <AssemblyName>GeniusOneAi.Web</AssemblyName>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <SerenitySrc>..\..\Serenity\src\</SerenitySrc>
+    <DotNetSergen>dotnet sergen</DotNetSergen>
+    <DotNetSergenDir>$(SerenitySrc)Serenity.Net.CodeGenerator\bin\</DotNetSergenDir>
+    <DotNetSergen Condition="Exists('$(DotNetSergenDir)sergen')">$(DotNetSergenDir)sergen</DotNetSergen>
+    <DotNetSergen Condition="Exists('$(DotNetSergenDir)sergen.exe')">$(DotNetSergenDir)sergen.exe</DotNetSergen>
+    <CommonSrc>..\..\common-features\src\</CommonSrc>
+    <ProSrc>..\..\pro-features\src\</ProSrc>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <Nullable>annotations</Nullable>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\**\*.sql" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <Compile Remove="wwwroot\App_Data\DocumentCache\**" />
+    <Content Remove="wwwroot\App_Data\DocumentCache\**" />
+    <EmbeddedResource Remove="wwwroot\App_Data\DocumentCache\**" />
+    <None Remove="wwwroot\App_Data\DocumentCache\**" />
+    <TypeScriptCompile Remove="wwwroot\App_Data\DocumentCache\**" />
+    <None Remove="Modules\AgencyAdministration\ClientGoalsLibrary\ClientGoalLibraryInterventionsEditor.ts" />
+    <None Remove="Modules\Archives\Activities\ActivitiesArchiveDialog.ts" />
+    <None Remove="Modules\Archives\ProgressNotes\ProgressNotesArchiveDialog.ts" />
+    <None Remove="Modules\Archives\ProgressNotes\ProgressNotesArchiveGrid.ts" />
+    <None Remove="Modules\ClientManager\ClientDocuments\DocumentsListDialog.ts" />
+    <None Remove="Modules\ClientManager\ClientGoalInterventions\ClientGoalInterventionsEditor.ts" />
+    <None Remove="Modules\ClientManager\Clients\ClientsEligibilityDialog.ts" />
+    <None Remove="Modules\ClientManager\Clients\TeamAssignmentsGrid.ts" />
+    <None Remove="Modules\ClientManager\TeamAssignments\WorkerCaseAssignmentsDialog.ts" />
+    <None Remove="Modules\ClientManager\TeamAssignments\WorkerCaseAssignmentsGrid.ts" />
+    <None Remove="Modules\Common\CustomEditors\BillRateEditor.ts" />
+    <None Remove="Modules\Common\CustomEditors\InsuranceEntityTypeEditor.ts" />
+    <None Remove="Modules\Common\CustomEditors\PerformerType.ts" />
+    <None Remove="Modules\Common\CustomEditors\WorkflowStatusEditor .ts" />
+    <None Remove="Modules\Common\CustomFormatters\ClientAuthorizationsFormatter.ts" />
+    <None Remove="Modules\DocumentManager\DocumentWorkflowStepsTemplates\DocumentWorkflowStepsTemplatesEditor.ts" />
+    <None Remove="Modules\Reports\Viewer\TestReport.repx" />
+    <None Remove="Modules\WorkerManager\WorkerCaseAssignments\ClientsFormatter.ts" />
+    <None Remove="Modules\WorkerPortal\ActivitiesLog\ActivitiesLogDialog.ts" />
+    <None Remove="Modules\WorkerPortal\ActivitiesLog\ActivitiesLogGrid.ts" />
+    <None Remove="Modules\WorkerPortal\ActivitiesLog\ActivitiesLogNotesDialog.ts" />
+    <None Remove="Modules\WorkerPortal\ClientAuthorizations\ClientAuthorizationsDialog.ts" />
+    <None Remove="Modules\WorkerPortal\ClientAuthorizations\ClientAuthorizationsGrid.ts" />
+    <None Remove="Modules\WorkerPortal\ClientDocuments\ClientDocumentsDialog.ts" />
+    <None Remove="Modules\WorkerPortal\ClientDocuments\ClientDocumentsGrid.ts" />
+    <None Remove="Modules\WorkerPortal\ClientGoals\ClientGoalsDialog.ts" />
+    <None Remove="Modules\WorkerPortal\ClientGoals\ClientGoalsGrid.ts" />
+    <None Remove="Modules\WorkerPortal\Clients\MyClientAuthorizationsDialog.ts" />
+    <None Remove="Modules\WorkerPortal\DocumentRepository\DocumentRepositoryGrid.ts" />
+    <None Remove="Modules\WorkerPortal\WorkerCaseAssignments\WorkerCaseAssignmentsGrid.ts" />
+    <None Remove="Modules\Workflows\ActivitiesArchive\ActivitiesArchiveDialog.ts" />
+    <None Remove="Modules\Workflows\ActivitiesArchive\ActivitiesArchiveGrid.ts" />
+    <None Remove="Modules\Workflows\ActivitiesLog\ActivitiesLogCommentsDialog.ts" />
+    <None Remove="Modules\Workflows\ActivitiesLog\ActivitiesLogNotesDialog.ts" />
+    <None Remove="Modules\Workflows\Documents\DocumentWorkflowSteps\DocumentWorkflowStepsDialog.ts" />
+    <None Remove="Modules\Workflows\Documents\DocumentWorkflowSteps\DocumentWorkflowStepsEditor.ts" />
+    <None Remove="Modules\Workflows\Documents\DocumentWorkflow\DocumentWorkflowCreationDialog.ts" />
+    <None Remove="Modules\Workflows\Documents\DocumentWorkflow\DocumentWorkflowDialog.ts" />
+    <None Remove="Modules\Workflows\Documents\DocumentWorkflow\DocumentWorkflowGrid.ts" />
+    <None Remove="Modules\Workflows\Invoices\InvoicesDialog.ts" />
+    <None Remove="Modules\Workflows\WorkerActivitiesLog\WorkerActivitiesLogCommentsDialog.ts" />
+    <None Remove="Modules\Workflows\WorkerActivitiesLog\WorkerActivitiesLogDialog.ts" />
+    <None Remove="Modules\Workflows\WorkerActivitiesLog\WorkerActivitiesLogGrid.ts" />
+    <None Remove="Modules\Workflows\WorkerActivitiesLog\WorkerActivitiesLogNotesDialog.ts" />
+    <None Remove="Modules\Workflows\WorkerActivities\WorkerActivitiesDialog.ts" />
+    <None Remove="Modules\Workflows\WorkerActivities\WorkerActivitiesGrid.ts" />
+    <None Update="wwwroot\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+    <None Update="Modules\**\*.Template.html;Modules\**\*.ts.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="EPPlus" Version="4.5.3.2" />
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="FluentMigrator.Runner" Version="3.2.9" />
+    <PackageReference Include="GleamTech.DocumentUltimate" Version="6.9.0" />
+    <PackageReference Include="IronPdf" Version="2022.11.10347" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.3" />
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="3.1.0" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="3.7.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.1.175" />
+    <PackageReference Include="OpenAI" Version="1.10.0" />
+    <PackageReference Include="PDFTron.NET.x64" Version="10.4.0" />
+    <PackageReference Include="RestSharp" Version="107.3.0" />
+    <PackageReference Include="Select.Pdf.NetCore.x64" Version="22.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Serenity.Assets" Version="6.0.0" />
+    <PackageReference Include="Serenity.Scripts" Version="5.2.3" />
+    <PackageReference Include="Serenity.Net.Web" Version="5.2.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Serenity.Extensions" Version="5.2.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Serenity.Pro.Extensions" Version="5.2.3" />
+    <PackageReference Include="Serenity.Pro.Theme" Version="5.2.3" />
+    <PackageReference Include="Serenity.Pro.UI" Version="5.2.3" />
+    <PackageReference Include="Utf8Json" Version="1.3.7" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\archive\" />
+    <Folder Include="App_Data\ClientDocumentRepository\Repo\" />
+    <Folder Include="App_Data\DocumentRepository\archive\" />
+    <Folder Include="App_Data\DocumentRepository\temporary\" />
+    <Folder Include="App_Data\InvoiceRepository\" />
+    <Folder Include="App_Data\NewFolder\" />
+    <Folder Include="App_Data\NotesRepository\" />
+    <Folder Include="Modules\AgencyAdministration\GoalSelector\" />
+    <Folder Include="wwwroot\App_Data\" />
+    <Folder Include="wwwroot\lib\pspdkit\" />
+  </ItemGroup>
+  <Import Project="$(SolutionDir)Serenity\build\submodule.targets" Condition="Exists('$(SolutionDir)Serenity\build\submodule.targets')" />
+  <Target Name="CreateInputsOutputs" BeforeTargets="BeforeBuild">
+    <CreateItem Include="Modules\**\*.ts;Imports\**\*.ts;tsconfig.json">
+      <Output TaskParameter="Include" ItemName="CompileTSCInputs" />
+    </CreateItem>
+  </Target>
+  <Target Name="NpmInstall" BeforeTargets="BeforeBuild" Condition="!Exists('node_modules\@types\jquery\index.d.ts')">
+    <Message Text="Installing NPM packages..." Importance="high"></Message>
+    <Exec Command="npm install" />
+  </Target>
+  <Target Name="TransformMvcClientTypes" BeforeTargets="BeforeBuild">
+    <Exec Command="dotnet tool restore" ContinueOnError="true" />
+    <Exec Command="$(DotNetSergen) restore" ContinueOnError="true" />
+    <Exec Command="$(DotNetSergen) mvct" ContinueOnError="true" />
+  </Target>
+  <Target Name="TransformServerTypings" AfterTargets="AfterBuild">
+    <Exec Command="$(DotNetSergen) servertypings" ContinueOnError="true" />
+  </Target>
+  <Target Name="CompileTSC" AfterTargets="AfterBuild" Inputs="@(CompileTSCInputs)" Outputs="wwwroot\Scripts\site\GeniusOneAi.Web.js">
+    <Message Text="Executing TypeScript compiler..." Importance="high"></Message>
+    <Exec Command="node &quot;$(TSJavaScriptFile.Replace('build\\..\tools\', 'tools\'))&quot; -p ./tsconfig.json" ContinueOnError="true" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties NpmRestoreOnProjectOpen="True" />
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

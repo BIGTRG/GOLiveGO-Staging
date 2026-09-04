@@ -1,0 +1,182 @@
+﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+@{
+    Layout = "~/Views/Shared/_LayoutNoNavigation.cshtml";
+}
+@{
+    ViewData["Title"] = "Progress Notes";
+    ViewData["PageId"] = "Progress Notes";
+}
+
+@section Head {
+    @functions {
+    public static string FormatIntoParagraphs(string input, int sentencesPerParagraph = 5)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return string.Empty;
+
+        var sentences = System.Text.RegularExpressions.Regex.Split(input, @"(?<=[.!?])\s+");
+        var sb = new System.Text.StringBuilder();
+
+        for (int i = 0; i < sentences.Length; i += sentencesPerParagraph)
+        {
+            sb.Append("<p>");
+            sb.Append(string.Join(" ", sentences.Skip(i).Take(sentencesPerParagraph)));
+            sb.Append("</p>");
+        }
+
+        return sb.ToString();
+    }
+}
+}
+
+<div class="s-Panel">
+    <section class="content">
+
+        <div class="container">
+            <strong>NoteID: GenOneAi-000-@Model.ActivityId</strong><br /><br />
+            <partial name="@MVC.Views.Shared.CommonNoteHeader" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong>
+                                    <label for="ctr-Field00" class="control-label">Service Note Type</label>
+                                    </strong>
+                                    @Model.Field00
+                                </div>
+
+                                <br />
+                            
+                            @if ((bool)Model.Field01Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong>
+                                        <label for="ctr-Field01" class="control-label">@Model.Field01Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field01))
+                                </div><br/>
+                            }
+                            @if ((bool)Model.Field02Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong>
+                                        <label for="ctr-Field02" class="control-label">@Model.Field02Label</label>
+                                    </strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field02))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field03Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong><label for="ctr-Field03" class="control-label">@Model.Field03Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field03))
+                                </div>
+
+                                <br/>
+                            }
+                            @if ((bool)Model.Field04Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong><label for="ctr-Field04" class="control-label">@Model.Field04Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field04))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field05Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong>
+                                        <label for="ctr-Field05" class="control-label">@Model.Field05Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field05))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field06Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong>
+                                        <label for="ctr-Field06" class="control-label">@Model.Field06Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field06))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field07Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong>
+                                        <label for="ctr-Field07" class="control-label">@Model.Field07Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field07))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field08Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong>
+                                        <label for="ctr-Field08" class="control-label">@Model.Field08Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field08))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field09Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong><label for="ctr-Field09" class="control-label">@Model.Field09Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field09))
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field10Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12 mt-3">
+                                    <strong><label for="ctr-Field10" class="control-label">@Model.Field10Label</label></strong>
+                                    @Html.Raw(FormatIntoParagraphs( @Model.Field10))
+                                </div>
+
+                                <br />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div id="sigaturePanel" class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td><span>Signature:</span> <img width="300" height="150" src="@Model.SignatureImage" /><br />@Model.ESignaturePlainText</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Signature Thumbprint:</span> @Model.SignatureGuid</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Original Submission Date:</span> @Model.OriginalSubmittalDate</td>
+                                    </tr>
+                                   @* <tr>
+                                        <td><span>Last Signature Date:</span> @Model.DateSigned</td>
+                                    </tr>*@
+                                    <tr>
+                                        <td><span>Approved By:</span> @Model.ApprovedBy @Model.DateApproved</td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+

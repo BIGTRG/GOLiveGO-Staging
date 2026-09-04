@@ -1,0 +1,12 @@
+﻿https://localhost:44370/Api/GenerateBillingFiles   -- Sets activities to pending and generates EDI files
+https://localhost:44370/Api/ProcessBilling         -- Sets activities to processed
+https://localhost:44370/Api/GenerateInvoices       -- Generates invoices
+
+
+
+Billing workflow execution path
+
+1.  GenerateBillingFiles.bat
+2.  UploadBillingFiles.bat
+3.  ProcessBilling.bat
+4.  GenerateInvoices.bat

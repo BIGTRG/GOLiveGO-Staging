@@ -1,0 +1,94 @@
+﻿@model GeniusOneAi.Document.DocumentEditorClientPageModel
+
+@{
+    ViewData["Title"] = "Document Editor";
+    ViewData["PageId"] = "Document Editor";
+    Layout = "_LayoutNoNavigation";
+}
+
+<head></head>
+
+@*@section ContentHeader {
+    <h3>Document Editor</h3>
+    }*@
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <button id="saveButton" type="button" class="btn btn-success"><i class="fa fa-check fa-lg"></i> Save</button>
+                            <button id="workflowButton" type="button" onclick="javascript:Q.alert('This feature is currently disabled.');" class="btn btn-warning"><i class="fa fa-users fa-lg"></i> Send for Review/Edit/Signatures</button>
+                            <button id="finalizeButton" type="button" onclick="javascript:docClientFinalizer(@Model.Id);" class="btn btn-primary"><i class="fa fa-lock fa-lg"></i> Finalize</button>
+                        </div>
+                    </div>
+                </div>
+            </div><br /><br/>
+            <div class="row"><div id="viewer" style="width: 100%; height: 100vh;"></div></div>
+        </div>
+    </section>
+</div> 
+
+<script src="/lib/pspdkit/webviewer.min.js"></script>
+<script>
+    var viewerElement = document.getElementById('viewer');
+    var saveButton = document.getElementById('saveButton');
+     fetch(location.origin + '/Document/getClientPdf/@Model.documentName')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.arrayBuffer(); 
+            }).then(arrayBuffer => {
+            WebViewer({
+                path: '/lib/pspdkit',
+                licenseKey: 'demo:1696609756459:7cec0d610300000000e4777dd91ccdda4cccad707e2b97e299a9d182aa',
+                enableFilePicker: false, // Disable the file picker toolbar button
+                enableTools: false,
+            }, viewerElement).then(instance => {
+                const { documentViewer, annotationManager } = instance.Core;
+                //instance.UI.setToolbarGroup('toolbarGroup-Forms');
+                instance.UI.loadDocument(arrayBuffer, { extension: 'pdf' });
+                saveButton.addEventListener('click', async () =>
+                {
+                        const doc = documentViewer.getDocument();
+                        const xfdfString = await annotationManager.exportAnnotations();
+                        const data = await doc.getFileData({ xfdfString });
+                        const arr = new Uint8Array(data);
+                        const blob = new Blob([arr], { type: 'application/pdf' });
+                        var formData = new FormData();
+                        formData.append('file', blob, '@Model.documentName'); 
+                        fetch(location.origin +'/Document/saveClientPdf', {
+                            method: 'POST',
+                            body: formData
+                        }).then(response =>
+                            {
+                                if (response.ok)
+                                {
+                                    Q.alert('Document saved successfully.');
+
+                                } else
+                                {
+                                     Q.alert('Error saving document.');
+
+                                }
+                            })
+                            .catch(error =>
+                            {
+                                 Q.alert('Error: '+error);
+                            });
+                    
+                });
+            });
+
+            }).catch(error => {
+                  Q.alert('Fetch error: ' + error);
+            });
+</script>
+
+<script>
+    function detect() {
+       alert('Document Converted');
+    }
+</script>

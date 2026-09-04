@@ -1,0 +1,55 @@
+﻿@using GleamTech.AspNet.Core
+@using GleamTech.DocumentUltimate
+@using GleamTech.DocumentUltimate.AspNet
+@using GleamTech.DocumentUltimate.AspNet.UI
+@model GeniusOneAi.Document.InvoiceViewerPageModel
+
+@{
+    ViewData["Title"] = "Invoice Viewer";
+    ViewData["PageId"] = "Invoice Viewer";
+}
+
+@{
+    var path = Model.fileNamePath;
+    var toolBar = Model.toolbarVisible;
+
+    var documentViewer = new DocumentViewer
+            {
+                Width = 1000,
+                Height = 1000,
+                Document = path,
+                ToolbarVisible = toolBar
+            };
+}
+<head>
+        <style type="text/css">
+        .dv-control {
+    width: 100% !important;
+    height: 1500px !important;
+}
+    </style>
+</head>
+@section ContentHeader {
+            <h3>Invoice Viewer</h3>
+    }
+@this.RenderHead(documentViewer)
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <button type="button" onclick="javascript:window.location.href = '../../Workflows/Invoices/Index/Workflows/Invoices';" class="btn btn-danger"><i class="fa fa-arrow-left fa-lg"></i> Return</button>
+                            <button type="button" onclick="javascript:payInvoice('@Model.invoiceId');" class="btn btn-success"><i class="fa fa-document fa-lg"></i> Pay Invoice</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><br><br></div>
+            @this.RenderBody(documentViewer)
+        </div>
+    </section>
+</div>
+
+

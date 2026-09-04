@@ -1,0 +1,53 @@
+﻿@using GleamTech.AspNet.Core
+@using GleamTech.DocumentUltimate
+@using GleamTech.DocumentUltimate.AspNet
+@using GleamTech.DocumentUltimate.AspNet.UI
+@model GeniusOneAi.Document.DocumentViewerPageModel
+
+@{
+    ViewData["Title"] = "Document Viewer";
+    ViewData["PageId"] = "Document Viewer";
+}
+
+@{
+    var path = Model.fileNamePath;
+    var toolBar = Model.toolbarVisible;
+
+    var documentViewer = new DocumentViewer
+            {
+                Width = 1000,
+                Height = 1000,
+                Document = path,
+                ToolbarVisible = toolBar
+            };
+}
+<head>
+        <style type="text/css">
+        .dv-control {
+    width: 100% !important;
+    height: 1500px !important;
+}
+    </style>
+</head>
+@section ContentHeader {
+        <h3>Document Viewer</h3>
+    }
+@this.RenderHead(documentViewer)
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body text-left">
+                                <button type="button" onclick="javascript:history.back(-1);" class="btn btn-danger"><i class="fa fa-arrow-left fa-lg"></i> Return</button>
+                            </div><br>
+                        </div>
+                    </div>
+                </div>
+                <div class="row"><br><br></div>
+            @this.RenderBody(documentViewer)
+        </div>
+    </section>
+</div>
+

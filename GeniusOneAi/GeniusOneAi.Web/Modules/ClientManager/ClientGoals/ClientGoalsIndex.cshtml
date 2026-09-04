@@ -1,0 +1,13 @@
+﻿@{
+    ViewData["Title"] = "";
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.ClientManager.ClientGoalsGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

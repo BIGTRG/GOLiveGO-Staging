@@ -1,0 +1,76 @@
+﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div>
+                <table class="table table-striped table-bordered">
+                    <tbody>
+                        <tr>
+                            <th style="width: 15%" scope="row">Date of Service:</th>
+                            <td style="width: 35%">@{
+                                    if (Model.ActivityDate.HasValue)
+                                    {
+                                        @Model.ActivityDate.Value.ToString("MM/dd/yyyy")
+                                        ;
+                                    }
+                                }</td>
+                            <th style="width: 15%" scope="row">Service Provided:</th>
+                            <td style="width: 35%">@Model.ProgramName</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Consumer Name:</th>
+                            <td>@Model.FirstName @Model.LastName</td>
+                            <th style="width: 15%" scope="row">Service Code</th>
+                            <td>@Model.BillCode @Model.BillingModifier1 @Model.BillingModifier2 @Model.BillingModifier3 @Model.BillingModifier4</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Insurance Company:</th>
+                            <td>@Model.PrimaryInsuranceName</td>
+                            <th style="width: 15%" scope="row">Type of Contact</th>
+                            <td>@Model.ProgressNoteLocation</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Insurance ID:</th>
+                            <td>@Model.PrimaryInsuranceNumber</td>
+                            <th style="width: 15%" scope="row">Place of Service</th>
+                            <td>@Model.ProgressNoteInOut</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Medical Record #:</th>
+                            <td>@Model.RecordNumber</td>
+                             <th style="width: 15%" scope="row">Site</th>
+                            <td>@Model.SiteName</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Date of Birth:</th>
+                            <td>
+                                @{
+                                    if (Model.BirthDate.HasValue)
+                                    {
+                                        @Model.BirthDate.Value.ToString("MM/dd/yyyy")
+                                        ;
+                                    }
+                                }
+                            </td>
+                            <th style="width: 15%" scope="row">Duration</th>
+                            <td>@Model.Hours hrs (<strong>Billable: @Model.IsBillable</strong>)</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Provider/Credentials:</th>
+                            <td>@Model.WorkerFirstName @Model.WorkerLastName @Model.WorkerType</td>
+                            <th style="width: 15%" scope="row">Day/Units:</th>
+                            <td>@{
+                                    if (Model.Hours.HasValue)
+                                    {
+                                        var mpy = 4;
+                                        @(Model.Hours * mpy)
+                                        ;
+                                    }
+                                }</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

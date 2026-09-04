@@ -1,0 +1,15 @@
+﻿@{
+    ViewData["Title"] = "My Invoices";
+}
+<div class="alert alert-info" role="alert">
+   Invoices are generated nightly and are processed as soon as your time/progress notes are approved.
+</div>
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.WorkerPortal.MyInvoicesGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

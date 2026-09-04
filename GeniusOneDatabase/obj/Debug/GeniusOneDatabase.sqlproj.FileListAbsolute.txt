@@ -1,0 +1,8 @@
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\bin\Debug\GeniusOneDatabase.dacpac
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\GeniusOneDatabase.sqlproj.AssemblyReference.cache
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\Model.xml
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\refactor.xml
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\postdeploy.sql
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\predeploy.sql
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\GeniusOneDatabase.dll
+C:\Users\mbrow\Source\Workspaces\GeniusOne\Project Source\Archive\GeniusOneAi_Versions\2.07\GeniusOneDatabase\obj\Debug\GeniusOneDatabase.pdb

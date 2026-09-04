@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "sergen": {
+      "version": "5.2.3",
+      "commands": [
+        "sergen"
+      ]
+    },
+    "dotnet-ef": {
+      "version": "6.0.8",
+      "commands": [
+        "dotnet-ef"
+      ]
+    }
+  }
+}

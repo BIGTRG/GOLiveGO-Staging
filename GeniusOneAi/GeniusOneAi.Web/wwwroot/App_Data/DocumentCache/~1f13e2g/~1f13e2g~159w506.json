@@ -1,0 +1,27 @@
+{
+  "CacheSourceKey": "1f13e2g",
+  "CachePdfKey": "1f13e2g/1f13e2g-npq31v.pdf",
+  "CacheXpzKey": "1f13e2g/1f13e2g-159w506.xpz",
+  "CacheInfoKey": "1f13e2g/1f13e2g-159w506.json",
+  "CacheCopyKey": null,
+  "Document": "Type=FileSystem;File=4bc79ec9-abf9-46d6-a923-94cbd2df7106.pdf;Location='Type=Physical;Path=\"C:\\Repository\\GeniusOne\\Project Source\\GeniusOneAi_Versions\\Version001_Temp\\GeniusOneAi\\GeniusOneAi.Web\\App_Data\\NotesRepository\"'",
+  "DocumentFileName": "4bc79ec9-abf9-46d6-a923-94cbd2df7106.pdf",
+  "DownloadFileName": null,
+  "InputOptions": {
+    "Format": "Pdf",
+    "Password": null
+  },
+  "PdfOutputOptions": {
+    "Watermarks": [],
+    "FastWebViewEnabled": false,
+    "Password": null,
+    "Attachments": [],
+    "Format": "Pdf"
+  },
+  "XpzOutputOptions": {
+    "Password": "1f13e2g",
+    "HighQualityEnabled": false,
+    "Format": "Xpz"
+  },
+  "Attachments": []
+}

@@ -1,0 +1,14 @@
+﻿@inject Serenity.ITextLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer.Get("Db.DocumentManager.DocumentWorkflowTemplates.EntityPlural");
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.DocumentManager.DocumentWorkflowTemplatesGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

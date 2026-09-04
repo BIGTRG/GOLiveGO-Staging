@@ -1,0 +1,91 @@
+﻿@model GeniusOneAi.Document.DocumentEditorPageModel
+
+@{
+    ViewData["Title"] = "Document Editor";
+    ViewData["PageId"] = "Document Editor";
+}
+
+<head></head>
+
+@section ContentHeader {
+    <h3>Document Editor</h3>
+    }
+<div class="s-Panel">
+    <section class="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <button type="button" onclick="javascript:history.back(-1);" class="btn btn-danger"><i class="fa fa-arrow-left fa-lg"></i> Return</button>
+                            <button type="button" onclick="javascript:detect();" class="btn btn-primary"><i class="fa fa-plus fa-lg"></i> Detect Fields</button>
+                            <button id="saveButton" type="button" class="btn btn-success"><i class="fa fa-check fa-lg"></i> Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div><br /><br/>
+            <div class="row"><div id="viewer" style="width: 100%; height: 100vh;"></div></div>
+        </div>
+    </section>
+</div> 
+@*<script src="/lib/pspdfkit.js"></script>*@
+<script src="/lib/pspdkit/webviewer.min.js"></script>
+<script>
+    var viewerElement = document.getElementById('viewer');
+    var saveButton = document.getElementById('saveButton');
+     fetch(location.origin + '/Document/getPdf/@Model.documentName')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.arrayBuffer(); 
+            }).then(arrayBuffer => {
+            WebViewer({
+                path: '/lib/pspdkit',
+                licenseKey: 'demo:1696609756459:7cec0d610300000000e4777dd91ccdda4cccad707e2b97e299a9d182aa',
+            }, viewerElement).then(instance => {
+                const { documentViewer, annotationManager } = instance.Core;
+                instance.UI.setToolbarGroup('toolbarGroup-Forms');
+                instance.UI.loadDocument(arrayBuffer, { extension: 'pdf' });
+                saveButton.addEventListener('click', async () =>
+                {
+                        const doc = documentViewer.getDocument();
+                        const xfdfString = await annotationManager.exportAnnotations();
+                        const data = await doc.getFileData({ xfdfString });
+                        const arr = new Uint8Array(data);
+                        const blob = new Blob([arr], { type: 'application/pdf' });
+                        var formData = new FormData();
+                        formData.append('file', blob, '@Model.documentName'); 
+                        fetch(location.origin +'/Document/savePdf', {
+                            method: 'POST',
+                            body: formData
+                        }).then(response =>
+                            {
+                                if (response.ok)
+                                {
+                                    Q.alert('Document saved successfully.');
+
+                                } else
+                                {
+                                     Q.alert('Error saving document.');
+
+                                }
+                            })
+                            .catch(error =>
+                            {
+                                 Q.alert('Error: '+error);
+                            });
+                    
+                });
+            });
+
+            }).catch(error => {
+                  Q.alert('Fetch error: ' + error);
+            });
+</script>
+
+<script>
+    function detect() {
+       alert('Document Converted');
+    }
+</script>

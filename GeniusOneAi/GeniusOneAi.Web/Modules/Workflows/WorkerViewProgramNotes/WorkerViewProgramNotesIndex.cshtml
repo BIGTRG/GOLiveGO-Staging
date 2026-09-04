@@ -1,0 +1,277 @@
+﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+@{
+    ViewData["Title"] = "Progress Notes";
+    ViewData["PageId"] = "Progress Notes";
+}
+
+@section Head {
+    @Html.Script("~/lib/datatables/js/jquery.dataTables.js")
+    @Html.Script("~/lib/datatables/js/dataTables.bootstrap5.js")
+    @Html.Stylesheet("~/lib/datatables/css/dataTables.bootstrap5.css")
+
+}
+
+
+@section ContentHeader {
+}
+
+<div class="s-Panel">
+    <div class="grid-title"><div class="title-text">Progress Note</div></div>
+    <section class="content">
+
+        <div class="container">
+            <strong>NoteID: GenOneAi-000-@Model.ActivityId</strong><br /><br />
+            <partial name="@MVC.Views.Shared.CommonNoteHeader" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group col-xs-12 col-md-12">
+                                <strong><label for="ctr-Field00" class="control-label">Service Note Type:</label></strong>
+                                <textarea readonly class="form-control" id="ctr-Field00" name="textarea" rows="1">@Model.Field00</textarea>
+                            </div>
+
+                            <br />
+                            @if ((bool)Model.Field01Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field01" class="control-label">@Model.Field01Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field01" name="textarea" rows="10">@Model.Field01</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field02Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field02" class="control-label">@Model.Field02Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field02" name="textarea" rows="10">@Model.Field02</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field03Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field03" class="control-label">@Model.Field03Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field03" name="textarea" rows="10">@Model.Field03</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field04Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong>
+                                        <label for="ctr-Field04" class="control-label">@Model.Field04Label</label>
+                                    </strong>
+
+                                    <textarea readonly class="form-control" id="ctr-Field04" name="textarea" rows="10">@Model.Field04</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field05Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong>
+                                        <label for="ctr-Field05" class="control-label">@Model.Field05Label</label>
+                                    </strong>
+                                    <textarea readonly class="form-control" id="ctr-Field05" name="textarea" rows="10">@Model.Field05</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field06Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field06" class="control-label">@Model.Field06Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field06" name="textarea" rows="10">@Model.Field06</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field07Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field07" class="control-label">@Model.Field07Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field07" name="textarea" rows="10">@Model.Field07</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field08Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field08" class="control-label">@Model.Field08Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field08" name="textarea" rows="10">@Model.Field08</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field09Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field09" class="control-label">@Model.Field09Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field09" name="textarea" rows="10">@Model.Field09</textarea>
+                                </div>
+
+                                <br />
+                            }
+                            @if ((bool)Model.Field10Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    <strong><label for="ctr-Field10" class="control-label">@Model.Field10Label</label></strong>
+                                    <textarea readonly class="form-control" id="ctr-Field10" name="textarea" rows="10">@Model.Field10</textarea>
+                                </div>
+
+                                <br />
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div id="sigaturePanel" class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td><span>Signature:</span> <img width="300" height="150" src="@Model.SignatureImage" /><br />@Model.ESignaturePlainText</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Signature Thumbprint:</span> @Model.SignatureGuid</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Original Submission Date:</span> @Model.OriginalSubmittalDate</td>
+                                    </tr>
+                                   @* <tr>
+                                        <td><span>Last Signature Date:</span> @Model.DateSigned</td>
+                                    </tr>*@
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="docGen" class="row mb-4" hidden>
+                <button class="btn btn-danger btn-lg btn-block" type="button" disabled>
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    <span>Generating final document please wait.......</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-body text-center">
+                                        <button @(Model.Status == "Approved" ? "disabled" : "") type="button" onclick="javascript:noteApprove();" class="btn btn-success"><i class="fa fa-thumbs-up fa-lg"></i> Approve</button>
+                                        <button @(Model.Status == "Rejected" ? "disabled" : "") type="button" onclick="javascript:noteReject();" class="btn btn-danger"><i class="fa fa-thumbs-down  fa-lg"></i> Reject</button>
+                                        <button type="button" onclick="showComments(@Model.ActivityId)" class="btn btn-secondary"><i class="fa fa-book  fa-lg"></i> Reviewer Comments</button>
+                                        <button type="button" onclick="javascript:window.location.replace('../../Workflows/WorkerActivities');" class="btn btn-primary"><i class="fa fa-undo fa-lg"></i> Return</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script type="text/javascript">
+    function noteApprove()
+    {
+        Q.confirm("Are you sure you want to approve this progress note?",
+            () =>
+            {
+                $('#docGen').removeAttr('hidden');
+                setTimeout(
+                    function ()
+                    {
+                        Q.serviceRequest(GeniusOneAi.ProgramNoteManager.ProgramNotesService.baseUrl + "/Update",
+                            {
+                                "Entity": {
+                                    "NoteUpdateStatus": "ApproveAction",
+                                    "Field01": $("#ctr-Field01").val(),
+                                    "Field02": $("#ctr-Field02").val()
+                                },
+                                "EntityId": @Model.ProgressNoteId
+                                },
+                            (response) =>
+                            {
+
+                                Q.notifySuccess("Progress note Approved successfully!",
+                                    "System Alert",
+                                    {
+                                        progressBar: true,
+                                        positionClass: "toast-top-center",
+                                        showDuration: 1000,
+                                        hideDuration: 1000,
+                                        timeOut: 5000,
+                                        closeButton: true
+                                    });
+                            },
+                            { async: false });
+                        window.location.replace('../../Workflows/WorkerActivities');
+                    },
+                    1000);
+            },
+            {
+                onNo: () =>
+                {
+                    Q.notifyError("Operation cancelled!");
+                },
+                onCancel: () =>
+                {
+                }
+            });
+
+    };
+    function noteReject()
+    {
+
+        Q.confirm("Are you sure you want to reject this progress note?",
+            () =>
+            {
+                Q.serviceRequest(GeniusOneAi.ProgramNoteManager.ProgramNotesService.baseUrl + "/Update",
+                    {
+                        "Entity": {
+                            "NoteUpdateStatus": "RejectAction",
+                             "Field01": $("#ctr-Field01").val(),
+                              "Field02": $("#ctr-Field02").val()
+                        },
+                        "EntityId": @Model.ProgressNoteId
+                        },
+                    (response) =>
+                    {
+
+                        var dlg = new GeniusOneAi.WorkerPortal.WorkerActivitiesLogDialog();
+                        dlg.loadEntityAndOpenDialog({ ActivityId: @Model.ActivityId });
+                    },
+                    { async: false });
+            },
+            {
+                onNo: () =>
+                {
+                    Q.notifyError("Operation cancelled!");
+                },
+                onCancel: () =>
+                {
+                }
+            });
+
+    };
+    function showComments(a)
+    {
+        var dlg = new GeniusOneAi.WorkerPortal.WorkerActivitiesLogCommentsDialog(a);
+        dlg.dialogOpen();
+    }
+</script>

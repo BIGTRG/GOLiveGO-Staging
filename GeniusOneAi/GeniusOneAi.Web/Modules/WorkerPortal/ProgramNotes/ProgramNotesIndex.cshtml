@@ -1,0 +1,1255 @@
+﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+@{
+
+    ViewData["Title"] = "Progress Notes";
+    ViewData["PageId"] = "Progress Notes";
+    string dateString = Model.ActivityDate.ToString();
+    DateTime date;
+    bool success = DateTime.TryParse(dateString, out date);
+    DayOfWeek? dayOfWeek = null;
+    if (success)
+    {
+        dayOfWeek = date.DayOfWeek;
+    }
+}
+
+@section Head {
+    @Html.Script("~/lib/datatables/js/jquery.dataTables.js")
+    @Html.Script("~/lib/datatables/js/dataTables.bootstrap5.js")
+    @Html.Stylesheet("~/lib/datatables/css/dataTables.bootstrap5.css")
+}
+
+@section ContentHeader {
+}
+<div class="s-Panel">
+    <div class="grid-title"><div class="title-text">Progress Note</div></div>
+    <section class="content">
+        <div class="container">
+            <partial name="@MVC.Views.Shared.CommonNoteHeader" />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="form-group col-xs-12 col-md-12">
+                                <div class="col-md-6">
+                                    <strong><label for="ctr-field00" class="control-label">Service Note Type</label></strong>
+                                    <select class="form-control" id="ctr-field00">
+                                        <option value="">Select an option...</option>
+                                        <script>
+                                            
+                                            $(document).ready(function ()
+                                            {
+                                                $.ajax({
+                                                    url: '/Api/GetProgramNote/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey',
+                                                    type: 'GET',
+                                                    success: function (data)
+                                                    {
+                                                        var dropdown = $('#ctr-field00');
+                                                        $.each(data, function (key, value)
+                                                        {
+                                                            dropdown.append($('<option></option>').text(value));
+                                                        });
+                                                        $('#ctr-field00').val('@Model.Field00');
+                                                    },
+                                                    error: function (xhr, status, error)
+                                                    {
+                                                        console.error(xhr.responseText);
+                                                    }
+                                                });
+                                            });
+                                        </script>
+                                    </select>
+                                </div>
+                                <br />
+                            </div>
+                            @if ((bool)Model.Field01Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field01Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic1"></i>
+                                    }
+                                    <strong><label for="ctr-field01" class="control-label">@Model.Field01Label</label></strong>
+                                    @if (Model.Field01Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field01" name="textarea" rows="10">@Model.Field01</textarea>
+                                    }
+                                    @if (Model.Field01Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field01" name="textarea" rows="10" readonly>@Model.Field01</textarea>
+                                    }
+                                    @if (Model.Field01Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field01" name="textarea" rows="10" readonly>@Model.Field01</textarea>
+                                    }
+                                    @if (Model.Field01Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field01" value="@Model.Field01"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field01Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field01">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/1',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field01');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                                $('#ctr-field01').val('@Model.Field01');
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+                            }
+                            @if ((bool)Model.Field02Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field02Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic2"></i>
+                                    }
+                                    <strong><label for="ctr-field02" class="control-label">@Model.Field02Label</label></strong>
+                                    @if (Model.Field02Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field02" name="textarea" rows="10">@Model.Field02</textarea>
+                                    }
+                                    @if (Model.Field02Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field02" name="textarea" rows="10" readonly>@Model.Field02</textarea>
+                                    }
+                                    @if (Model.Field02Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field02" name="textarea" rows="10" readonly>@Model.Field02</textarea>
+                                    }
+                                    @if (Model.Field02Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field02" value="@Model.Field02"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field02Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field02">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/2',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field02');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field03Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field03Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic3"></i>
+                                    }
+                                    <strong><label for="ctr-field03" class="control-label">@Model.Field03Label</label></strong>
+                                    @if (Model.Field03Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field03" name="textarea" rows="10">@Model.Field03</textarea>
+                                    }
+                                    @if (Model.Field03Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field03" name="textarea" rows="10" readonly>@Model.Field03</textarea>
+                                    }
+                                    @if (Model.Field03Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field03" name="textarea" rows="10" readonly>@Model.Field03</textarea>
+                                    }
+                                    @if (Model.Field03Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field03" value="@Model.Field03"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field03Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field03">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/3',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field03');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field04Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field04Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic4"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field04" class="control-label">@Model.Field04Label</label>
+                                    </strong>
+                                    @if (Model.Field04Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field04" name="textarea" rows="10">@Model.Field04</textarea>
+                                    }
+                                    @if (Model.Field04Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field04" name="textarea" rows="10" readonly>@Model.Field04</textarea>
+                                    }
+                                    @if (Model.Field04Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field04" name="textarea" rows="10" readonly>@Model.Field04</textarea>
+                                    }
+                                    @if (Model.Field04Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field04" value="@Model.Field04"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field04Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field04">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/4',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field04');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field05Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field05Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic5"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field05" class="control-label">@Model.Field05Label</label>
+                                    </strong>
+                                    @if (Model.Field05Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field05" name="textarea" rows="10">@Model.Field05</textarea>
+                                    }
+                                    @if (Model.Field05Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field05" name="textarea" rows="10" readonly>@Model.Field05</textarea>
+                                    }
+                                    @if (Model.Field05Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field05" name="textarea" rows="10" readonly>@Model.Field05</textarea>
+                                    }
+                                    @if (Model.Field05Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field05" value="@Model.Field05"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field05Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field05">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/5',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field05');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field06Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field06Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic6"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field06" class="control-label">@Model.Field06Label</label>
+                                    </strong>
+                                    @if (Model.Field06Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field06" name="textarea" rows="10">@Model.Field06</textarea>
+                                    }
+                                    @if (Model.Field06Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field06" name="textarea" rows="10" readonly>@Model.Field06</textarea>
+                                    }
+                                    @if (Model.Field06Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field06" name="textarea" rows="10" readonly>@Model.Field06</textarea>
+                                    }
+                                    @if (Model.Field06Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field06" value="@Model.Field06"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field06Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field06">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/6',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field06');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field07Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field07Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic7"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field07" class="control-label">@Model.Field07Label</label>
+                                    </strong>
+                                    @if (Model.Field07Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field07" name="textarea" rows="10">@Model.Field07</textarea>
+                                    }
+                                    @if (Model.Field07Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field07" name="textarea" rows="10" readonly>@Model.Field07</textarea>
+                                    }
+                                    @if (Model.Field07Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field07" name="textarea" rows="10" readonly>@Model.Field07</textarea>
+                                    }
+                                    @if (Model.Field07Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field07" value="@Model.Field07"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field07Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field07">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/7',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field07');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field08Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field08Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic8"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field08" class="control-label">@Model.Field08Label</label>
+                                    </strong>
+                                    @if (Model.Field08Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field08" name="textarea" rows="10">@Model.Field08</textarea>
+                                    }
+                                    @if (Model.Field08Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field08" name="textarea" rows="10" readonly>@Model.Field08</textarea>
+                                    }
+                                    @if (Model.Field08Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field08" name="textarea" rows="10" readonly>@Model.Field08</textarea>
+                                    }
+                                    @if (Model.Field08Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field08" value="@Model.Field08"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field08Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field08">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/8',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field08');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field09Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field09Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic9"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field09" class="control-label">@Model.Field09Label</label>
+                                    </strong>
+                                    @if (Model.Field09Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field09" name="textarea" rows="10">@Model.Field09</textarea>
+                                    }
+                                    @if (Model.Field09Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field09" name="textarea" rows="10" readonly>@Model.Field09</textarea>
+                                    }
+                                    @if (Model.Field09Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field09" name="textarea" rows="10" readonly>@Model.Field09</textarea>
+                                    }
+                                    @if (Model.Field09Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field09" value="@Model.Field09"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field09Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field09">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/9',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field09');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                            @if ((bool)Model.Field10Status)
+                            {
+                                <div class="form-group col-xs-12 col-md-12">
+                                    @if (Model.Field10Type == "Text")
+                                    {
+                                        <i class="fa fa-2x fa-microphone-slash" id="mic10"></i>
+                                    }
+                                    <strong>
+                                        <label for="ctr-field10" class="control-label">@Model.Field10Label</label>
+                                    </strong>
+                                    @if (Model.Field10Type == "Text")
+                                    {
+                                        <textarea class="form-control" id="ctr-field10" name="textarea" rows="10">@Model.Field10</textarea>
+                                    }
+                                    @if (Model.Field10Type == "Goals(Readonly)")
+                                    {
+                                        <textarea class="form-control goals" id="ctr-field10" name="textarea" rows="10" readonly>@Model.Field10</textarea>
+                                    }
+                                    @if (Model.Field10Type == "Interventions(Readonly)")
+                                    {
+                                        <textarea class="form-control interventions" id="ctr-field10" name="textarea" rows="10" readonly>@Model.Field10</textarea>
+                                    }
+                                    @if (Model.Field10Type == "Date")
+                                    {
+                                        <div class="col-md-4">
+                                            <div class="input-group date"><input type="date" class="form-control" id="ctr-field10" value="@Model.Field10"></div>
+                                        </div>
+                                    }
+                                    @if (Model.Field10Type == "Dropdown")
+                                    {
+                                        <div class="col-md-4">
+                                            <select class="form-control" id="ctr-field10">
+                                                <option value="">Select an option...</option>
+                                                <script>
+                                                    $(document).ready(function ()
+                                                    {
+                                                        $.ajax({
+                                                            url: '/Api/GetDdl/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ProgressNoteTemplateId/10',
+                                                            type: 'GET',
+                                                            success: function (data)
+                                                            {
+                                                                var dropdown = $('#ctr-field10');
+                                                                $.each(data, function (key, value)
+                                                                {
+                                                                    dropdown.append($('<option></option>').text(value));
+                                                                });
+                                                            },
+                                                            error: function (xhr, status, error)
+                                                            {
+                                                                console.error(xhr.responseText);
+                                                            }
+                                                        });
+                                                    });
+                                                </script>
+                                            </select>
+                                        </div>
+                                    }<br />
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div id="sigaturePanel" class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <table class="table table-responsive">
+                                <tbody>
+                                    <tr>
+                                        <td><span>Signature:</span> <img width="300" height="150" src="@Model.SignatureImage" /><br />@Model.ESignaturePlainText</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Signature Thumbprint:</span> @Model.SignatureGuid</td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>Original Submission Date:</span> @Model.OriginalSubmittalDate</td>
+                                    </tr>
+                                    @*<tr>
+                                        <td><span>Last Signature Date:</span> @Model.DateSigned</td>
+                                    </tr>*@
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body text-center">
+                            <button type="button" onclick="signSubmit()" class="btn btn-success"><i class="fa fa-pencil fa-lg"></i> Sign/Submit</button>
+                            <button type="button" onclick="saveProgress()" class="btn btn-primary"><i class="fa fa-save  fa-lg"></i> Save</button>
+                            <button type="button" onclick="showComments(@Model.ActivityId)" class="btn btn-secondary"><i class="fa fa-book  fa-lg"></i> Reviewer Comments</button>
+                            <button type="button" onclick="javascript:window.location.replace('/WorkerPortal/Activities');" class="btn btn-primary"><i class="fa fa-undo fa-lg"></i> Return</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+    $(document).ready(function ()
+    {
+        var isSig = "@Model.SignatureImage";
+        if (!isSig) { $("#sigaturePanel").hide(); }
+
+        try
+        {
+            var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            var recognition1 = new SpeechRecognition();
+            var recognition2 = new SpeechRecognition();
+            var recognition3 = new SpeechRecognition();
+            var recognition4 = new SpeechRecognition();
+            var recognition5 = new SpeechRecognition();
+            var recognition6 = new SpeechRecognition();
+            var recognition7 = new SpeechRecognition();
+            var recognition8 = new SpeechRecognition();
+            var recognition9 = new SpeechRecognition();
+            var recognition10 = new SpeechRecognition();
+
+        }
+        catch (e)
+        {
+            alert('Warning.  If you want to use the dictation feature use the Chrome browser');
+            return;
+        }
+
+
+        var noteTextarea1 = $('#ctr-field01');
+        var noteTextarea2 = $('#ctr-field02');
+        var noteTextarea3 = $('#ctr-field03');
+        var noteTextarea4 = $('#ctr-field04');
+        var noteTextarea5 = $('#ctr-field05');
+        var noteTextarea6 = $('#ctr-field06');
+        var noteTextarea7 = $('#ctr-field07');
+        var noteTextarea8 = $('#ctr-field08');
+        var noteTextarea9 = $('#ctr-field09');
+        var noteTextarea10 = $('#ctr-field10');
+
+        var noteContent1 = '';
+        var noteContent2 = '';
+        var noteContent3 = '';
+        var noteContent4 = '';
+        var noteContent5 = '';
+        var noteContent6 = '';
+        var noteContent7 = '';
+        var noteContent8 = '';
+        var noteContent9 = '';
+        var noteContent10 = '';
+
+        recognition1.continuous = true;
+        recognition2.continuous = true;
+        recognition3.continuous = true;
+        recognition4.continuous = true;
+        recognition5.continuous = true;
+        recognition6.continuous = true;
+        recognition7.continuous = true;
+        recognition8.continuous = true;
+        recognition9.continuous = true;
+        recognition10.continuous = true;
+
+
+
+
+        recognition1.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent1 += transcript;
+                noteTextarea1.val(noteContent1);
+            }
+        };
+        recognition2.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent2 += transcript;
+                noteTextarea2.val(noteContent2);
+            }
+        };
+        recognition3.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent3 += transcript;
+                noteTextarea3.val(noteContent3);
+            }
+        };
+        recognition4.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent4 += transcript;
+                noteTextarea4.val(noteContent4);
+            }
+        };
+        recognition5.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent5 += transcript;
+                noteTextarea5.val(noteContent5);
+            }
+        };
+        recognition6.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent6 += transcript;
+                noteTextarea6.val(noteContent6);
+            }
+        };
+        recognition7.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent7 += transcript;
+                noteTextarea7.val(noteContent7);
+            }
+        };
+        recognition8.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent8 += transcript;
+                noteTextarea8.val(noteContent8);
+            }
+        };
+        recognition9.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent9 += transcript;
+                noteTextarea9.val(noteContent9);
+            }
+        };
+        recognition10.onresult = function (event)
+        {
+
+            var current = event.resultIndex;
+            var transcript = event.results[current][0].transcript;
+            var mobileRepeatBug = (current == 1 && transcript == event.results[0][0].transcript);
+            if (!mobileRepeatBug)
+            {
+                noteContent10 += transcript;
+                noteTextarea10.val(noteContent10);
+            }
+        };
+
+        $('#mic1').on('click', function (e)
+        {
+            if (noteContent1.length)
+            {
+                noteContent1 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition1.start();
+            } else
+            {
+                recognition1.stop();
+            }
+        });
+        $('#mic2').on('click', function (e)
+        {
+            if (noteContent2.length)
+            {
+                noteContent2 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition2.start();
+            } else
+            {
+                recognition2.stop();
+            }
+        });
+        $('#mic3').on('click', function (e)
+        {
+            if (noteContent3.length)
+            {
+                noteContent3 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition3.start();
+            } else
+            {
+                recognition3.stop();
+            }
+        });
+        $('#mic4').on('click', function (e)
+        {
+            if (noteContent4.length)
+            {
+                noteContent4 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition4.start();
+            } else
+            {
+                recognition4.stop();
+            }
+        });
+        $('#mic5').on('click', function (e)
+        {
+            if (noteContent5.length)
+            {
+                noteContent5 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition5.start();
+            } else
+            {
+                recognition5.stop();
+            }
+        });
+        $('#mic6').on('click', function (e)
+        {
+            if (noteContent6.length)
+            {
+                noteContent6 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition6.start();
+            } else
+            {
+                recognition6.stop();
+            }
+        });
+        $('#mic7').on('click', function (e)
+        {
+            if (noteContent7.length)
+            {
+                noteContent7 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition7.start();
+            } else
+            {
+                recognition7.stop();
+            }
+        });
+        $('#mic8').on('click', function (e)
+        {
+            if (noteContent8.length)
+            {
+                noteContent8 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition8.start();
+            } else
+            {
+                recognition8.stop();
+            }
+        });
+        $('#mic9').on('click', function (e)
+        {
+            if (noteContent9.length)
+            {
+                noteContent9 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition9.start();
+            } else
+            {
+                recognition9.stop();
+            }
+        });
+        $('#mic10').on('click', function (e)
+        {
+            if (noteContent10.length)
+            {
+                noteContent10 += ' ';
+            }
+            $(this).toggleClass('fa-microphone-slash fa-microphone');
+            $(this).toggleClass('text-green');
+            if ($(this).hasClass('fa-microphone'))
+            {
+                recognition10.start();
+            } else
+            {
+                recognition10.stop();
+            }
+        });
+
+
+        noteTextarea1.on('input',
+            function ()
+            {
+                noteContent1 = $(this).val();
+            });
+        noteTextarea2.on('input',
+            function ()
+            {
+                noteContent2 = $(this).val();
+            });
+        noteTextarea3.on('input',
+            function ()
+            {
+                noteContent3 = $(this).val();
+            });
+        noteTextarea4.on('input',
+            function ()
+            {
+                noteContent4 = $(this).val();
+            });
+        noteTextarea5.on('input',
+            function ()
+            {
+                noteContent5 = $(this).val();
+            });
+        noteTextarea6.on('input',
+            function ()
+            {
+                noteContent6 = $(this).val();
+            });
+        noteTextarea7.on('input',
+            function ()
+            {
+                noteContent7 = $(this).val();
+            });
+        noteTextarea8.on('input',
+            function ()
+            {
+                noteContent8 = $(this).val();
+            });
+        noteTextarea9.on('input',
+            function ()
+            {
+                noteContent9 = $(this).val();
+            });
+        noteTextarea10.on('input',
+            function ()
+            {
+                noteContent10 = $(this).val();
+            });
+
+    });
+    function signSubmit()
+    {
+        Q.confirm(
+            "Legal Notification : You are about to authorize an electronic signature. " +
+            "Based on the integrity and validity of electronics specifications, " +
+            "you are responsible for keeping your signature information confidential.  Click 'Yes' if you agree and 'No' if you dont. ",
+            () =>
+            {
+
+                Q.serviceRequest(GeniusOneAi.ProgramNoteManager.ProgramNotesService.baseUrl + "/GetSignageData",
+                    {},
+                    (response) =>
+                    {
+                        if (!response.signatureGuid || !response.signatureImage || !response.signatureText || !response.signatureVerified)
+                        {
+                            Q.alert("It appears that you do not have a valid signature created.  Please save your work and create a verified signature then submit again!");
+                            return;
+                        }
+
+
+                        Q.serviceRequest(GeniusOneAi.ProgramNoteManager.ProgramNotesService.baseUrl + "/Update",
+                            {
+                                "Entity": {
+                                    "Field00": $("#ctr-field00").val(),
+                                    "Field01": $("#ctr-field01").val(),
+                                    "Field02": $("#ctr-field02").val(),
+                                    "Field03": $("#ctr-field03").val(),
+                                    "Field04": $("#ctr-field04").val(),
+                                    "Field05": $("#ctr-field05").val(),
+                                    "Field06": $("#ctr-field06").val(),
+                                    "Field07": $("#ctr-field07").val(),
+                                    "Field08": $("#ctr-field08").val(),
+                                    "Field09": $("#ctr-field09").val(),
+                                    "Field10": $("#ctr-field10").val(),
+                                    "SignatureGuid": response.signatureGuid,
+                                    "SignatureImage": response.signatureImage,
+                                    "ESignaturePlainText": response.signatureText,
+                                    "NoteUpdateStatus": "SignAction"
+
+                                },
+                                "EntityId": @Model.ProgressNoteId
+                                },
+                            (response) =>
+                            {
+
+                                Q.notifySuccess("Progress note signed successfully!",
+                                    "System Alert",
+                                    {
+                                        progressBar: true,
+                                        positionClass: "toast-top-center",
+                                        showDuration: 1000,
+                                        hideDuration: 1000,
+                                        timeOut: 5000,
+                                        closeButton: true
+                                    });
+                                location.replace("/WorkerPortal/Activities");
+                            },
+                            { async: false });
+
+
+                    },
+                    { async: false });
+
+            },
+            {
+                onNo: () =>
+                {
+
+
+                },
+                onCancel: () =>
+                {
+
+                }
+            });
+    };
+    function saveProgress()
+    {
+
+        Q.serviceRequest(GeniusOneAi.ProgramNoteManager.ProgramNotesService.baseUrl + "/Update",
+            {
+                "Entity": {
+                    "Field00": $("#ctr-field00").val(),
+                    "Field01": $("#ctr-field01").val(),
+                    "Field02": $("#ctr-field02").val(),
+                    "Field03": $("#ctr-field03").val(),
+                    "Field04": $("#ctr-field04").val(),
+                    "Field05": $("#ctr-field05").val(),
+                    "Field06": $("#ctr-field06").val(),
+                    "Field07": $("#ctr-field07").val(),
+                    "Field08": $("#ctr-field08").val(),
+                    "Field09": $("#ctr-field09").val(),
+                    "Field10": $("#ctr-field10").val(),
+                    "NoteUpdateStatus": "SaveAction"
+
+                },
+                "EntityId": @Model.ProgressNoteId
+                }, (response) =>
+        {
+
+            Q.notifySuccess("Progress note saved successfully!",
+                "System Alert",
+                {
+                    progressBar: true,
+                    positionClass: "toast-top-center",
+                    showDuration: 1000,
+                    hideDuration: 1000,
+                    timeOut: 5000,
+                    closeButton: true
+                });
+        }, { async: false });
+
+    };
+    function showComments(a)
+    {
+        var dlg = new GeniusOneAi.WorkerPortal.ActivitiesLogDialog(a);
+        dlg.dialogOpen();
+    }        
+    
+    $(document).ready(function ()
+    {
+        $('#ctr-field00').on('change', function ()
+        {
+            var selectedValue = $(this).val();
+            $.ajax({
+                url: '/Api/GetClientGoals/@GeniusOneAi.Modules.Common.CustomClasses.GeniusOneBase.GlobalApiKey/@Model.ClientId/' + selectedValue + '/@dayOfWeek',
+                type: 'GET',
+                success: function (data)
+                {
+                    $.each(data, function (key, value)
+                    {
+                        if (key == 'Goals'){
+                            $('.goals').each(function (index)
+                            {
+                                $(this).val(value);
+                            });
+                        }
+                        if (key == 'Interventions'){
+                            $('.interventions').each(function (index)
+                            {
+                                $(this).val(value);
+                            });
+                        }
+                    });
+                },
+                error: function (xhr, status, error)
+                {
+                    alert(xhr.responseText);
+                }
+            });
+        });
+    });
+</script>

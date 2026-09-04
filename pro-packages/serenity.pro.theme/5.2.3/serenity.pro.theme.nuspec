@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>Serenity.Pro.Theme</id>
+    <version>5.2.3</version>
+    <authors>Volkan Ceylan</authors>
+    <license type="file">LICENSE.txt</license>
+    <licenseUrl>https://aka.ms/deprecateLicenseUrl</licenseUrl>
+    <icon>package-icon.png</icon>
+    <projectUrl>https://github.com/volkanceylan/StartSharp</projectUrl>
+    <description>Package Description</description>
+    <copyright>Copyright © Serenity Software, Volkan Ceylan</copyright>
+    <tags>Serenity</tags>
+    <repository type="git" url="https://github.com/volkanceylan/StartSharp.git" commit="32fbc4bef35e37f69ea611083c2f11de48601691" />
+    <dependencies>
+      <group targetFramework="net5.0" />
+    </dependencies>
+  </metadata>
+</package>

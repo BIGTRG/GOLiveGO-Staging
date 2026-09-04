@@ -1,0 +1,12 @@
+﻿@{
+    ViewData["Title"] = "Invoices";
+}
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.Workflows.InvoicesGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

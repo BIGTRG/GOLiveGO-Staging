@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Patient Portal";
+    ViewData["PageId"] = "Patient Portal";
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+
+
+<style>
+    body {
+        background-image: url("../../Content/site/images/GeniusOneLogoGreyWatermark.png");
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 85%;
+    }
+
+    a {
+        text-decoration: none;
+    }
+</style>
+
+<div>
+
+    <div class="s-full-page justify-content-center">
+        <h2 class="text-center p-4">
+            <img src="/Content/site/images/go-login-logo.png" class="rounded-circle p-1" style="background-color: var(--s-sidebar-band-bg)" width="75" height="75"> GeniusOneAi
+        </h2>
+        <div class="d-flex justify-content-center">
+            <div class="card mt-5" style="width: 40rem;">
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="ssn">Social Security Number</label>
+                            <input type="text" class="form-control" id="ssn" aria-describedby="ssnHelp" placeholder="Enter your social security number">
+                            <small id="ssnHelp" class="form-text text-muted">Enter the patient's social security number</small>
+                        </div><br/>
+                        <div class="form-group">
+                            <label for="dob">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob" aria-describedby="dobHelp">
+                            <small id="dobHelp" class="form-text text-muted">Enter the patient's date of birth</small>
+                        </div><br/>
+                        <button type="submit" onclick="Q.alert('Your patient account cannot be located.  Please try again.  If you are having problems please contact your worker.');" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="card mt-5" style="width: 40rem;">
+                <div class="card-body">
+                    USERS OF THIS SYSTEM HAVE THE RESPONSIBILITY TO ENSURE COMPLIANCE WITH ALL LAWS,
+                    RULES, AND REGULATIONS GOVERNING THE COLLECTION AND HANDLING OF PERSONAL DATA.<br /><br />Use of this system signifies acceptance of the foregoing terms.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

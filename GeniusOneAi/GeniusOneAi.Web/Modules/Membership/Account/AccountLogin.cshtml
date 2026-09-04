@@ -1,0 +1,69 @@
+﻿@inject Serenity.ITextLocalizer Localizer
+@inject IDataMigrations DataMigrations
+@inject Microsoft.Extensions.Options.IOptions<Serenity.Extensions.EnvironmentSettings> EnvironmentOptions
+@{
+    ViewData["Title"] = Texts.Forms.Membership.Login.LoginToYourAccount.ToString(Localizer);
+    ViewData["PageId"] = "Login";
+    Layout = MVC.Views.Shared._LayoutNoNavigation;
+}
+
+<style>
+    body {
+        background-image: url("../../Content/site/images/GeniusOneLogoGreyWatermark.png");
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 85%;
+    }
+
+    a { text-decoration: none; }
+   
+</style>
+
+@if (ViewData["Activated"] != null)
+{
+    <div class="alert alert-info alert-dismissible">
+        <button type="button" class="close btn-close" data-dismiss="alert" data-bs-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fa fa-info"></i>@Localizer.Get("Dialogs.InformationTitle")</h4>
+        @Texts.Forms.Membership.SignUp.ActivationCompleteMessage.ToString(Localizer)
+    </div>
+}
+<div>
+
+<div class="s-full-page justify-content-center">
+    <div id="LoginPanel" class="s-container-tight s-vertical-form">
+        </div> @*<div class="d-flex justify-content-center">
+        <div class="card mt-5" style="width: 10rem;">
+                <div class="card-body text-center">
+                    <a href="/ExternalPortal/Patient">Patient Portal</a>
+            </div>
+        </div></div>*@
+    <div class="d-flex justify-content-center">
+        <div class="card mt-5" style="width: 40rem;">
+            <div class="card-body">
+                By entering my user name and password above, I am using my electronic
+                signature to log in to the GeniusOneAi system and establish a continuous session,
+                which will end when I am logged out. <br /><br />USERS OF THIS SYSTEM HAVE THE RESPONSIBILITY TO ENSURE COMPLIANCE WITH ALL LAWS,
+                RULES, AND REGULATIONS GOVERNING THE COLLECTION AND HANDLING OF PERSONAL DATA.<br /><br />Use of this system signifies acceptance of the foregoing terms.
+            </div>
+        </div>
+    </div>
+</div></div>
+<script type="text/javascript">
+
+jQuery(function() {
+    var loginPanel = new GeniusOneAi.Membership.LoginPanel($('#LoginPanel')).init();
+    loginPanel.element.find('.forgot-password').appendTo('.field.Password');
+
+    @if (ViewData["Activated"] != null)
+    {
+        <text>
+        $(function() {
+            loginPanel.byId('Username').val(@Html.Raw(Serenity.JSON.Stringify(ViewData["Activated"])));
+            loginPanel.byId('Password').focus();
+        });
+        </text>
+    }
+
+    });
+</script>

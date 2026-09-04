@@ -1,0 +1,75 @@
+.s-TranslationGrid input.custom-text {
+  width: 100%;
+}
+
+.s-UserPermissionDialog > .size,
+.s-RolePermissionDialog > .size,
+.s-UserRoleDialog > .size {
+    min-width: 770px;
+    width: 770px;
+    min-height: 550px;
+    height: 550px;
+}
+.s-UserPermissionDialog .s-DataGrid,
+.s-RolePermissionDialog .s-DataGrid,
+.s-UserRoleDialog .s-DataGrid {
+  height: 100%;
+}
+
+.program-note-disabled .edit-note-row {
+    opacity: 0.2;
+    pointer-events: none;
+}
+.program-note-disabled .view-note-row {
+    opacity: 0.2;
+    pointer-events: none;
+}
+.program-edit-disabled .edit-row {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.program-delete-disabled .delete-row {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.billing-disabled-red .red-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.billing-disabled-yellow .yellow-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.billing-disabled-green .green-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.edit-report-disabled .edit-meta {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.workflow-disabled-red .red-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.workflow-disabled-yellow .yellow-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.workflow-disabled-green .green-button {
+    opacity: 0.2;
+    pointer-events: none;
+}
+
+.document-finalized .edit-row {
+    opacity: 0.2;
+    pointer-events: none;
+}

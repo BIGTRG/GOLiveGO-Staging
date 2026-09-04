@@ -1,0 +1,14 @@
+﻿@inject Serenity.ITextLocalizer Localizer
+@{
+    ViewData["Title"] = "";
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.Workflows.DocumentWorkflowGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

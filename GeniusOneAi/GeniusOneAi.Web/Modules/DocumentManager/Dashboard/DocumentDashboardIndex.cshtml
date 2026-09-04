@@ -1,0 +1,119 @@
+﻿@model GeniusOneAi.DocumentManager.DocumentDashboardPageModel
+@{
+    ViewData["Title"] = "Dashboard";
+    ViewData["PageId"] = "Dashboard";
+}
+
+@section Head {
+}
+
+@section ContentHeader {
+    <h1>Dashboard <small>Global agency document status dashboard</small></h1>
+}
+
+<div class="row">
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-gray">
+            <div class="inner">
+                <p>Draft</p>
+                <h3>@Model.DraftCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-yellow">
+            <div class="inner">
+                <p>For Approval</p>
+                <h3>@Model.ForApprovalCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-blue">
+            <div class="inner">
+                <p>Sent</p>
+                <h3>@Model.SentCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-purple">
+            <div class="inner">
+                <p>Reviewed</p>
+                <h3>@Model.ViewedCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-green-active">
+            <div class="inner">
+                <p>Completed</p>
+                <h3>@Model.CompletedCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-red">
+            <div class="inner">
+                <p>Expired</p>
+                <h3>@Model.ExpiredCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <p>Declined/Rejected</p>
+                <h3>@Model.RejectedCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-lg-3 col-xs-6">
+        <div class="small-box bg-red-active">
+            <div class="inner">
+                <p>Overdue</p>
+                <h3>@Model.RejectedCount</h3>
+                <p>Documents</p>
+            </div>
+            <div class="icon">
+                <i class="ion ion-bag"></i>
+            </div>
+            <a href="#" class="small-box-footer">View documents <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>

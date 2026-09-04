@@ -1,0 +1,161 @@
+{
+  "RootNamespace": "GeniusOneAi",
+  "ServerTypings": {
+    "LocalTexts": true
+  },
+  "Restore": {
+    "Exclude": [
+      "/wwwroot/Scripts/serenity/Serenity.CoreLib*.*",
+      "/wwwroot/Content/serenity/*"
+    ]
+  },
+  "Connections": [
+    {
+      "Key": "Default",
+      "Tables": [
+        {
+          "Tablename": "dbo.ActivitiesLog",
+          "Identifier": "ActivitiesLog",
+          "Module": "Workflows",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.BillingLog",
+          "Identifier": "BillingLog",
+          "Module": "Workflows",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ClientDocuments",
+          "Identifier": "ClientDocuments",
+          "Module": "ClientManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ClientGoalInterventions",
+          "Identifier": "ClientGoalInterventions",
+          "Module": "ClientManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ClientGoalInterventionsLibrary",
+          "Identifier": "ClientGoalInterventionsLibrary",
+          "Module": "AgencyAdministration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ClientGoalsLibrary",
+          "Identifier": "ClientGoalsLibrarySelector",
+          "Module": "AgencyAdministration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.Clients",
+          "Identifier": "Clients",
+          "Module": "ClientManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ContractorRates",
+          "Identifier": "ContractorRates",
+          "Module": "WorkerManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.DocumentWorkflowSteps",
+          "Identifier": "DocumentWorkflowSteps",
+          "Module": "DocumentManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.DocumentWorkflowTemplates",
+          "Identifier": "DocumentWorkflowTemplates",
+          "Module": "DocumentManager",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ProgramCodeTypes",
+          "Identifier": "ProgramCodeTypes",
+          "Module": "Administration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ProgramNoteTemplates",
+          "Identifier": "ProgramNoteTemplates",
+          "Module": "AgencyAdministration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.ProgramNoteType",
+          "Identifier": "ProgramNoteType",
+          "Module": "AgencyAdministration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.Reports",
+          "Identifier": "Reports",
+          "Module": "Reports",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.SitesTypes",
+          "Identifier": "SitesTypes",
+          "Module": "Administration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.TemplateCodeList",
+          "Identifier": "TemplateCodeList",
+          "Module": "AgencyAdministration",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vActivitiesNoteData",
+          "Identifier": "TimesheetNoteData",
+          "Module": "MiscEntities",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vApprovedBilling",
+          "Identifier": "ApprovedBilling",
+          "Module": "MiscEntities",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vGlobalAgencyDashboard",
+          "Identifier": "GlobalAgencyDashboard",
+          "Module": "Dashboards",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vGlobalAgencyDashboardWorker",
+          "Identifier": "VGlobalAgencyDashboardWorker",
+          "Module": "WorkerPortal",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vPatientDetails",
+          "Identifier": "PatientDetails",
+          "Module": "MiscEntities",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.vWorkerClientBillRates",
+          "Identifier": "VWorkerClientBillRates",
+          "Module": "MiscEntities",
+          "PermissionKey": "Administration:General"
+        },
+        {
+          "Tablename": "dbo.WorkerInvoices",
+          "Identifier": "WorkerInvoices",
+          "Module": "DefaultInvoices",
+          "PermissionKey": "Administration:General"
+        }
+      ]
+    }
+  ],
+  "UpgradeInfo": {
+    "InitialType": "Premium",
+    "InitialVersion": "5.2.3.0"
+  }
+}

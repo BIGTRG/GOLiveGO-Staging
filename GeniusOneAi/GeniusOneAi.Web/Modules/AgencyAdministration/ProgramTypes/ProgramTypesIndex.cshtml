@@ -1,0 +1,13 @@
+﻿<div class="alert alert-danger" role="alert">
+    WARNING:  Any updates or changes will affect all parts of the system.  Do not rename or otherwise modify an existing program unless you fully understand the ramifications of it affecting existing data!!!!!!!!!!!!!
+ </div>
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.AgencyAdministration.ProgramTypesGrid($('#GridDiv'), {}).init();
+
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

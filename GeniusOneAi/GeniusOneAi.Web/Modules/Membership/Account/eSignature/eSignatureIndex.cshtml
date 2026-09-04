@@ -1,0 +1,179 @@
+﻿@model GeniusOneAi.Membership.eSignaturePageModel
+
+@{
+    ViewData["Title"] = "eSignature Manager";
+    ViewData["PageId"] = "eSignature Manager";
+}
+
+@section Head {
+    <style>
+        #responsive-canvas {
+           /* width: 100%;*/
+            border: 3px dashed #ccc;
+            padding: 5px;
+        }
+
+            #responsive-canvas:hover {
+              border: 3px dashed #55cc55;
+            }
+    </style>
+}
+<div class="s-Panel">
+    <div class="grid-title"><div class="title-text">eSignature Manager</div></div>
+    <section class="content">
+        <div class="container">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                Please note if any part of your signature is edited and submitted you will not be able to sign-off on any documents/forms until an administrator approves the changes.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-12">
+                            <div>
+                                <div>
+                                    <div class="form-group ">
+                                        <label class="control-label" for="ctrl-staffSignatureText">Name and Credentials <span class="text-danger">*</span></label>
+                                        <div id="ctrl-staffSignatureText-holder" class="">
+                                            <input id="ctrl-staffSignatureText" value="@Model.eSignaturePlainText" type="text" placeholder="Please type your full name and credentials here" name="staffSignatureText" class="form-control " />
+                                        </div>
+                                    </div>
+                                    <div class="form-group ">
+                                        <div hidden id="ctrl-staffSignaturePhoto-holder" class="">
+                                            <input id="ctrl-staffSignaturePhoto" value="" type="text" placeholder="" name="staffSignaturePhoto" class="form-control " />
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <a class="btn btn-link" id="clear">Clear</a>
+                                            <a class="btn btn-link" id="undo">Undo</a>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <canvas id="responsive-canvas" width="1000" height="250"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-4 mt-4">
+                                    
+                                    <div class="form-group text-center">
+                                        <button class="btn btn-success" onclick="saveSignature();"><i class="fa fa-pencil"></i> Update Signature</button>
+                                    </div>
+                                </div>
+                                @{
+                                    if (Model.IsVerified && Model.eSignatureImage.Length > 0)
+                                    {
+                                        <div class="alert alert-success" role="alert">Signature Loaded/Approved</div>
+                                        <img src="@Model.eSignatureImage" alt="" />
+                                    }
+                                }
+
+                                @{
+                                    if (!Model.IsVerified && Model.eSignatureImage.Length > 0)
+                                    {
+                                        <div class="alert alert-warning" role="alert">Signature Loaded/Not Approved</div>
+                                        <img src="@Model.eSignatureImage" alt="" />
+                                    }
+                                }
+                                @{
+                                    if (Model.eSignatureImage.Length == 0)
+                                    {
+                                        <div class="alert alert-danger" role="alert">Signature Missing</div>
+                                    }
+                                }
+                                 <script src="~/Scripts/signature_pad.min.js"></script>
+                               @* https://www.npmjs.com/package/signature_pad/v/4.1.5*@
+
+
+                                <script>
+                                    var canvas = document.querySelector("canvas");
+                                    var signaturePad = new SignaturePad(canvas,
+                                        {
+                                            backgroundColor: 'rgba(255, 255, 255, 0)',
+                                            dotSize: 1,
+                                            penColor: 'rgb(0, 0, 0)'
+                                        });
+                                    var Signature = "";
+                                    $('canvas').on('mouseup',
+                                        function () {
+                                            if (signaturePad.isEmpty()) {
+
+                                            } else {
+                                                Signature = signaturePad.toDataURL();
+
+                                                $("#ctrl-staffSignaturePhoto").val(Signature);
+                                            }
+
+                                        });
+                                    document.getElementById('undo').addEventListener('click',
+                                        function () {
+                                            var data = signaturePad.toData();
+                                            if (data) {
+                                                data.pop();
+                                                signaturePad.fromData(data);
+                                                Signature = signaturePad.toDataURL();
+                                                $("#ctrl-staffSignaturePhoto").val(Signature);
+                                            }
+                                        });
+                                    document.getElementById('clear').addEventListener('click',
+                                        function () {
+                                            signaturePad.clear();
+                                            $("#ctrl-staffSignaturePhoto").val("");
+                                        });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript">
+        $(document).ready(function () { });
+    function saveSignature() {
+          Q.confirm(
+            "Are you sure you want to update your eSignature?  you will not be able to sign-off on any documents/forms until an administrator approves the changes.",
+            () => {
+                
+                Q.serviceRequest(GeniusOneAi.WorkerPortal.WorkersService.baseUrl + "/Update",
+                    {
+                        "Entity": {
+                            "ESignatureBase64": $("#ctrl-staffSignaturePhoto").val(),
+                            "ESignaturePlainText": $("#ctrl-staffSignatureText").val(),
+                            "SignatureVerified": 0
+                        },
+                        "EntityId": @User?.GetIdentifier()
+                    }, (response) => {
+
+                        Q.notifySuccess("eSignature updated successfully!",
+                            "System Alert",
+                            {
+                                progressBar: true,
+                                positionClass: "toast-top-center",
+                                showDuration: 500,
+                                hideDuration: 500,
+                                timeOut: 1000,
+                                closeButton: true,
+                                onHidden: function () {location.reload()}
+                            });
+
+                    }, { async: false });
+               
+
+            },
+            {
+                onNo: () => {
+
+
+                },
+                onCancel: () => {
+
+                }
+            });
+
+            
+        };
+</script>
