@@ -1,0 +1,22 @@
+# Staging on server #3 (ge-api-engine). SQL Server runs as the separately started container g1-sql
+# (mcr.microsoft.com/mssql/server:2022-latest, 3 GB cap, data in /opt/g1-staging/sql). This file runs the web app only.
+name: g1-staging
+services:
+  g1-web:
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+    container_name: g1-web
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8181:8080"
+    env_file: /opt/g1-staging/web/g1-web.env      # holds Data__Default__ConnectionString etc. (never in git)
+    volumes:
+      - /opt/g1-staging/web/appsettings.machine.json:/app/appsettings.machine.json:ro
+      - /opt/g1-staging/web/App_Data:/app/App_Data
+    networks: [g1]
+    mem_limit: 2g
+networks:
+  g1:
+    name: g1-staging
+    external: true

@@ -13,7 +13,7 @@ namespace GeniusOneAi.AiAdvisor.Pages
     [Route("AiAdvisor/[action]")]
     public class AiAdvisorController : Controller
     {
-        private readonly string? openAiApiKey = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetSection("ThirdParty")["Keys:ChatGPT"];
+        private readonly string? openAiApiKey = GeniusOneAi.Modules.Common.CustomClasses.AppConfig.Get("ThirdParty:Keys:ChatGPT");
 
         [PageAuthorize, HttpGet]
         public ActionResult Index()

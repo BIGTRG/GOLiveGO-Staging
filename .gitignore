@@ -1,0 +1,21 @@
+# Node
+node_modules/
+npm-debug.log
+# .NET
+bin/
+obj/
+*.user
+*.suo
+*.vspscc
+*.vssscc
+.vs/
+log.txt
+# Machine-local secrets (Serenity convention, loaded optionally by Program.cs)
+appsettings.machine.json
+appsettings.*.local.json
+*.env
+!deploy/*.env.example
+# Runtime data
+GeniusOneAi/GeniusOneAi.Web/App_Data/**
+!GeniusOneAi/GeniusOneAi.Web/App_Data/DocumentRepository/temporary/.temporary
+GeniusOneAi/GeniusOneAi.Web/wwwroot/App_Data/DocumentCache/**
