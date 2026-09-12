@@ -4,13 +4,6 @@
         IsProtocol: Serenity.BooleanEditor;
         EpisodeId: Serenity.IntegerEditor;
         LibraryGoalId: Serenity.IntegerEditor;
-        IsActiveMonday: Serenity.BooleanEditor;
-        IsActiveTuesday: Serenity.BooleanEditor;
-        IsActiveWednesday: Serenity.BooleanEditor;
-        IsActiveThursday: Serenity.BooleanEditor;
-        IsActiveFriday: Serenity.BooleanEditor;
-        IsActiveSaturday: Serenity.BooleanEditor;
-        IsActiveSunday: Serenity.BooleanEditor;
         GoalType: Serenity.LookupEditor;
         Goal: CustomEditors.GoalEditor;
         Description: Serenity.TextAreaEditor;
@@ -46,13 +39,6 @@
                     'IsProtocol', w0,
                     'EpisodeId', w7,
                     'LibraryGoalId', w7,
-                    'IsActiveMonday', w0,
-                    'IsActiveTuesday', w0,
-                    'IsActiveWednesday', w0,
-                    'IsActiveThursday', w0,
-                    'IsActiveFriday', w0,
-                    'IsActiveSaturday', w0,
-                    'IsActiveSunday', w0,
                     'GoalType', w1,
                     'Goal', w2,
                     'Description', w3,

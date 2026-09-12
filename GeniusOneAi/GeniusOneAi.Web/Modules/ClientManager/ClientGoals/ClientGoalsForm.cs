@@ -29,22 +29,6 @@ namespace GeniusOneAi.ClientManager.Forms
         public Int32 EpisodeId { get; set; }
         [Hidden]
         public Int32 LibraryGoalId { get; set; }
-
-        [Category("Legacy weekday schedule")]
-        [DisplayName("Monday")]
-        public bool IsActiveMonday { get; set; }
-        [DisplayName("Tuesday")]
-        public bool IsActiveTuesday{ get; set; }
-        [DisplayName("Wednesday")]
-        public bool IsActiveWednesday { get; set; }
-        [DisplayName("Thursday")]
-        public bool IsActiveThursday { get; set; }
-        [DisplayName("Friday")]
-        public bool IsActiveFriday { get; set; }
-        [DisplayName("Saturday")]
-        public bool IsActiveSaturday { get; set; }
-        [DisplayName("Sunday")]
-        public bool IsActiveSunday { get; set; }
         [Category("Patient Goal")]
         [DisplayName("Goal Type")]
         [LookupEditor(typeof(ProgramNoteTypeLookup))]
