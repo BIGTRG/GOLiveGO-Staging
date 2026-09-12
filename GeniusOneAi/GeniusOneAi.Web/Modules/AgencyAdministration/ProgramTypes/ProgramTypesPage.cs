@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.ProgramTypesRow))]
     public class ProgramTypesController : Controller
     {
-        [Route("AgencyAdministration/ProgramTypes")]
+        [Route("~/AgencyAdministration/ProgramTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/ProgramTypes/ProgramTypesIndex.cshtml");

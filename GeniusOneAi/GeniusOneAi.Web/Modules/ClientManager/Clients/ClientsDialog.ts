@@ -11,6 +11,7 @@ namespace GeniusOneAi.ClientManager {
 
         private authorizationsGrid = ClientManager.ClientAuthorizationsGrid;
         private goalsGrid = ClientManager.ClientGoalsGrid;
+        private episodesGrid = CrisisEpisodes.CrisisEpisodesGrid;
         private documentsGrid = ClientManager.ClientDocumentsGrid;
         private teamAssignmentGrid = ClientManager.TeamAssignmentsGrid;
 
@@ -38,6 +39,9 @@ namespace GeniusOneAi.ClientManager {
 
             this.goalsGrid =
                 ((new ClientManager.ClientGoalsGrid(this.byId('ClientGoalsGrid')) as any));
+
+            this.episodesGrid =
+                ((new CrisisEpisodes.CrisisEpisodesGrid(this.byId('ClientEpisodesGrid')) as any));
 
             this.documentsGrid =
                 ((new ClientManager.ClientDocumentsGrid(this.byId('ClientDocumentsGrid')) as any));
@@ -213,11 +217,13 @@ namespace GeniusOneAi.ClientManager {
             super.loadEntity(entity);
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientAuthorizations', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientGoals', this.isNewOrDeleted());
+            Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientEpisodes', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientDocuments', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientTeam', this.isNewOrDeleted());
 
             this.authorizationsGrid.clientID = entity.ClientId;
             this.goalsGrid.clientID = entity.ClientId;
+            this.episodesGrid.clientID = entity.ClientId;
             this.documentsGrid.clientID = entity.ClientId;
             this.teamAssignmentGrid.clientID = entity.ClientId;
         }

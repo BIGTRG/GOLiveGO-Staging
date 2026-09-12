@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.CredentialTypesRow))]
     public class CredentialTypesController : Controller
     {
-        [Route("AgencyAdministration/CredentialTypes")]
+        [Route("~/AgencyAdministration/CredentialTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/CredentialTypes/CredentialTypesIndex.cshtml");

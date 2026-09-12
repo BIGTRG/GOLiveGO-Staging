@@ -12,7 +12,7 @@ namespace GeniusOneAi.Dashboards.Pages
     public class GlobalAgencyDashboardController : Controller
     {
         [HttpGet]
-        [Route("Dashboards/GlobalAgencyDashboard")]
+        [Route("~/Dashboards/GlobalAgencyDashboard")]
         public ActionResult Index()
         {
             var model = GeniusOneAi.Modules.Common.CustomClasses.Dashboards.GetGlobalDashboardData();

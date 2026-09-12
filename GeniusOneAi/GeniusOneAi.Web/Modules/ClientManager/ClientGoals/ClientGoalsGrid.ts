@@ -35,12 +35,34 @@ namespace GeniusOneAi.ClientManager {
         }
         protected createQuickSearchInput() { }
         protected getAddButtonCaption(): string { return "Custom Goal"; }
+        // Goals are grouped by encounter phase (E1..E5, follow-up), never by weekday.
         protected getSlickOptions() {
             var opt = super.getSlickOptions();
+            opt.groupItemMetadataProvider = new Slick.Data.GroupItemMetadataProvider();
             return opt;
         }
+        protected createSlickGrid() {
+            var grid = super.createSlickGrid();
+            grid.registerPlugin((this.slickGrid.getOptions() as any).groupItemMetadataProvider);
+            this.view.setGrouping([{
+                getter: 'Phase',
+                formatter: g => '<span class="goal-phase-group">' + Q.htmlEncode(CustomEditors.EpisodePhaseEditor.label(g.value) || 'No phase assigned') +
+                    '</span> <span class="goal-phase-count">' + g.count + ' goal' + (g.count === 1 ? '' : 's') + '</span>',
+                comparer: (a, b) => CustomEditors.EpisodePhaseEditor.order(a.value) - CustomEditors.EpisodePhaseEditor.order(b.value),
+                aggregateCollapsed: false,
+                lazyTotalsCalculation: true
+            }] as any);
+            return grid;
+        }
+        protected getDefaultSortBy() { return ['Phase', 'ClientGoalId']; }
         protected getColumns() {
             var columns = super.getColumns();
+            var phase = Q.first(columns, c => c.field === 'Phase');
+            if (phase)
+                phase.format = ctx => Q.htmlEncode(CustomEditors.EpisodePhaseEditor.label(ctx.value));
+            var prot = Q.first(columns, c => c.field === 'IsProtocol');
+            if (prot)
+                prot.format = ctx => ctx.value ? '<i class="fa fa-lock text-blue" title="Protocol goal - required by the pathway"></i>' : '';
 
             columns.splice(0, 0, {
                 field: 'Edit Goal',

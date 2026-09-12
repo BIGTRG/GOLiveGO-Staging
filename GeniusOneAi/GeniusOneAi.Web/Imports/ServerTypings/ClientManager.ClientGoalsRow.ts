@@ -19,6 +19,11 @@
         IsActiveFriday?: boolean;
         IsActiveSaturday?: boolean;
         IsActiveSunday?: boolean;
+        EpisodeId?: number;
+        Phase?: string;
+        LibraryGoalId?: number;
+        SourceRuleId?: number;
+        IsProtocol?: boolean;
     }
 
     export namespace ClientGoalsRow {
@@ -49,7 +54,12 @@
             IsActiveThursday = "IsActiveThursday",
             IsActiveFriday = "IsActiveFriday",
             IsActiveSaturday = "IsActiveSaturday",
-            IsActiveSunday = "IsActiveSunday"
+            IsActiveSunday = "IsActiveSunday",
+            EpisodeId = "EpisodeId",
+            Phase = "Phase",
+            LibraryGoalId = "LibraryGoalId",
+            SourceRuleId = "SourceRuleId",
+            IsProtocol = "IsProtocol"
         }
     }
 }

@@ -13,7 +13,7 @@ namespace GeniusOneAi.WorkerPortal.Pages
     public class InboxController : Controller
     {
         [PageAuthorize, HttpGet]
-        [Route("WorkerPortal/Inbox")]
+        [Route("~/WorkerPortal/Inbox")]
         public ActionResult Index()
         {
             //var data = Inbox.GetWorkerInboxData();

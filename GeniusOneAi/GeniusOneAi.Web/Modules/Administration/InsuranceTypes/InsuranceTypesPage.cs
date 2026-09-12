@@ -9,7 +9,7 @@ namespace GeniusOneAi.Administration.Pages
     [PageAuthorize(typeof(Entities.InsuranceTypesRow))]
     public class InsuranceTypesController : Controller
     {
-        [Route("Administration/InsuranceTypes")]
+        [Route("~/Administration/InsuranceTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/Administration/InsuranceTypes/InsuranceTypesIndex.cshtml");

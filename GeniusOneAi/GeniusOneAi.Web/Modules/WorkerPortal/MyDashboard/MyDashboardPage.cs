@@ -15,7 +15,7 @@ namespace GeniusOneAi.WorkerPortal.Pages
     public class MyDashboardController : Controller
     {
         [HttpGet]
-        [Route("WorkerPortal/MyDashboard")]
+        [Route("~/WorkerPortal/MyDashboard")]
         public ActionResult Index()
         {
             var userId = int.Parse(User?.GetIdentifier() ?? string.Empty);

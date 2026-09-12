@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.ProgramNoteTemplatesRow))]
     public class ProgramNoteTemplatesController : Controller
     {
-        [Route("AgencyAdministration/ProgramNoteTemplates")]
+        [Route("~/AgencyAdministration/ProgramNoteTemplates")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/ProgramNoteTemplates/ProgramNoteTemplatesIndex.cshtml");

@@ -13,9 +13,18 @@ namespace GeniusOneAi.ClientManager.Columns
     [BasedOnRow(typeof(Entities.ClientGoalsRow), CheckNames = true)]
     public class ClientGoalsColumns
     {
+        [DisplayName("Phase")]
+        [Width(210)]
+        public String Phase { get; set; }
         [DisplayName("Goal #")]
         [Width(75)]
         public String Goal { get; set; }
+        [DisplayName("Description")]
+        [Width(320)]
+        public String Description { get; set; }
+        [DisplayName("Protocol")]
+        [Width(70)]
+        public Boolean IsProtocol { get; set; }
         [DisplayName("Completion Date")]
         [Width(125)]
         public DateTime CompletionDate { get; set; }

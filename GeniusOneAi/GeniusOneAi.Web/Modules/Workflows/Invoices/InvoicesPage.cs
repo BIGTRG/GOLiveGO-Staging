@@ -9,7 +9,7 @@ namespace GeniusOneAi.Workflows.Pages
     [PageAuthorize(typeof(Entities.InvoicesRow))]
     public class InvoicesController : Controller
     {
-        [Route("Workflows/Invoices")]
+        [Route("~/Workflows/Invoices")]
         public ActionResult Index()
         {
             return View("~/Modules/Workflows/Invoices/InvoicesIndex.cshtml");

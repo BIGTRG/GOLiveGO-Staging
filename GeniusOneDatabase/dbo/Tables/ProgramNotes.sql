@@ -22,6 +22,9 @@
     [FileName]              NVARCHAR (50)  NULL,
     [ApprovedBy]            NVARCHAR (200) NULL,
     [DateApproved]          DATETIME2 (7)  NULL,
+    [EpisodeId]        INT            NULL,
+    [EncounterNo]      INT            NULL,
+    [Phase]            NVARCHAR (10)  NULL,
     CONSTRAINT [PK_progressnotes_id] PRIMARY KEY CLUSTERED ([ProgramNoteId] ASC)
 );
 

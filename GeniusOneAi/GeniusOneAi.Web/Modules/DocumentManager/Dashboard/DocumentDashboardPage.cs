@@ -13,7 +13,7 @@ namespace GeniusOneAi.DocumentManager.Pages
     public class DocumentDashboardController : Controller
     {
         [PageAuthorize, HttpGet]
-        [Route("DocumentManager/DocumentDashboardViewer")]
+        [Route("~/DocumentManager/DocumentDashboardViewer")]
         public ActionResult Index()
         {
             var model = new DocumentDashboardPageModel();

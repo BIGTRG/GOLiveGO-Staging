@@ -9,7 +9,7 @@ namespace GeniusOneAi.WorkerManager.Pages
     [PageAuthorize(typeof(Entities.WorkerDelinquenciesRow))]
     public class WorkerDelinquenciesController : Controller
     {
-        [Route("WorkerManager/WorkerDelinquencies")]
+        [Route("~/WorkerManager/WorkerDelinquencies")]
         public ActionResult Index()
         {
             return View("~/Modules/WorkerManager/WorkerDelinquencies/WorkerDelinquenciesIndex.cshtml");

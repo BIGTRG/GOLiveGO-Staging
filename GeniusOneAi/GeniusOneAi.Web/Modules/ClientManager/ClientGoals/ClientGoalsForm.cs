@@ -20,7 +20,17 @@ namespace GeniusOneAi.ClientManager.Forms
     public class ClientGoalsForm
     {
 
-        [Category("Active Dates")]
+        [Category("Encounter")]
+        [DisplayName("Phase"), EpisodePhaseEditor, HalfWidth]
+        public String Phase { get; set; }
+        [DisplayName("Protocol goal (locked)"), HalfWidth, ReadOnly(true)]
+        public bool IsProtocol { get; set; }
+        [Hidden]
+        public Int32 EpisodeId { get; set; }
+        [Hidden]
+        public Int32 LibraryGoalId { get; set; }
+
+        [Category("Legacy weekday schedule")]
         [DisplayName("Monday")]
         public bool IsActiveMonday { get; set; }
         [DisplayName("Tuesday")]

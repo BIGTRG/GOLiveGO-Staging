@@ -20,6 +20,8 @@
     [AlertSent]              BIT             NULL,
     [AuthorizationId]        INT             CONSTRAINT [DF_Activities_ClientId1] DEFAULT (NULL) NULL,
     [TenantId]               INT             NULL,
+    [EpisodeId]        INT            NULL,
+    [Phase]            NVARCHAR (10)  NULL,
     CONSTRAINT [PK_timesheet_records_id] PRIMARY KEY CLUSTERED ([ActivityId] ASC)
 );
 

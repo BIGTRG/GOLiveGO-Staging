@@ -9,7 +9,7 @@ namespace GeniusOneAi.Administration.Pages
     [PageAuthorize(typeof(Entities.ProgramCodeTypesRow))]
     public class ProgramCodeTypesController : Controller
     {
-        [Route("Administration/ProgramCodeTypes")]
+        [Route("~/Administration/ProgramCodeTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/Administration/ProgramCodeTypes/ProgramCodeTypesIndex.cshtml");

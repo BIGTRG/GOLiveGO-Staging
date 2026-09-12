@@ -16,6 +16,11 @@
     [TenantId]          INT             NULL,
     [Owner]             INT             NULL,
     [OwnerCreateDate]   DATETIME        NULL,
+    [EpisodeId]        INT            NULL,
+    [Phase]            NVARCHAR (10)  NULL,
+    [LibraryGoalId]    INT            NULL,
+    [SourceRuleId]     INT            NULL,
+    [IsProtocol]       BIT            CONSTRAINT [DF_ClientGoals_IsProtocol] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_client_goals_id] PRIMARY KEY CLUSTERED ([ClientGoalId] ASC)
 );
 

@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.SitesTypesRow))]
     public class SitesTypesController : Controller
     {
-        [Route("AgencyAdministration/SitesTypes")]
+        [Route("~/AgencyAdministration/SitesTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/SitesTypes/SitesTypesIndex.cshtml");

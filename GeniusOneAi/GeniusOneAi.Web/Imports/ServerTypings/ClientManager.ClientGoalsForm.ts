@@ -1,5 +1,9 @@
 ﻿namespace GeniusOneAi.ClientManager {
     export interface ClientGoalsForm {
+        Phase: CustomEditors.EpisodePhaseEditor;
+        IsProtocol: Serenity.BooleanEditor;
+        EpisodeId: Serenity.IntegerEditor;
+        LibraryGoalId: Serenity.IntegerEditor;
         IsActiveMonday: Serenity.BooleanEditor;
         IsActiveTuesday: Serenity.BooleanEditor;
         IsActiveWednesday: Serenity.BooleanEditor;
@@ -35,8 +39,13 @@
                 var w5 = s.DateEditor;
                 var w6 = ClientGoalInterventionsEditor;
                 var w7 = s.IntegerEditor;
+                var w8 = CustomEditors.EpisodePhaseEditor;
 
                 Q.initFormType(ClientGoalsForm, [
+                    'Phase', w8,
+                    'IsProtocol', w0,
+                    'EpisodeId', w7,
+                    'LibraryGoalId', w7,
                     'IsActiveMonday', w0,
                     'IsActiveTuesday', w0,
                     'IsActiveWednesday', w0,

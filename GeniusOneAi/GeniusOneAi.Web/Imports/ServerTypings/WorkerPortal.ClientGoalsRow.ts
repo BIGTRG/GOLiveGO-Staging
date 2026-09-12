@@ -9,6 +9,11 @@
         TenantId?: number;
         OwnerCreateDate?: string;
         Owner?: number;
+        EpisodeId?: number;
+        Phase?: string;
+        LibraryGoalId?: number;
+        SourceRuleId?: number;
+        IsProtocol?: boolean;
     }
 
     export namespace ClientGoalsRow {
@@ -29,7 +34,12 @@
             Status = "Status",
             TenantId = "TenantId",
             OwnerCreateDate = "OwnerCreateDate",
-            Owner = "Owner"
+            Owner = "Owner",
+            EpisodeId = "EpisodeId",
+            Phase = "Phase",
+            LibraryGoalId = "LibraryGoalId",
+            SourceRuleId = "SourceRuleId",
+            IsProtocol = "IsProtocol"
         }
     }
 }

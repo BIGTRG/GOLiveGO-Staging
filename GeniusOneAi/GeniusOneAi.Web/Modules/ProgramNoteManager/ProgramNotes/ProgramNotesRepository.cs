@@ -76,6 +76,8 @@ namespace GeniusOneAi.ProgramNoteManager.Repositories
                         break;
                     case "SignAction":
                         Row.DateSigned = DateTime.Now;
+                        // Encounter engine: fix the encounter number and phase at signature time.
+                        GeniusOneAi.CrisisEpisodes.Services.EpisodeService.StampNoteOnSign(Connection, Row);
                         var hasRejections = Row.ActivityId != null && TimesheetExtension.HasRejection((int)Row.ActivityId);
                         Row.Status = hasRejections ? "Re-Submitted": "Submitted";
                         if (Row.ProgramNoteId != null)
@@ -118,6 +120,9 @@ namespace GeniusOneAi.ProgramNoteManager.Repositories
                             Pdf.UpdateGoalsInter(Row.Field01, Row.Field02, (int)Row.ActivityId);//remove this patch
                             Pdf.CreateProgressNotePdf((int)Row.ActivityId, Row.FileName, uid);
                         }
+                        // Encounter engine: an approved note moves its episode to the next phase.
+                        if (Row.EpisodeId != null)
+                            GeniusOneAi.CrisisEpisodes.Services.EpisodeService.AdvanceAfterApproval(UnitOfWork, Row.EpisodeId.Value, Row.EncounterNo ?? 1);
 
                         break;
                     case "RejectAction":

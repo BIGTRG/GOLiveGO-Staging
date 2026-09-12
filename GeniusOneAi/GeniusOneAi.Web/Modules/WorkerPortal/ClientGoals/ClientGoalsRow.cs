@@ -76,6 +76,37 @@ namespace GeniusOneAi.WorkerPortal.Entities
             set => fields.TenantId[this] = value;
         }
 
+
+        [DisplayName("Episode"), ForeignKey("[dbo].[CrisisEpisodes]", "EpisodeId"), LeftJoin("jEpisode")]
+        public Int32? EpisodeId
+        {
+            get => fields.EpisodeId[this];
+            set => fields.EpisodeId[this] = value;
+        }
+        [DisplayName("Phase"), Size(10)]
+        public String Phase
+        {
+            get => fields.Phase[this];
+            set => fields.Phase[this] = value;
+        }
+        [DisplayName("Library Goal Id")]
+        public Int32? LibraryGoalId
+        {
+            get => fields.LibraryGoalId[this];
+            set => fields.LibraryGoalId[this] = value;
+        }
+        [DisplayName("Source Rule Id")]
+        public Int32? SourceRuleId
+        {
+            get => fields.SourceRuleId[this];
+            set => fields.SourceRuleId[this] = value;
+        }
+        [DisplayName("Protocol Goal"), NotNull]
+        public Boolean? IsProtocol
+        {
+            get => fields.IsProtocol[this];
+            set => fields.IsProtocol[this] = value;
+        }
         public ClientGoalsRow()
         {
         }
@@ -96,6 +127,11 @@ namespace GeniusOneAi.WorkerPortal.Entities
             public Int32Field TenantId;
             public DateTimeField OwnerCreateDate;
             public Int32Field Owner;
+            public Int32Field EpisodeId;
+            public StringField Phase;
+            public Int32Field LibraryGoalId;
+            public Int32Field SourceRuleId;
+            public BooleanField IsProtocol;
         }
     }
 }

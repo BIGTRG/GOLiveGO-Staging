@@ -157,6 +157,24 @@ namespace GeniusOneAi.ProgramNoteManager.Entities
             get => fields.FileName[this];
             set => fields.FileName[this] = value;
         }
+        [DisplayName("Episode")]
+        public Int32? EpisodeId
+        {
+            get => fields.EpisodeId[this];
+            set => fields.EpisodeId[this] = value;
+        }
+        [DisplayName("Encounter #")]
+        public Int32? EncounterNo
+        {
+            get => fields.EncounterNo[this];
+            set => fields.EncounterNo[this] = value;
+        }
+        [DisplayName("Phase"), Size(10)]
+        public String Phase
+        {
+            get => fields.Phase[this];
+            set => fields.Phase[this] = value;
+        }
         public ProgramNotesRow()
         {
         }
@@ -189,6 +207,9 @@ namespace GeniusOneAi.ProgramNoteManager.Entities
             public StringField SignatureImage;
             public StringField SignatureGuid;
             public StringField FileName;
+            public Int32Field EpisodeId;
+            public Int32Field EncounterNo;
+            public StringField Phase;
         }
     }
 }

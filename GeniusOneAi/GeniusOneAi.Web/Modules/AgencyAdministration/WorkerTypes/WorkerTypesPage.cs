@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.WorkerTypesRow))]
     public class WorkerTypesController : Controller
     {
-        [Route("AgencyAdministration/WorkerTypes")]
+        [Route("~/AgencyAdministration/WorkerTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/WorkerTypes/WorkerTypesIndex.cshtml");

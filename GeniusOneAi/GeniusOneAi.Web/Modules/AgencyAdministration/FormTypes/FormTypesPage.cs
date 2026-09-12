@@ -9,7 +9,7 @@ namespace GeniusOneAi.AgencyAdministration.Pages
     [PageAuthorize(typeof(Entities.FormTypesRow))]
     public class FormTypesController : Controller
     {
-        [Route("AgencyAdministration/FormTypes")]
+        [Route("~/AgencyAdministration/FormTypes")]
         public ActionResult Index()
         {
             return View("~/Modules/AgencyAdministration/FormTypes/FormTypesIndex.cshtml");

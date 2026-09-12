@@ -9,7 +9,7 @@ namespace GeniusOneAi.ClientManager.Pages
     [PageAuthorize(typeof(Entities.ClientAuthorizationsRow))]
     public class ClientAuthorizationsController : Controller
     {
-        [Route("ClientManager/ClientAuthorizations")]
+        [Route("~/ClientManager/ClientAuthorizations")]
         public ActionResult Index()
         {
             return View("~/Modules/ClientManager/ClientAuthorizations/ClientAuthorizationsIndex.cshtml");

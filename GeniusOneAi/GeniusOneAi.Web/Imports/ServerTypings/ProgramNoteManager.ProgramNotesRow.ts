@@ -21,6 +21,9 @@
         SignatureImage?: string;
         SignatureGuid?: string;
         FileName?: string;
+        EpisodeId?: number;
+        EncounterNo?: number;
+        Phase?: string;
     }
 
     export namespace ProgramNotesRow {
@@ -53,7 +56,10 @@
             ESignaturePlainText = "ESignaturePlainText",
             SignatureImage = "SignatureImage",
             SignatureGuid = "SignatureGuid",
-            FileName = "FileName"
+            FileName = "FileName",
+            EpisodeId = "EpisodeId",
+            EncounterNo = "EncounterNo",
+            Phase = "Phase"
         }
     }
 }

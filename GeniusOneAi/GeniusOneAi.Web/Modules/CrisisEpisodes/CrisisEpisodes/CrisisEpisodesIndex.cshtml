@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Crisis Episodes";
+}
+
+<div id="GridDiv"></div>
+
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.CrisisEpisodes.CrisisEpisodesGrid($('#GridDiv'), {}).init();
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>
