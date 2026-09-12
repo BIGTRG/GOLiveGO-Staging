@@ -11,7 +11,7 @@ namespace GeniusOneAi.CustomEditors {
             ["Closed", "Closed"]
         ];
         static label(key: string): string {
-            var m = Q.first(EpisodePhaseEditor.items, x => x[0] === key);
+            var m = EpisodePhaseEditor.items.filter(x => x[0] === key)[0];
             return m ? m[1] : (key || "");
         }
         static order(key: string): number {
@@ -34,7 +34,7 @@ namespace GeniusOneAi.CustomEditors {
             ["Other", "Other (see notes)"]
         ];
         static label(key: string): string {
-            var m = Q.first(EpisodeDispositionEditor.items, x => x[0] === key);
+            var m = EpisodeDispositionEditor.items.filter(x => x[0] === key)[0];
             return m ? m[1] : (key || "");
         }
         constructor(container: JQuery) {

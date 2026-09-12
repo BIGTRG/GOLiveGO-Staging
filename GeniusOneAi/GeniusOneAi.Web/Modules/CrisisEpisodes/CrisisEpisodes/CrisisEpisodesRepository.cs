@@ -23,6 +23,18 @@ namespace GeniusOneAi.CrisisEpisodes.Repositories
 
             protected override void ValidateRequest()
             {
+                if (IsCreate)
+                {
+                    // Server-owned defaults must exist before the NotNull validation runs.
+                    Row.OpenedAt ??= DateTime.Now;
+                    Row.Phase = string.IsNullOrEmpty(Row.Phase) ? EpisodePhase.FirstResponder : Row.Phase;
+                    Row.EncounterCount ??= 0;
+                    if (Row.TenantId == null && Row.ClientId != null)
+                    {
+                        var c = ClientManager.Entities.ClientsRow.Fields;
+                        Row.TenantId = Connection.TryFirst<ClientManager.Entities.ClientsRow>(q => q.Select(c.TenantId).Where(c.ClientId == Row.ClientId.Value))?.TenantId;
+                    }
+                }
                 base.ValidateRequest();
                 if (IsCreate)
                 {

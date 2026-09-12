@@ -41,7 +41,7 @@ namespace GeniusOneAi.ClientManager {
                 ((new ClientManager.ClientGoalsGrid(this.byId('ClientGoalsGrid')) as any));
 
             this.episodesGrid =
-                ((new CrisisEpisodes.CrisisEpisodesGrid(this.byId('ClientEpisodesGrid')) as any));
+                ((new CrisisEpisodes.CrisisEpisodesGrid(this.byId('ClientEpisodesGrid'), { clientScoped: true }) as any));
 
             this.documentsGrid =
                 ((new ClientManager.ClientDocumentsGrid(this.byId('ClientDocumentsGrid')) as any));

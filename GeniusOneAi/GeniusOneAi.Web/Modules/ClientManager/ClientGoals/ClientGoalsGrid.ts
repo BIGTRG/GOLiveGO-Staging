@@ -57,10 +57,10 @@ namespace GeniusOneAi.ClientManager {
         protected getDefaultSortBy() { return ['Phase', 'ClientGoalId']; }
         protected getColumns() {
             var columns = super.getColumns();
-            var phase = Q.first(columns, c => c.field === 'Phase');
+            var phase = columns.filter(c => c.field === 'Phase')[0];
             if (phase)
                 phase.format = ctx => Q.htmlEncode(CustomEditors.EpisodePhaseEditor.label(ctx.value));
-            var prot = Q.first(columns, c => c.field === 'IsProtocol');
+            var prot = columns.filter(c => c.field === 'IsProtocol')[0];
             if (prot)
                 prot.format = ctx => ctx.value ? '<i class="fa fa-lock text-blue" title="Protocol goal - required by the pathway"></i>' : '';
 

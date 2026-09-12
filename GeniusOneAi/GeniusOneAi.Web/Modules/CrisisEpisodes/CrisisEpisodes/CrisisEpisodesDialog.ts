@@ -40,7 +40,7 @@ namespace GeniusOneAi.CrisisEpisodes {
                 onClick: () => {
                     if (this.isNew() || !this.entity || this.entity.ClosedAt) return;
                     var disp = this.form.Disposition.value || 'Discharged';
-                    Q.confirm('Close episode #' + this.entity.EpisodeId + ' as "' + EpisodeDispositionEditor.label(disp) + '"? Open goals will be marked Incomplete.', () => {
+                    Q.confirm('Close episode #' + this.entity.EpisodeId + ' as "' + CustomEditors.EpisodeDispositionEditor.label(disp) + '"? Open goals will be marked Incomplete.', () => {
                         CrisisEpisodesService.Close({ EpisodeId: this.entity.EpisodeId, Disposition: disp, Notes: this.form.Notes.value }, () => {
                             Q.notifySuccess('Episode closed');
                             this.dialogClose();
