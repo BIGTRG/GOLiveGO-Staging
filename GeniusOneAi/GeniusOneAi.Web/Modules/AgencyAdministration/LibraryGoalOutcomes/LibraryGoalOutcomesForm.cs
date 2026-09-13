@@ -10,7 +10,7 @@ namespace GeniusOneAi.AgencyAdministration.Forms
     [BasedOnRow(typeof(LibraryGoalOutcomesRow), CheckNames = true)]
     public class LibraryGoalOutcomesForm
     {
-        [DisplayName("#"), HalfWidth]
+        [Tab("Outcome"), DisplayName("#"), HalfWidth]
         public Int32 SortOrder { get; set; }
         [DisplayName("Counts as"), StatusRuleEditor, HalfWidth]
         public String StatusRule { get; set; }
@@ -20,7 +20,7 @@ namespace GeniusOneAi.AgencyAdministration.Forms
         public String EffectivenessTemplate { get; set; }
         [DisplayName("Outcome is copied to the Crisis Plan")]
         public Boolean SendsToCrisisPlan { get; set; }
-        [Category("Questions the worker answers (no typing)"), OutcomeQuestionsEditor, DisplayName(""), LabelWidth(0)]
+        [Tab("Questions the worker answers"), OutcomeQuestionsEditor, DisplayName(""), LabelWidth(0)]
         public List<OutcomeQuestionsRow> QuestionsList { get; set; }
     }
 }

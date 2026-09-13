@@ -17,7 +17,7 @@ namespace GeniusOneAi.CustomLookups
         {
             base.PrepareQuery(query);
             var f = CrisisNeedsRow.Fields;
-            query.Select(f.Category).Select(f.CategoryLabel).Select(f.SortOrder).Where(f.IsActive == 1).OrderBy(f.SortOrder);
+            query.Select(f.NeedKey).Select(f.Category).Select(f.CategoryLabel).Select(f.SortOrder).Where(f.IsActive == 1).OrderBy(f.SortOrder);
         }
     }
 }

@@ -1,6 +1,14 @@
 ﻿namespace GeniusOneAi.ClientManager {
 
-    export interface LibrarySelectorContext { clientID: number; episodeId?: number; phase?: string; }
+    export interface LibrarySelectorContext { clientID: number; episodeId?: number; phase?: string; onAdded?: () => void; }
+
+    /** Need label from the CrisisNeeds lookup (NeedKey -> Label); falls back to the key. */
+    export function needLabel(key: string): string {
+        if (!key) return '';
+        var lk = AgencyAdministration.CrisisNeedsRow.getLookup();
+        var it = lk && lk.itemById ? lk.itemById[key] : null;
+        return it ? it.Label : key;
+    }
 
     @Serenity.Decorators.registerClass()
     export class ClientGoalsLibrarySelectorGrid extends Serenity.EntityGrid<ClientGoalsLibrarySelectorRow, any> {
@@ -15,6 +23,7 @@
         public clientID: number;
         public episodeId: number;
         public phase: string;
+        public onAdded: () => void;
 
         constructor(container: JQuery) {
             super(container);
@@ -25,6 +34,7 @@
             this.clientID = ctx.clientID;
             this.episodeId = ctx.episodeId;
             this.phase = ctx.phase;
+            this.onAdded = ctx.onAdded;
             if (this.phaseSelect) this.phaseSelect.value = this.phase || '';
             this.refresh();
         }
@@ -44,7 +54,7 @@
         protected onViewSubmit() {
             if (!super.onViewSubmit()) return false;
             var req = this.view.params as Serenity.ListRequest;
-            req.Criteria = Serenity.Criteria.and(req.Criteria, [['IsActive'], '=', true], [['Code'], 'is not', null]);
+            req.Criteria = Serenity.Criteria.and(req.Criteria, [['IsActive'], '=', true], ['is not null', ['Code']]);
             if (this.phase) req.Criteria = Serenity.Criteria.and(req.Criteria, [['Phase'], '=', this.phase]);
             return true;
         }
@@ -76,8 +86,8 @@
                         ClientGoalsLibrarySelectorService.CopyLibraryGoals({ ClientId: this.clientID, EpisodeId: this.episodeId, Phase: this.phase, Ids: ids }, response => {
                             Q.notifySuccess('Added ' + response.Copied + ' goal(s)' + (response.Skipped ? ', ' + response.Skipped + ' already on this episode' : '') + '.');
                             this.rowSelection.resetCheckedAndRefresh();
-                            $('.s-ClientGoalsGrid').each((i, el) => { var g = $(el).data('grid'); if (g && g.refresh) g.refresh(); });
                             this.element.closest('.ui-dialog-content').dialog('close');
+                            if (this.onAdded) this.onAdded();
                         });
                     });
                 }
@@ -90,7 +100,7 @@
             var prot = columns.filter(c => c.field === 'IsProtocol')[0];
             if (prot) prot.format = ctx => ctx.value ? '<i class="fa fa-lock text-blue" title="Protocol goal - locked once added"></i>' : '';
             var need = columns.filter(c => c.field === 'NeedKey')[0];
-            if (need) need.format = ctx => Q.htmlEncode(ctx.item.NeedLabel || ctx.value || '');
+            if (need) need.format = ctx => Q.htmlEncode(needLabel(ctx.value));
             columns.splice(0, 0, Serenity.GridRowSelectionMixin.createSelectColumn(() => this.rowSelection));
             return columns;
         }

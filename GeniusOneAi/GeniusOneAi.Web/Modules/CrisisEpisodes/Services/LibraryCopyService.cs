@@ -5,7 +5,7 @@ using Serenity.Data;
 using Serenity.Services;
 using GeniusOneAi.AgencyAdministration;
 using GoalRow = GeniusOneAi.ClientManager.Entities.ClientGoalsRow;
-using InterRow = GeniusOneAi.ClientManager.Entities.ClientGoalInterventionsRow;
+using InterRow = GeniusOneAi.ClientManager.ClientGoalInterventionsRow;
 using OutRow = GeniusOneAi.ClientManager.ClientGoalOutcomesRow;
 
 namespace GeniusOneAi.CrisisEpisodes.Services

@@ -11,7 +11,7 @@ namespace GeniusOneAi.AgencyAdministration.Forms
     [BasedOnRow(typeof(ClientGoalsLibraryRow), CheckNames = true)]
     public class ClientGoalsLibraryForm
     {
-        [Category("Goal")]
+        [Tab("Goal")]
         [DisplayName("Code"), HalfWidth, ReadOnly(true)]
         public String Code { get; set; }
         [DisplayName("Goal Type"), LookupEditor(typeof(ProgramNoteTypeLookup)), HalfWidth]
@@ -43,11 +43,11 @@ namespace GeniusOneAi.AgencyAdministration.Forms
         [DisplayName("Continues into (next-phase goal)"), LookupEditor("AgencyAdministration.ClientGoalsLibrary"), HalfWidth]
         public Int32 LinkedNextPhaseGoalId { get; set; }
 
-        [Category("Interventions (checkboxes on the client goal)")]
+        [Tab("Interventions")]
         [ClientGoalInterventionsLibraryEditor, DisplayName(""), LabelWidth(0)]
         public List<ClientGoalInterventionsLibraryRow> ClientInterventionsLibraryList { get; set; }
 
-        [Category("Projected outcomes and the questions the worker answers")]
+        [Tab("Outcomes and Questions")]
         [LibraryGoalOutcomesEditor, DisplayName(""), LabelWidth(0)]
         public List<LibraryGoalOutcomesRow> OutcomesList { get; set; }
     }

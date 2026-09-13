@@ -6,12 +6,13 @@
         clientID: number;
         episodeId: number;
         phase: string;
+        onAdded: () => void;
         constructor() { super(); }
         protected getTemplate() { return "<div id='~_Banner' class='goal-library-banner'></div><div id='~_Grid'></div>"; }
         protected onDialogOpen() {
             super.onDialogOpen();
             this.goalsGrid = new ClientGoalsLibrarySelectorGrid(this.byId('Grid'));
-            this.goalsGrid.setContext({ clientID: this.clientID, episodeId: this.episodeId, phase: this.phase });
+            this.goalsGrid.setContext({ clientID: this.clientID, episodeId: this.episodeId, phase: this.phase, onAdded: this.onAdded });
             var b = this.byId('Banner');
             if (this.episodeId)
                 b.text('Open episode #' + this.episodeId + ' - showing ' + (this.phase ? CustomEditors.EpisodePhaseEditor.label(this.phase) : 'all phases') + ' goals. Goals are keyed to the next encounter, not to weekdays.');
@@ -28,10 +29,11 @@
     }
 
     /** Opens the library picker for the client's open episode (phase pre-selected), or plain if none. */
-    export function openGoalLibraryForClient(clientId: number, phase?: string) {
+    export function openGoalLibraryForClient(clientId: number, onAdded?: () => void, phase?: string) {
         CrisisEpisodes.CrisisEpisodesService.GetOpen({ ClientId: clientId }, r => {
             var dlg = new ClientGoalsLibrarySelectorDialog();
             dlg.clientID = clientId;
+            dlg.onAdded = onAdded;
             if (r.Entity) { dlg.episodeId = r.Entity.EpisodeId; dlg.phase = phase || r.Entity.Phase; }
             dlg.dialogOpen(false);
         });
