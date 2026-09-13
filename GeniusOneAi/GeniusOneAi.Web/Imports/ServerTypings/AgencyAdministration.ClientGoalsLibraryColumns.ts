@@ -1,6 +1,5 @@
-﻿
-namespace GeniusOneAi.AgencyAdministration {
-    export class ClientGoalsLibraryColumns {
-        static columnsKey = 'AgencyAdministration.ClientGoalsLibrary';
+﻿namespace GeniusOneAi.AgencyAdministration {
+    export namespace ClientGoalsLibraryColumns {
+        export const columnsKey = 'AgencyAdministration.ClientGoalsLibrary';
     }
 }

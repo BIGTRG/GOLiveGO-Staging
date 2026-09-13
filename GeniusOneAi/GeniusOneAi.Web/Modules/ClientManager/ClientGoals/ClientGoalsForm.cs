@@ -29,6 +29,10 @@ namespace GeniusOneAi.ClientManager.Forms
         public Int32 EpisodeId { get; set; }
         [Hidden]
         public Int32 LibraryGoalId { get; set; }
+        [DisplayName("Need it answers"), LookupEditor("AgencyAdministration.CrisisNeeds"), HalfWidth]
+        public String NeedKey { get; set; }
+        [Hidden]
+        public Int32 CarriedFromGoalId { get; set; }
         [Category("Patient Goal")]
         [DisplayName("Goal Type")]
         [LookupEditor(typeof(ProgramNoteTypeLookup))]
@@ -44,16 +48,23 @@ namespace GeniusOneAi.ClientManager.Forms
         public String Description { get; set; }
         [DisplayName("Status")]
         [HalfWidth]
-        [ClientGoalEditor]
+        [GoalStatusEditor]
         public String Status { get; set; }
         [DisplayName("Completed")]
         [HalfWidth][LabelWidth(90)]
         public DateTime CompletionDate { get; set; }
+        [DisplayName("Effectiveness measure (how we know the acute problem reduced)"), TextAreaEditor]
+        public String EffectivenessMeasure { get; set; }
         [Category("Interventions")]
         [ClientGoalInterventionsEditor]
         [DisplayName("")]
         [LabelWidth(0)]
         public List<ClientGoalInterventionsRow> ClientInterventionsList { get; set; }
+        [Category("Projected outcomes (checked off through the note questions)")]
+        [ClientGoalOutcomesEditor]
+        [DisplayName("")]
+        [LabelWidth(0)]
+        public List<ClientGoalOutcomesRow> OutcomesList { get; set; }
         [Hidden]
         public Int32 ClientId { get; set; }
     }

@@ -24,6 +24,11 @@
         LibraryGoalId?: number;
         SourceRuleId?: number;
         IsProtocol?: boolean;
+        NeedKey?: string;
+        NeedLabel?: string;
+        CarriedFromGoalId?: number;
+        EffectivenessMeasure?: string;
+        OutcomesList?: ClientGoalOutcomesRow[];
     }
 
     export namespace ClientGoalsRow {
@@ -59,7 +64,12 @@
             Phase = "Phase",
             LibraryGoalId = "LibraryGoalId",
             SourceRuleId = "SourceRuleId",
-            IsProtocol = "IsProtocol"
+            IsProtocol = "IsProtocol",
+            NeedKey = "NeedKey",
+            NeedLabel = "NeedLabel",
+            CarriedFromGoalId = "CarriedFromGoalId",
+            EffectivenessMeasure = "EffectivenessMeasure",
+            OutcomesList = "OutcomesList"
         }
     }
 }

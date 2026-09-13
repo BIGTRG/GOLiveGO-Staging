@@ -52,6 +52,8 @@ using Administration = GeniusOneAi.Administration.Pages;
 [assembly: NavigationLink(2100, "Agency Administration/Program Note Templates", typeof(aap.ProgramNoteTemplatesController), icon: null)]
 [assembly: NavigationLink(2101, "Agency Administration/Program Note Types", typeof(aap.ProgramNoteTypeController), icon: null)]
 [assembly: NavigationLink(2102, "Agency Administration/Client Goal Library", typeof(aap.ClientGoalsLibraryController), icon: null)]
+[assembly: NavigationLink(2103, "Agency Administration/Resource Directory", typeof(aap.ResourceDirectoryController), icon: null)]
+[assembly: NavigationLink(2104, "Agency Administration/Crisis Needs", typeof(aap.CrisisNeedsController), icon: null)]
 [assembly: NavigationMenu(2200, "Agency Administration/Agency Types", icon: null)]
 [assembly: NavigationLink(2201, "Agency Administration/Agency Types/Credential Types", typeof(aap.CredentialTypesController), icon: null)]
 [assembly: NavigationLink(2202, "Agency Administration/Agency Types/Form Types", typeof(aap.FormTypesController), icon: null)]

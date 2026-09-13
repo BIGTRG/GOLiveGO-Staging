@@ -1,6 +1,4 @@
-﻿
-namespace GeniusOneAi.AgencyAdministration {
-
+﻿namespace GeniusOneAi.AgencyAdministration {
     @Serenity.Decorators.registerClass()
     export class ClientGoalsLibraryDialog extends Serenity.EntityDialog<ClientGoalsLibraryRow, any> {
         protected getFormKey() { return ClientGoalsLibraryForm.formKey; }
@@ -9,22 +7,22 @@ namespace GeniusOneAi.AgencyAdministration {
         protected getNameProperty() { return ClientGoalsLibraryRow.nameProperty; }
         protected getService() { return ClientGoalsLibraryService.baseUrl; }
         protected form = new ClientGoalsLibraryForm(this.idPrefix);
-        protected getDialogOptions()
-        {
+        protected getDialogOptions() {
             var opt = super.getDialogOptions();
-            opt.width = 800;
-            opt.height = 800;
+            opt.width = 960;
+            opt.height = 820;
             return opt;
         }
-        protected updateTitle(): void
-        {
-
-            this.dialogTitle = 'Library Goal';
+        protected updateTitle(): void {
+            var e = this.entity || {} as ClientGoalsLibraryRow;
+            this.dialogTitle = 'Library Goal' + (e.Code ? ' ' + e.Code : '') + (e.Phase ? ' - ' + CustomEditors.EpisodePhaseEditor.label(e.Phase) : '');
         }
-        protected updateInterface(): void
-        {
-            super.updateInterface();
-            $('.category-links').remove();
+        protected getSaveEntity() {
+            var e = super.getSaveEntity();
+            if (e.IsActive == null) e.IsActive = true;
+            if (!e.Origin) e.Origin = 'Clinician';
+            if (!e.GoalType) e.GoalType = 'Mobile Crisis';
+            return e;
         }
     }
 }

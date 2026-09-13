@@ -73,3 +73,9 @@
     opacity: 0.2;
     pointer-events: none;
 }
+/* encounter engine: goal status chips, library banner */
+.goal-st-met,.goal-st-part,.goal-st-notmet,.goal-st-active,.goal-st-off{display:inline-block;padding:1px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.goal-st-met{background:#e6f4ea;color:#1e7e34}.goal-st-part{background:#fff4d6;color:#8a6100}.goal-st-notmet{background:#fde8e8;color:#b02a37}
+.goal-st-active{background:#e7f0ff;color:#1f63d8}.goal-st-off{background:#eee;color:#666}
+.goal-library-banner{margin:0 0 6px 0;padding:6px 10px;background:#f3f6fb;border-left:3px solid #1f63d8;font-size:12px;color:#334}
+.goal-phase-group{font-weight:600}.goal-phase-count{color:#73819d;font-size:11px;margin-left:6px}

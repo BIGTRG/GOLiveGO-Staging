@@ -1,8 +1,22 @@
 ﻿namespace GeniusOneAi.AgencyAdministration {
     export interface ClientGoalsLibraryForm {
+        Code: Serenity.StringEditor;
         GoalType: Serenity.LookupEditor;
+        Phase: CustomEditors.EpisodePhaseEditor;
+        NeedKey: Serenity.LookupEditor;
+        Domain: Serenity.StringEditor;
+        LeadRole: Serenity.StringEditor;
+        TriggerKey: Serenity.TextAreaEditor;
         Description: Serenity.TextAreaEditor;
+        EffectivenessMeasure: Serenity.TextAreaEditor;
+        Timeframe: Serenity.StringEditor;
+        ResourceType: CustomEditors.ResourceTypeEditor;
+        IsProtocol: Serenity.BooleanEditor;
+        IsActive: Serenity.BooleanEditor;
+        Origin: CustomEditors.GoalOriginEditor;
+        LinkedNextPhaseGoalId: Serenity.LookupEditor;
         ClientInterventionsLibraryList: ClientGoalInterventionsLibraryEditor;
+        OutcomesList: LibraryGoalOutcomesEditor;
     }
 
     export class ClientGoalsLibraryForm extends Serenity.PrefixedContext {
@@ -15,15 +29,24 @@
             if (!ClientGoalsLibraryForm.init)  {
                 ClientGoalsLibraryForm.init = true;
 
-                var s = Serenity;
-                var w0 = s.LookupEditor;
-                var w1 = s.TextAreaEditor;
-                var w2 = ClientGoalInterventionsLibraryEditor;
-
                 Q.initFormType(ClientGoalsLibraryForm, [
-                    'GoalType', w0,
-                    'Description', w1,
-                    'ClientInterventionsLibraryList', w2
+                    'Code', Serenity.StringEditor,
+                    'GoalType', Serenity.LookupEditor,
+                    'Phase', CustomEditors.EpisodePhaseEditor,
+                    'NeedKey', Serenity.LookupEditor,
+                    'Domain', Serenity.StringEditor,
+                    'LeadRole', Serenity.StringEditor,
+                    'TriggerKey', Serenity.TextAreaEditor,
+                    'Description', Serenity.TextAreaEditor,
+                    'EffectivenessMeasure', Serenity.TextAreaEditor,
+                    'Timeframe', Serenity.StringEditor,
+                    'ResourceType', CustomEditors.ResourceTypeEditor,
+                    'IsProtocol', Serenity.BooleanEditor,
+                    'IsActive', Serenity.BooleanEditor,
+                    'Origin', CustomEditors.GoalOriginEditor,
+                    'LinkedNextPhaseGoalId', Serenity.LookupEditor,
+                    'ClientInterventionsLibraryList', ClientGoalInterventionsLibraryEditor,
+                    'OutcomesList', LibraryGoalOutcomesEditor
                 ]);
             }
         }

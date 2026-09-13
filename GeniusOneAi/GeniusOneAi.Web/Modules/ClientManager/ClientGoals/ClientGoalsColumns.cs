@@ -13,6 +13,8 @@ namespace GeniusOneAi.ClientManager.Columns
     [BasedOnRow(typeof(Entities.ClientGoalsRow), CheckNames = true)]
     public class ClientGoalsColumns
     {
+        [DisplayName("Need"), Width(160)]
+        public String NeedLabel { get; set; }
         [DisplayName("Phase")]
         [Width(210)]
         public String Phase { get; set; }

@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Resource Directory";
+}
+<div id="GridDiv"></div>
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.AgencyAdministration.ResourceDirectoryGrid($('#GridDiv'), {}).init();
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

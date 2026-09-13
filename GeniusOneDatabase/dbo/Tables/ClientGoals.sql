@@ -21,6 +21,9 @@
     [LibraryGoalId]    INT            NULL,
     [SourceRuleId]     INT            NULL,
     [IsProtocol]       BIT            CONSTRAINT [DF_ClientGoals_IsProtocol] DEFAULT ((0)) NOT NULL,
+    [NeedKey]              NVARCHAR (40)  NULL,
+    [CarriedFromGoalId]    INT            NULL,
+    [EffectivenessMeasure] NVARCHAR (500) NULL,
     CONSTRAINT [PK_client_goals_id] PRIMARY KEY CLUSTERED ([ClientGoalId] ASC)
 );
 

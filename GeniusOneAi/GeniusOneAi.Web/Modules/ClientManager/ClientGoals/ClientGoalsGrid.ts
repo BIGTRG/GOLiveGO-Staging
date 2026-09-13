@@ -60,6 +60,8 @@ namespace GeniusOneAi.ClientManager {
             var phase = columns.filter(c => c.field === 'Phase')[0];
             if (phase)
                 phase.format = ctx => Q.htmlEncode(CustomEditors.EpisodePhaseEditor.label(ctx.value));
+            var st = columns.filter(c => c.field === 'Status')[0];
+            if (st) st.format = ctx => '<span class="' + CustomEditors.GoalStatusEditor.css(ctx.value) + '">' + Q.htmlEncode(ctx.value || 'Active') + '</span>';
             var prot = columns.filter(c => c.field === 'IsProtocol')[0];
             if (prot)
                 prot.format = ctx => ctx.value ? '<i class="fa fa-lock text-blue" title="Protocol goal - required by the pathway"></i>' : '';
@@ -80,7 +82,7 @@ namespace GeniusOneAi.ClientManager {
             buttons.push({
                 title: 'Add From Library',
                 cssClass: '',
-                onClick: e => loadGoalLibraryDocuments(this.clientID),
+                onClick: e => openGoalLibraryForClient(Number(this.clientID)),
                 separator: true
             });
             return buttons;

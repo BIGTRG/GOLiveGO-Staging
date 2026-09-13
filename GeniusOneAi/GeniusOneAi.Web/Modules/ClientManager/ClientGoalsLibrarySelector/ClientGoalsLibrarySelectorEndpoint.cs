@@ -8,6 +8,7 @@ using Serenity.Web;
 using System;
 using System.Data;
 using System.Globalization;
+using System.Linq;
 using MyRow = GeniusOneAi.ClientManager.ClientGoalsLibrarySelectorRow;
 
 namespace GeniusOneAi.ClientManager.Endpoints
@@ -64,5 +65,30 @@ namespace GeniusOneAi.ClientManager.Endpoints
         {
             return PatientExtention.CopyGoalsToClient(ids);
         }
+
+        /// <summary>Phase-aware copy: goal + interventions + projected outcomes onto the client's open episode.</summary>
+        [HttpPost]
+        public CopyLibraryGoalsResponse CopyLibraryGoals(IUnitOfWork uow, CopyLibraryGoalsRequest request)
+        {
+            if (request.ClientId == null || request.Ids == null || request.Ids.Length == 0)
+                throw new ValidationError("Select at least one goal.");
+            var uid = int.TryParse(User?.GetIdentifier(), out var u) ? u : (int?)null;
+            var r = CrisisEpisodes.Services.LibraryCopyService.Copy(uow, request.ClientId.Value, request.EpisodeId, request.Phase, request.Ids, uid);
+            return new CopyLibraryGoalsResponse { Copied = r.Copied, Skipped = r.Skipped, GoalIds = r.GoalIds.ToArray() };
+        }
+    }
+
+    public class CopyLibraryGoalsRequest : ServiceRequest
+    {
+        public int? ClientId { get; set; }
+        public int? EpisodeId { get; set; }
+        public string Phase { get; set; }
+        public int[] Ids { get; set; }
+    }
+    public class CopyLibraryGoalsResponse : ServiceResponse
+    {
+        public int Copied { get; set; }
+        public int Skipped { get; set; }
+        public int[] GoalIds { get; set; }
     }
 }

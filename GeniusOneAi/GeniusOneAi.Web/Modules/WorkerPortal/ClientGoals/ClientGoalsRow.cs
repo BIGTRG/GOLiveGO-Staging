@@ -101,6 +101,30 @@ namespace GeniusOneAi.WorkerPortal.Entities
             get => fields.SourceRuleId[this];
             set => fields.SourceRuleId[this] = value;
         }
+        [DisplayName("Need"), Size(40), ForeignKey("[dbo].[CrisisNeeds]", "NeedKey"), LeftJoin("jNeed"), TextualField("NeedLabel")]
+        public String NeedKey
+        {
+            get => fields.NeedKey[this];
+            set => fields.NeedKey[this] = value;
+        }
+        [DisplayName("Need"), Expression("jNeed.[Label]")]
+        public String NeedLabel
+        {
+            get => fields.NeedLabel[this];
+            set => fields.NeedLabel[this] = value;
+        }
+        [DisplayName("Carried from goal")]
+        public Int32? CarriedFromGoalId
+        {
+            get => fields.CarriedFromGoalId[this];
+            set => fields.CarriedFromGoalId[this] = value;
+        }
+        [DisplayName("Effectiveness Measure"), Size(500)]
+        public String EffectivenessMeasure
+        {
+            get => fields.EffectivenessMeasure[this];
+            set => fields.EffectivenessMeasure[this] = value;
+        }
         [DisplayName("Protocol Goal"), NotNull]
         public Boolean? IsProtocol
         {
@@ -132,6 +156,11 @@ namespace GeniusOneAi.WorkerPortal.Entities
             public Int32Field LibraryGoalId;
             public Int32Field SourceRuleId;
             public BooleanField IsProtocol;
+            public StringField NeedKey;
+            public StringField NeedLabel;
+            public Int32Field CarriedFromGoalId;
+            public StringField EffectivenessMeasure;
+
         }
     }
 }
