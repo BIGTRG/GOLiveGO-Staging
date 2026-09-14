@@ -1,0 +1,10 @@
+@{
+    ViewData["Title"] = "Crisis Assessments";
+}
+<div id="GridDiv"></div>
+<script type="text/javascript">
+    jQuery(function () {
+        new GeniusOneAi.CrisisAssessments.CrisisAssessmentsGrid($('#GridDiv'), {}).init();
+        Q.initFullHeightGridPage($('#GridDiv'));
+    });
+</script>

@@ -32,6 +32,7 @@ using Administration = GeniusOneAi.Administration.Pages;
 [assembly: NavigationMenu(500, "Patient Manager", icon: "fa-briefcase")]
 [assembly: NavigationLink(501, "Patient Manager/Patients", typeof(pat.ClientsController), icon: null)]
 [assembly: NavigationLink(502, "Patient Manager/Crisis Episodes", typeof(GeniusOneAi.CrisisEpisodes.Pages.CrisisEpisodesController), icon: null)]
+[assembly: NavigationLink(503, "Patient Manager/Crisis Assessments", typeof(GeniusOneAi.CrisisAssessments.Pages.CrisisAssessmentsController), icon: null)]
 [assembly: NavigationMenu(600, "Document Manager", icon: "fa-paperclip")]
 //[assembly: NavigationLink(601, "Document Manager/Dashboard", typeof(doc.DocumentDashboardController), icon: null)]
 [assembly: NavigationLink(601, "Document Manager/Content Library", typeof(doc.DocumentsController), icon: null)]

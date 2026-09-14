@@ -12,6 +12,7 @@ namespace GeniusOneAi.ClientManager {
         private authorizationsGrid = ClientManager.ClientAuthorizationsGrid;
         private goalsGrid = ClientManager.ClientGoalsGrid;
         private episodesGrid = CrisisEpisodes.CrisisEpisodesGrid;
+        private assessmentsGrid = CrisisAssessments.CrisisAssessmentsGrid;
         private documentsGrid = ClientManager.ClientDocumentsGrid;
         private teamAssignmentGrid = ClientManager.TeamAssignmentsGrid;
 
@@ -42,6 +43,10 @@ namespace GeniusOneAi.ClientManager {
 
             this.episodesGrid =
                 ((new CrisisEpisodes.CrisisEpisodesGrid(this.byId('ClientEpisodesGrid'), { clientScoped: true }) as any));
+
+            this.assessmentsGrid =
+                ((new CrisisAssessments.CrisisAssessmentsGrid(this.byId('ClientAssessmentsGrid'), { clientScoped: true }) as any));
+            (this.assessmentsGrid as any).onCompleted = () => { (this.goalsGrid as any).refresh(); (this.episodesGrid as any).refresh(); };
 
             this.documentsGrid =
                 ((new ClientManager.ClientDocumentsGrid(this.byId('ClientDocumentsGrid')) as any));
@@ -218,12 +223,14 @@ namespace GeniusOneAi.ClientManager {
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientAuthorizations', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientGoals', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientEpisodes', this.isNewOrDeleted());
+            Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientAssessments', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientDocuments', this.isNewOrDeleted());
             Serenity.TabsExtensions.setDisabled(this.tabs, 'ClientTeam', this.isNewOrDeleted());
 
             this.authorizationsGrid.clientID = entity.ClientId;
             this.goalsGrid.clientID = entity.ClientId;
             this.episodesGrid.clientID = entity.ClientId;
+            this.assessmentsGrid.clientID = entity.ClientId;
             this.documentsGrid.clientID = entity.ClientId;
             this.teamAssignmentGrid.clientID = entity.ClientId;
         }
