@@ -84,6 +84,7 @@ namespace GeniusOneAi.CrisisEpisodes.Services
         public string DischargeSummary { get; set; }
         public List<NoteGoal> Goals { get; set; } = new();
         public GateState Gate { get; set; } = new();
+        public string ConsentGateMessage { get; set; }
         public List<PlanEntry> CrisisPlan { get; set; } = new();
         public List<EpisodeGoalSummary> EpisodeGoals { get; set; } = new();
         public string Field01 { get; set; }
@@ -276,6 +277,7 @@ SELECT @noteId, ClientGoalId, ClientGoalInterventionId, 0, @tenantId FROM Client
                 Field01 = h.Field01, Field02 = h.Field02, Field03 = h.Field03, Field04 = h.Field04,
             };
             d.Goals = LoadGoals(c, h.ProgramNoteId);
+            if (h.Phase == EpisodePhase.FirstResponder && h.EpisodeId != null) d.ConsentGateMessage = ConsentService.GateMessage(c, h.EpisodeId.Value);
             d.Gate = Gate(d);
             d.CrisisPlan = Q<PlanEntry>(c, @"SELECT e.EntryId, e.EntryType, e.EntryText, e.SourceGoalId, e.SourceNoteId FROM ClientCrisisPlanEntries e JOIN ClientCrisisPlans p ON p.PlanId = e.PlanId
 WHERE p.EpisodeId = @ep AND e.IsActive = 1 ORDER BY e.EntryId", new { ep = h.EpisodeId }).ToList();
@@ -472,6 +474,7 @@ VALUES (@planId, 1, @type, @text, @gid, @qid, @noteId, GETDATE(), @userId, 1, @t
                 }
                 n++;
             }
+            if (d.ConsentGateMessage != null) g.Missing.Add(d.ConsentGateMessage);
             if (d.SafetyConcern == null) g.Missing.Add("Safety: answer whether there were immediate safety concerns");
             else if (d.SafetyConcern == true && string.IsNullOrWhiteSpace(d.SafetyText)) g.Missing.Add("Safety: explain the concern and who was notified");
             if (d.Phase == EpisodePhase.PreDischarge && d.LongTermAdmission == null) g.Missing.Add("Discharge: state whether the client was admitted to a long-term service (skips Day 7/14/21)");

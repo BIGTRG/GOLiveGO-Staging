@@ -29,6 +29,12 @@ namespace GeniusOneAi.CrisisEpisodes.Services
 
         public static CrisisEpisodesRow Open(IUnitOfWork uow, int clientId, string presentingTrigger, int? userId, int? tenantId, DateTime? projectedDischarge = null)
         {
+            var row = OpenCore(uow, clientId, presentingTrigger, userId, tenantId, projectedDischarge);
+            if (row?.EpisodeId != null) ConsentService.EnsureRequests(uow.Connection, row.EpisodeId.Value, userId);
+            return row;
+        }
+        private static CrisisEpisodesRow OpenCore(IUnitOfWork uow, int clientId, string presentingTrigger, int? userId, int? tenantId, DateTime? projectedDischarge = null)
+        {
             var existing = GetOpen(uow.Connection, clientId);
             if (existing != null)
                 throw new ValidationError("OpenEpisodeExists",

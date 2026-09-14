@@ -124,6 +124,10 @@
     <Build Include="dbo\Tables\ClientCrisisPlans.sql" />
     <Build Include="dbo\Tables\ClientCrisisPlanEntries.sql" />
     <Build Include="dbo\Tables\CrisisEpisodes.sql" />
+    <Build Include="dbo\Tables\ConsentAudit.sql" />
+    <Build Include="dbo\Tables\ConsentInvites.sql" />
+    <Build Include="dbo\Tables\ConsentRequests.sql" />
+    <Build Include="dbo\Tables\ConsentTemplates.sql" />
     <Build Include="dbo\Tables\CrisisEpisodeFollowUps.sql" />
     <Build Include="dbo\Tables\EncounterNoteAnswers.sql" />
     <Build Include="dbo\Tables\EncounterNoteInterventions.sql" />

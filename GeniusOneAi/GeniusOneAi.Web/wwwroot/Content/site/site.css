@@ -230,3 +230,16 @@ textarea.enp-mirrored { background: #fbfcfe !important; color: #253a63; }
 .ep-tl-fu { margin-top: 8px; } .ep-fu { display: inline-block; margin: 2px 8px 2px 0; padding: 2px 8px; border-radius: 10px; background: #e6ebf5; }
 .ep-fu.Completed { background: #e3f6ea; color: #1d7a46; } .ep-fu.Started { background: #fff3d6; }
 .ep-fu-start { margin-left: 4px; font-weight: 600; cursor: pointer; }
+
+/* Phase 5 - intake consent panel */
+.ep-consent { margin: 0 0 14px; padding: 12px 14px; background: #fbfaf6; border: 1px solid #e3dcc8; border-radius: 4px; font-size: 12px; }
+.cp-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.cp-pill { padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; } .cp-pill.ok { background: #d9efe1; color: #1f6b3d; } .cp-pill.warn { background: #fbe9c8; color: #8a5a00; } .cp-pill.bad { background: #f6d5d0; color: #9b2c1f; }
+.cp-table { width: 100%; border-collapse: collapse; background: #fff; } .cp-table th { text-align: left; font-size: 11px; color: #667; padding: 5px 8px; border-bottom: 1px solid #e3dcc8; } .cp-table td { padding: 6px 8px; border-bottom: 1px solid #eee; vertical-align: top; }
+.cp-title { color: #556; font-size: 11px; } .cp-by { color: #445; } .cp-act { text-align: right; white-space: nowrap; }
+.cp-st { padding: 2px 7px; border-radius: 3px; font-size: 11px; font-weight: 600; background: #eee; color: #444; } .cp-st.Signed { background: #d9efe1; color: #1f6b3d; } .cp-st.Verbal { background: #fbe9c8; color: #8a5a00; } .cp-st.Sent { background: #dbe7f6; color: #1b4f8a; } .cp-st.Refused { background: #f6d5d0; color: #9b2c1f; }
+.cp-actions { margin-top: 8px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; } .cp-invite { color: #556; font-size: 11px; }
+.cp-audit { margin-top: 8px; color: #556; } .cp-audit ul { margin: 4px 0 0 16px; padding: 0; } .cp-audit li { font-size: 11px; }
+.cp-verbal-form .cp-chk { display: block; font-weight: normal; margin: 2px 0; } .cp-quote { font-style: italic; background: #f7f9fc; border-left: 3px solid #1b3a5c; padding: 6px 10px; margin: 4px 0 6px; font-size: 12px; }
+.cp-padwrap { border: 1px dashed #98a4b3; border-radius: 4px; background: #fff; } .cp-padwrap canvas { display: block; width: 100%; height: 120px; touch-action: none; } .cp-clear { font-size: 11px; }
+.se-sub { color: #556; font-size: 12px; margin-bottom: 10px; }

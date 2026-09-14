@@ -22,8 +22,17 @@ namespace GeniusOneAi.CrisisEpisodes {
         }
 
         private timeline: EpisodeTimeline;
-        protected onDialogOpen() { super.onDialogOpen(); this.loadTimeline(); }
-        protected afterLoadEntity() { super.afterLoadEntity(); this.loadTimeline(); }
+        private consent: ConsentPanel;
+        protected onDialogOpen() { super.onDialogOpen(); this.loadTimeline(); this.loadConsent(); }
+        protected afterLoadEntity() { super.afterLoadEntity(); this.loadTimeline(); this.loadConsent(); }
+        protected onDialogClose() { if (this.consent) this.consent.destroy(); super.onDialogClose(); }
+        private loadConsent() {
+            if (this.isNew() || !this.entity || !this.entity.EpisodeId) { this.element.find('.ep-consent').remove(); return; }
+            var $host = this.element.find('.ep-consent');
+            if (!$host.length) { $host = $('<div class="ep-consent"></div>'); var $tl = this.element.find('.ep-timeline'); if ($tl.length) $tl.after($host); else this.element.find('.s-PropertyGrid').first().before($host); }
+            if (!this.consent || (this.consent as any).episodeId !== this.entity.EpisodeId) { if (this.consent) this.consent.destroy(); this.consent = new ConsentPanel($host, this.entity.EpisodeId); }
+            this.consent.reload();
+        }
         private loadTimeline() {
             if (this.isNew() || !this.entity || !this.entity.EpisodeId) { this.element.find('.ep-timeline').remove(); return; }
             EncounterNotesService.Timeline({ EpisodeId: this.entity.EpisodeId }, t => { this.timeline = t; this.renderTimeline(); });
