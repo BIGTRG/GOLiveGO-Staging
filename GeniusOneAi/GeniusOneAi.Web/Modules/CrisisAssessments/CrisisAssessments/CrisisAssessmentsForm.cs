@@ -106,6 +106,8 @@ namespace GeniusOneAi.CrisisAssessments.Forms
         public Int32 Q19 { get; set; }
         [DisplayName("20. Parent: Have you noticed changes in your child's behavior or development (bed-wetting, baby talk, fighting, risk-taking, decline in school performance)?"), ScaleEditor]
         public Int32 Q20 { get; set; }
+        [DisplayName("Clinician observations on the answers above (optional - quotes, examples, context)"), TextAreaEditor(Rows = 3)]
+        public String QuestionNotes { get; set; }
         [Tab("Suicide Screen"), DisplayName("1. Have you wished you were dead or wished you could go to sleep and not wake up?"), YesNoRadioEditor]
         public String S1 { get; set; }
         [DisplayName("2. Have you actually had any thoughts of killing yourself?"), YesNoRadioEditor]
@@ -120,6 +122,8 @@ namespace GeniusOneAi.CrisisAssessments.Forms
         public String S6 { get; set; }
         [DisplayName("If yes to 6: was this within the past 3 months?"), YesNoRadioEditor]
         public String S6b { get; set; }
+        [DisplayName("Observations - means, prior attempts, protective factors (optional)"), TextAreaEditor(Rows = 3)]
+        public String SuicideNotes { get; set; }
         [Tab("Referral"), DisplayName("Referral (select all that apply)"), ReferralsEditor]
         public String Referrals { get; set; }
         [DisplayName("Did the participant accept one or more of the referrals?"), YesNoRadioEditor]

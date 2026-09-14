@@ -35,13 +35,16 @@ namespace GeniusOneAi.CrisisAssessments.Services
         public List<int> FiredRuleIds { get; set; } = new();
         public int E2ProtocolGoals { get; set; } public int E5ProtocolGoals { get; set; } public int FollowUpGoals { get; set; }
         public bool RepeatEpisode { get; set; }
+        public string ProtocolResult { get; set; }
     }
 
+    public class DeclinedGoal { public int LibraryGoalId { get; set; } public string Reason { get; set; } }
     public class CompleteRequest : ServiceRequest
     {
         public int? AssessmentId { get; set; }
         public string[] NeedKeys { get; set; }
         public int[] GoalIds { get; set; }
+        public List<DeclinedGoal> Declined { get; set; }
     }
     public class CompleteResponse : ServiceResponse
     {
@@ -106,6 +109,7 @@ namespace GeniusOneAi.CrisisAssessments.Services
                     else goalCodes[code] = (g.preselected || pre, g.locked || locked, g.source.Contains(r.Item) ? g.source : g.source + "; " + r.Item);
                 }
             }
+            res.ProtocolResult = ProtocolText(a, child, res.HighRisk);
             if (forSave) return res;   // save path only needs score / hard stops
 
             // decorate needs from CrisisNeeds
@@ -140,6 +144,26 @@ namespace GeniusOneAi.CrisisAssessments.Services
             res.E5ProtocolGoals = conn.Count<ClientGoalsLibraryRow>(lf.Phase == "E5" & lf.IsActive == 1);
             res.FollowUpGoals = conn.Count<ClientGoalsLibraryRow>(lf.Phase == "FU" & lf.IsActive == 1);
             return res;
+        }
+
+        /// <summary>Plain-language Columbia / ASQ result line, printed on the document and shown in the rail.</summary>
+        public static string ProtocolText(CrisisAssessmentsRow a, bool child, bool highRisk)
+        {
+            string[] s = { a.S1, a.S2, a.S3, a.S4, a.S5, a.S6 };
+            int n = child ? 5 : 6;
+            var yes = new List<int>(); var no = new List<int>();
+            for (int i = 0; i < n; i++) { if (s[i] == "Yes") yes.Add(i + 1); else if (s[i] == "No") no.Add(i + 1); }
+            if (yes.Count + no.Count == 0) return null;
+            string ans = (yes.Count > 0 ? "YES to " + string.Join(", ", yes) : "No YES answers") + (no.Count > 0 ? "; NO to " + string.Join(", ", no) : "") + ".";
+            if (child)
+            {
+                if (highRisk) return "ASQ: " + ans + " ACUTE POSITIVE - imminent risk. Patient requires a STAT safety / full mental health evaluation; cannot leave until evaluated.";
+                if (yes.Count > 0) return "ASQ: " + ans + " Non-acute positive screen. Brief suicide safety assessment required before the child leaves; refer for full mental health evaluation.";
+                return "ASQ: " + ans + " Negative screen. No further suicide-risk action required by protocol.";
+            }
+            if (highRisk) return "Columbia: " + ans + " HIGH RISK (YES to 4, 5 or 6). Follow the IVC / emergency protocol; client is not left alone; safety plan and lethal-means counseling are protocol goals.";
+            if (yes.Count > 0) return "Columbia: " + ans + " Positive screen, not high risk. Per protocol: behavioral health evaluation and safety plan; safety plan goal is locked.";
+            return "Columbia: " + ans + " Negative screen. Suicide-risk protocol goals not indicated.";
         }
 
         static bool Repeat90(IDbConnection conn, int clientId)
@@ -201,6 +225,18 @@ namespace GeniusOneAi.CrisisAssessments.Services
             }).Select(x => x.ClientGoalId.Value).ToArray();
 
             copy("E1", tonight);
+            // record what the clinician kept or declined among the suggested goals (printed on the document)
+            var declined = (req.Declined ?? new List<DeclinedGoal>()).ToDictionary(d => d.LibraryGoalId, d => d.Reason);
+            foreach (var g in ev.TonightGoals)
+            {
+                bool kept = tonight.Contains(g.LibraryGoalId);
+                if (!kept && !g.Preselected) continue;   // optional library extras that were not chosen are not "declined"
+                conn.Insert(new CrisisAssessmentGoalDecisionsRow
+                {
+                    AssessmentId = a.AssessmentId, EpisodeId = ep.EpisodeId, LibraryGoalId = g.LibraryGoalId, Code = g.Code, Description = g.Description,
+                    Source = g.Source, Kept = kept, Reason = kept ? (g.Locked ? "Protocol goal" : null) : (declined.TryGetValue(g.LibraryGoalId, out var why) && !string.IsNullOrWhiteSpace(why) ? why : "Not kept by clinician")
+                });
+            }
             copy("E2", byPhase("E2"));
             foreach (var nk in accepted)
             {
@@ -215,7 +251,7 @@ namespace GeniusOneAi.CrisisAssessments.Services
             conn.UpdateById(new CrisisAssessmentsRow
             {
                 AssessmentId = a.AssessmentId, Status = "Completed", CompletedAt = DateTime.Now, EpisodeId = ep.EpisodeId,
-                Score = ev.Score, HighRisk = ev.HighRisk,
+                Score = ev.Score, HighRisk = ev.HighRisk, ProtocolResult = ev.ProtocolResult,
                 HardStopReasons = ev.HardStops.Count == 0 ? null : string.Join(" | ", ev.HardStops.Select(h => h.Title + ": " + h.Source))
             });
             return res;

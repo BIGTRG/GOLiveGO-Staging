@@ -48,6 +48,7 @@ namespace GeniusOneAi.CrisisAssessments {
         Q18: CustomEditors.ScaleEditor;
         Q19: CustomEditors.ScaleEditor;
         Q20: CustomEditors.ScaleEditor;
+        QuestionNotes: Serenity.TextAreaEditor;
         S1: CustomEditors.YesNoRadioEditor;
         S2: CustomEditors.YesNoRadioEditor;
         S3: CustomEditors.YesNoRadioEditor;
@@ -55,6 +56,7 @@ namespace GeniusOneAi.CrisisAssessments {
         S5: CustomEditors.YesNoRadioEditor;
         S6: CustomEditors.YesNoRadioEditor;
         S6b: CustomEditors.YesNoRadioEditor;
+        SuicideNotes: Serenity.TextAreaEditor;
         Referrals: CustomEditors.ReferralsEditor;
         ReferralAccepted: CustomEditors.YesNoRadioEditor;
         ReferralAcceptedChild: CustomEditors.YesNoRadioEditor;
@@ -124,6 +126,7 @@ namespace GeniusOneAi.CrisisAssessments {
                     'Q18', CustomEditors.ScaleEditor,
                     'Q19', CustomEditors.ScaleEditor,
                     'Q20', CustomEditors.ScaleEditor,
+                    'QuestionNotes', Serenity.TextAreaEditor,
                     'S1', CustomEditors.YesNoRadioEditor,
                     'S2', CustomEditors.YesNoRadioEditor,
                     'S3', CustomEditors.YesNoRadioEditor,
@@ -131,6 +134,7 @@ namespace GeniusOneAi.CrisisAssessments {
                     'S5', CustomEditors.YesNoRadioEditor,
                     'S6', CustomEditors.YesNoRadioEditor,
                     'S6b', CustomEditors.YesNoRadioEditor,
+                    'SuicideNotes', Serenity.TextAreaEditor,
                     'Referrals', CustomEditors.ReferralsEditor,
                     'ReferralAccepted', CustomEditors.YesNoRadioEditor,
                     'ReferralAcceptedChild', CustomEditors.YesNoRadioEditor,

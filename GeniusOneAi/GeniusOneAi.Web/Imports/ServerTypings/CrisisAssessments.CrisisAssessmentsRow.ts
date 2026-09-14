@@ -68,6 +68,9 @@ namespace GeniusOneAi.CrisisAssessments {
         ReferralAcceptedParent?: string;
         ProjectedDischarge?: string;
         Narrative?: string;
+        QuestionNotes?: string;
+        SuicideNotes?: string;
+        ProtocolResult?: string;
         CompletedAt?: string;
         SignedBy?: number;
         SignedAt?: string;
@@ -160,6 +163,9 @@ namespace GeniusOneAi.CrisisAssessments {
             ReferralAcceptedParent = "ReferralAcceptedParent",
             ProjectedDischarge = "ProjectedDischarge",
             Narrative = "Narrative",
+            QuestionNotes = "QuestionNotes",
+            SuicideNotes = "SuicideNotes",
+            ProtocolResult = "ProtocolResult",
             CompletedAt = "CompletedAt",
             SignedBy = "SignedBy",
             SignedAt = "SignedAt",

@@ -124,6 +124,7 @@
     <Build Include="dbo\Tables\ClientCrisisPlans.sql" />
     <Build Include="dbo\Tables\ClientCrisisPlanEntries.sql" />
     <Build Include="dbo\Tables\CrisisEpisodes.sql" />
+    <Build Include="dbo\Tables\CrisisAssessmentGoalDecisions.sql" />
     <Build Include="dbo\Tables\CrisisAssessmentNeeds.sql" />
     <Build Include="dbo\Tables\CrisisAssessments.sql" />
     <Build Include="dbo\Tables\Users.sql" />

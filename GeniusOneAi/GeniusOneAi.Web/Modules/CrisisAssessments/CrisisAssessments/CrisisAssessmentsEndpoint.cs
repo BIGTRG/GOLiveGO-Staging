@@ -43,6 +43,17 @@ namespace GeniusOneAi.CrisisAssessments.Endpoints
             return AssessmentEngine.Evaluate(connection, row);
         }
 
+        /// <summary>Licensed clinician signs a completed assessment; the row is locked afterwards.</summary>
+        [HttpPost]
+        public ServiceResponse Sign(IUnitOfWork uow, RetrieveRequest request)
+        {
+            var row = uow.Connection.TryById<MyRow>(Convert.ToInt32(request.EntityId)) ?? throw new ValidationError("Assessment not found.");
+            if (row.Status != "Completed") throw new ValidationError("Only a completed assessment can be signed.");
+            var uid = int.TryParse(User?.GetIdentifier(), out var u) ? u : (int?)null;
+            uow.Connection.UpdateById(new MyRow { AssessmentId = row.AssessmentId, Status = "Signed", SignedBy = uid, SignedAt = DateTime.Now, SignedName = User?.Identity?.Name });
+            return new ServiceResponse();
+        }
+
         /// <summary>Clinician confirmed the needs and tonight's goals: opens/links the episode, writes needs, copies goals per encounter phase.</summary>
         [HttpPost]
         public CompleteResponse Complete(IUnitOfWork uow, CompleteRequest request)

@@ -39,6 +39,8 @@ namespace GeniusOneAi.CrisisAssessments {
                 onClick: () => this.completeClick()
             });
             b.push({ title: 'Re-evaluate', cssClass: 'assess-eval-button', icon: 'fa-refresh', onClick: () => this.evaluate() });
+            b.push({ title: 'Sign', cssClass: 'assess-sign-button', icon: 'fa-pencil-square-o', onClick: () => this.signClick() });
+            b.push({ title: 'View document', cssClass: 'assess-print-button', icon: 'fa-file-text-o', onClick: () => window.open(Q.resolveUrl('~/CrisisAssessments/Document/' + this.entityId), '_blank') });
             return b;
         }
 
@@ -73,6 +75,8 @@ namespace GeniusOneAi.CrisisAssessments {
             var btn = this.toolbar.findButton('assess-complete-button');
             btn.toggleClass('disabled', done);
             btn.find('.button-inner').text(done ? 'Completed - goals are on episode #' + e.EpisodeId : 'Complete and Recommend Goals');
+            this.toolbar.findButton('assess-sign-button').toggle(e.Status === 'Completed');
+            this.toolbar.findButton('assess-print-button').toggle(done);
             if (done) {
                 this.set_readOnly(true);
                 this.toolbar.findButton('save-and-close-button').hide();
@@ -136,6 +140,7 @@ namespace GeniusOneAi.CrisisAssessments {
             if (r.HardStops && r.HardStops.length) {
                 r.HardStops.forEach(hs => h.push('<div class="rail-hardstop"><div class="hs-title">' + enc(hs.Title) + '</div><div class="hs-text">' + enc(hs.Instruction) + '</div><div class="hs-src">From: ' + enc(hs.Source) + '</div></div>'));
             }
+            if (r.ProtocolResult) h.push('<div class="rail-protocol' + (r.HighRisk ? ' high' : '') + '">' + enc(r.ProtocolResult) + '</div>');
             var cls = r.ScoreReached ? 'rail-score reached' : 'rail-score';
             h.push('<div class="' + cls + '"><span class="score-num">' + r.Score + '</span><span class="score-txt">' + (r.FormType === 'Child' ? 'answers of 3 or 4' : 'answers of 4 or 5') + ' (' + r.Answered + ' of ' + r.QuestionCount + ' answered)<br>' + (r.ScoreReached ? 'At or above ' + r.ScoreCutoff + ': discuss referral for services' : 'Referral threshold ' + r.ScoreCutoff) + '</span></div>');
             if (r.RepeatEpisode) h.push('<div class="rail-note">Second episode within 90 days - prevention plan goal added.</div>');
@@ -150,6 +155,14 @@ namespace GeniusOneAi.CrisisAssessments {
             h.push('<div class="rail-sec">Then, from the library</div><div class="rail-plan">Encounter 2: ' + r.E2ProtocolGoals + ' protocol goals<br>Encounters 3 and 4: one pair per accepted need (' + ((r.Needs || []).filter(n => n.E3E4Goals > 0).length * 2) + ' goals)<br>Encounter 5: ' + r.E5ProtocolGoals + ' pre-discharge goals<br>Follow-up: Day 7 / 14 / 21</div>');
             this.rail.find('.assess-rail-inner').html(h.join(''));
             this.rail.toggleClass('has-hardstop', !!(r.HardStops && r.HardStops.length));
+        }
+
+        private signClick() {
+            var e = this.entity || {} as CrisisAssessmentsRow;
+            if (e.Status !== 'Completed') { Q.notifyWarning('Complete the assessment before signing.'); return; }
+            Q.confirm('Sign this assessment as the licensed clinician? It is locked after signing.', () => {
+                CrisisAssessmentsService.Sign({ EntityId: this.entityId }, () => { Q.notifySuccess('Assessment signed.'); this.loadById(this.entityId); });
+            });
         }
 
         private completeClick() {

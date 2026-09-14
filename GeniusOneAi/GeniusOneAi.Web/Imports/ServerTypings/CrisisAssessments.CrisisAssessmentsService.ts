@@ -9,6 +9,7 @@ namespace GeniusOneAi.CrisisAssessments {
         export declare function Evaluate(request: EvaluateRequest, onSuccess?: (response: EvaluationResult) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         export declare function Recommendations(request: Serenity.RetrieveRequest, onSuccess?: (response: EvaluationResult) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         export declare function Complete(request: CompleteRequest, onSuccess?: (response: CompleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        export declare function Sign(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.ServiceResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         export declare function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisAssessmentsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
 
         export declare const enum Methods {
@@ -19,7 +20,7 @@ namespace GeniusOneAi.CrisisAssessments {
             List = "CrisisAssessments/CrisisAssessments/List"
         }
 
-        ['Create', 'Update', 'Delete', 'Retrieve', 'List', 'Evaluate', 'Recommendations', 'Complete'].forEach(x => {
+        ['Create', 'Update', 'Delete', 'Retrieve', 'List', 'Evaluate', 'Recommendations', 'Complete', 'Sign'].forEach(x => {
             (<any>CrisisAssessmentsService)[x] = function (r, s, o) {
                 return Q.serviceRequest(baseUrl + '/' + x, r, s, o);
             };
@@ -35,8 +36,9 @@ namespace GeniusOneAi.CrisisAssessments {
     export interface EvaluationResult extends Serenity.ServiceResponse {
         FormType?: string; Score?: number; ScoreCutoff?: number; ScoreReached?: boolean; Answered?: number; QuestionCount?: number; HighRisk?: boolean;
         HardStops?: HardStop[]; Needs?: EvalNeed[]; TonightGoals?: EvalGoal[]; FiredRuleIds?: number[];
-        E2ProtocolGoals?: number; E5ProtocolGoals?: number; FollowUpGoals?: number; RepeatEpisode?: boolean;
+        E2ProtocolGoals?: number; E5ProtocolGoals?: number; FollowUpGoals?: number; RepeatEpisode?: boolean; ProtocolResult?: string;
     }
-    export interface CompleteRequest extends Serenity.ServiceRequest { AssessmentId?: number; NeedKeys?: string[]; GoalIds?: number[]; }
+    export interface DeclinedGoal { LibraryGoalId?: number; Reason?: string; }
+    export interface CompleteRequest extends Serenity.ServiceRequest { AssessmentId?: number; NeedKeys?: string[]; GoalIds?: number[]; Declined?: DeclinedGoal[]; }
     export interface CompleteResponse extends Serenity.ServiceResponse { EpisodeId?: number; EpisodeOpened?: boolean; NeedsCreated?: number; GoalsByPhase?: { [key: string]: number }; }
 }

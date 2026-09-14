@@ -70,6 +70,9 @@ CREATE TABLE [dbo].[CrisisAssessments] (
     [ReferralAcceptedParent] NVARCHAR(3) NULL,
     [ProjectedDischarge] DATETIME NULL,
     [Narrative] NVARCHAR(4000) NULL,
+    [QuestionNotes] NVARCHAR(4000) NULL,
+    [SuicideNotes] NVARCHAR(2000) NULL,
+    [ProtocolResult] NVARCHAR(400) NULL,
     [CompletedAt] DATETIME NULL,
     [SignedBy] INT NULL,
     [SignedAt] DATETIME NULL,
@@ -96,4 +99,24 @@ CREATE TABLE [dbo].[CrisisAssessmentNeeds] (
     [GoalsCreated] INT NULL
 );
 CREATE INDEX IX_CrisisAssessmentNeeds_Assessment ON dbo.CrisisAssessmentNeeds(AssessmentId);
+END
+-- Phase 3b (migration 20260914_1400)
+IF COL_LENGTH('dbo.CrisisAssessments','QuestionNotes') IS NULL ALTER TABLE dbo.CrisisAssessments ADD QuestionNotes NVARCHAR(4000) NULL;
+IF COL_LENGTH('dbo.CrisisAssessments','SuicideNotes') IS NULL ALTER TABLE dbo.CrisisAssessments ADD SuicideNotes NVARCHAR(2000) NULL;
+IF COL_LENGTH('dbo.CrisisAssessments','ProtocolResult') IS NULL ALTER TABLE dbo.CrisisAssessments ADD ProtocolResult NVARCHAR(400) NULL;
+IF OBJECT_ID('dbo.CrisisAssessmentGoalDecisions') IS NULL
+BEGIN
+CREATE TABLE [dbo].[CrisisAssessmentGoalDecisions] (
+    [DecisionId] INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+    [AssessmentId] INT NOT NULL,
+    [EpisodeId] INT NULL,
+    [LibraryGoalId] INT NOT NULL,
+    [Code] NVARCHAR(20) NULL,
+    [Description] NVARCHAR(1000) NULL,
+    [Source] NVARCHAR(1000) NULL,
+    [Kept] BIT NOT NULL DEFAULT 1,
+    [Reason] NVARCHAR(500) NULL,
+    [ClientGoalId] INT NULL
+);
+CREATE INDEX IX_CrisisAssessmentGoalDecisions_Assessment ON dbo.CrisisAssessmentGoalDecisions(AssessmentId);
 END

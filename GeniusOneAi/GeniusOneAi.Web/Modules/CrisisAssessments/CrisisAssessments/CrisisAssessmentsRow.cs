@@ -422,6 +422,24 @@ namespace GeniusOneAi.CrisisAssessments
             get => fields.Narrative[this];
             set => fields.Narrative[this] = value;
         }
+        [DisplayName("Question Notes"), Size(4000)]
+        public String QuestionNotes
+        {
+            get => fields.QuestionNotes[this];
+            set => fields.QuestionNotes[this] = value;
+        }
+        [DisplayName("Suicide Notes"), Size(2000)]
+        public String SuicideNotes
+        {
+            get => fields.SuicideNotes[this];
+            set => fields.SuicideNotes[this] = value;
+        }
+        [DisplayName("Protocol Result"), Size(400)]
+        public String ProtocolResult
+        {
+            get => fields.ProtocolResult[this];
+            set => fields.ProtocolResult[this] = value;
+        }
         [DisplayName("Completed At")]
         public DateTime? CompletedAt
         {
@@ -543,6 +561,9 @@ namespace GeniusOneAi.CrisisAssessments
             public StringField ReferralAcceptedParent;
             public DateTimeField ProjectedDischarge;
             public StringField Narrative;
+            public StringField QuestionNotes;
+            public StringField SuicideNotes;
+            public StringField ProtocolResult;
             public DateTimeField CompletedAt;
             public Int32Field SignedBy;
             public DateTimeField SignedAt;

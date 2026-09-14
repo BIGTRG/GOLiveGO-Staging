@@ -27,6 +27,7 @@ namespace GeniusOneAi.CrisisAssessments {
             var r = this.ev, enc = Q.htmlEncode, h: string[] = [];
             if (r.HardStops && r.HardStops.length)
                 r.HardStops.forEach(hs => h.push('<div class="rv-hardstop"><b>' + enc(hs.Title) + '</b> - ' + enc(hs.Instruction) + '</div>'));
+            if (r.ProtocolResult) h.push('<div class="rv-protocol' + (r.HighRisk ? ' high' : '') + '">' + enc(r.ProtocolResult) + '</div>');
             h.push('<div class="rv-score">Score <b>' + r.Score + '</b> (' + (r.FormType === 'Child' ? '3-4' : '4-5') + ' answers, threshold ' + r.ScoreCutoff + ')' + (r.ScoreReached ? ' - referral threshold reached' : '') + '</div>');
             h.push('<h4>1. Needs identified <small>uncheck any that do not apply; each accepted need creates its Encounter 3 and 4 goals</small></h4>');
             if (!r.Needs.length) h.push('<div class="rv-empty">No needs beyond the crisis plan were identified.</div>');
@@ -47,16 +48,21 @@ namespace GeniusOneAi.CrisisAssessments {
             this.byId('Body').html(h.join(''));
             var recount = () => this.byId('Body').find('.rv-pair-count').text(this.byId('Body').find('.rv-need:checked:not(:disabled)').length * 2);
             this.byId('Body').on('change', '.rv-need', recount); recount();
+            var syncReasons = () => this.byId('Body').find('.rv-goal').each((i, e) => { var $e = $(e); $e.find('.rv-reason').toggle(!$e.find('.rv-goal-cb').is(':checked')); });
+            this.byId('Body').on('change', '.rv-goal-cb', syncReasons); syncReasons();
+            this.byId('Body').on('click', '.rv-reason-input', ev => ev.preventDefault());
         }
         private goalRow(g: EvalGoal, pre: boolean): string {
             var enc = Q.htmlEncode;
-            return '<label class="rv-row rv-goal' + (g.Locked ? ' locked' : '') + '"><input type="checkbox" class="rv-goal-cb" value="' + g.LibraryGoalId + '"' + (pre ? ' checked' : '') + (g.Locked ? ' disabled' : '') + '><span class="g-code">' + enc(g.Code) + (g.Locked ? ' <i class="fa fa-lock"></i>' : '') + '</span><span class="rv-lbl">' + enc(g.Description) + '</span><div class="rv-src">' + enc(g.Source) + '</div></label>';
+            return '<label class="rv-row rv-goal' + (g.Locked ? ' locked' : '') + '"><input type="checkbox" class="rv-goal-cb" value="' + g.LibraryGoalId + '"' + (pre ? ' checked' : '') + (g.Locked ? ' disabled' : '') + '><span class="g-code">' + enc(g.Code) + (g.Locked ? ' <i class="fa fa-lock"></i>' : '') + '</span><span class="rv-lbl">' + enc(g.Description) + '</span><div class="rv-src">' + enc(g.Source) + '</div>' + (g.Locked || !pre ? '' : '<div class="rv-reason"><input type="text" class="rv-reason-input" maxlength="500" placeholder="Reason this suggested goal is not kept (printed on the assessment)"></div>') + '</label>';
         }
         private confirm() {
             var body = this.byId('Body');
             var needs: string[] = []; body.find('.rv-need:checked').each((i, e) => { needs.push($(e).val() as string); });
             var goals: number[] = []; body.find('.rv-goal-cb:checked').each((i, e) => { goals.push(parseInt($(e).val() as string, 10)); });
-            CrisisAssessmentsService.Complete({ AssessmentId: this.assessmentId, NeedKeys: needs, GoalIds: goals }, r => {
+            var declined: DeclinedGoal[] = [];
+            body.find('.rv-goal-cb:not(:checked)').each((i, e) => { var row = $(e).closest('.rv-goal'); declined.push({ LibraryGoalId: parseInt($(e).val() as string, 10), Reason: (row.find('.rv-reason-input').val() as string || '').trim() }); });
+            CrisisAssessmentsService.Complete({ AssessmentId: this.assessmentId, NeedKeys: needs, GoalIds: goals, Declined: declined }, r => {
                 this.dialogClose();
                 if (this.onConfirmed) this.onConfirmed(r);
             });
