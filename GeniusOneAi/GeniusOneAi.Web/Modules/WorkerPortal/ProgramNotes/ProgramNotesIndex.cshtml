@@ -1,4 +1,4 @@
-﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
 @{
 
     ViewData["Title"] = "Progress Notes";
@@ -26,6 +26,11 @@
     <section class="content">
         <div class="container">
             <partial name="@MVC.Views.Shared.CommonNoteHeader" />
+            @if (ViewData["EpisodeId"] != null)
+            {
+                <div id="encounterPanel" class="encounter-panel" data-activity="@Model.ActivityId" data-note="@Model.ProgressNoteId"></div>
+                <script>$(function () { GeniusOneAi.CrisisEpisodes.EncounterNotePanel.init(@Model.ActivityId, @Model.ProgressNoteId); });</script>
+            }
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">

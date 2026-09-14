@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[ProgramNotes] (
+CREATE TABLE [dbo].[ProgramNotes] (
     [ProgramNoteId]         INT            IDENTITY (28, 1) NOT NULL,
     [ActivityId]            INT            CONSTRAINT [DF__ProgramNo__Times__178D7CA5] DEFAULT (NULL) NULL,
     [ProgramNoteTemplateId] INT            CONSTRAINT [DF__ProgramNo__Progr__1881A0DE] DEFAULT (NULL) NULL,
@@ -25,6 +25,14 @@
     [EpisodeId]        INT            NULL,
     [EncounterNo]      INT            NULL,
     [Phase]            NVARCHAR (10)  NULL,
+    [SafetyConcern] BIT NULL,
+    [SafetyText] NVARCHAR(2000) NULL,
+    [GateComplete] BIT NOT NULL,
+    [Summary] NVARCHAR(MAX) NULL,
+    [FollowUpDay] INT NULL,
+    [ContactMethod] NVARCHAR(40) NULL,
+    [LongTermAdmission] BIT NULL,
+    [DischargeSummary] NVARCHAR(MAX) NULL,
     CONSTRAINT [PK_progressnotes_id] PRIMARY KEY CLUSTERED ([ProgramNoteId] ASC)
 );
 

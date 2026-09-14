@@ -1,4 +1,4 @@
-﻿
+
 namespace GeniusOneAi.ProgramNoteManager.Entities
 {
     using Serenity.ComponentModel;
@@ -175,6 +175,55 @@ namespace GeniusOneAi.ProgramNoteManager.Entities
             get => fields.Phase[this];
             set => fields.Phase[this] = value;
         }
+        [DisplayName("SafetyConcern")]
+        public Boolean? SafetyConcern
+        {
+            get => fields.SafetyConcern[this];
+            set => fields.SafetyConcern[this] = value;
+        }
+        [DisplayName("SafetyText")]
+        public String SafetyText
+        {
+            get => fields.SafetyText[this];
+            set => fields.SafetyText[this] = value;
+        }
+        [DisplayName("GateComplete")]
+        public Boolean? GateComplete
+        {
+            get => fields.GateComplete[this];
+            set => fields.GateComplete[this] = value;
+        }
+        [DisplayName("Summary")]
+        public String Summary
+        {
+            get => fields.Summary[this];
+            set => fields.Summary[this] = value;
+        }
+        [DisplayName("FollowUpDay")]
+        public Int32? FollowUpDay
+        {
+            get => fields.FollowUpDay[this];
+            set => fields.FollowUpDay[this] = value;
+        }
+        [DisplayName("ContactMethod")]
+        public String ContactMethod
+        {
+            get => fields.ContactMethod[this];
+            set => fields.ContactMethod[this] = value;
+        }
+        [DisplayName("LongTermAdmission")]
+        public Boolean? LongTermAdmission
+        {
+            get => fields.LongTermAdmission[this];
+            set => fields.LongTermAdmission[this] = value;
+        }
+        [DisplayName("DischargeSummary")]
+        public String DischargeSummary
+        {
+            get => fields.DischargeSummary[this];
+            set => fields.DischargeSummary[this] = value;
+        }
+
         public ProgramNotesRow()
         {
         }
@@ -210,6 +259,14 @@ namespace GeniusOneAi.ProgramNoteManager.Entities
             public Int32Field EpisodeId;
             public Int32Field EncounterNo;
             public StringField Phase;
+            public BooleanField SafetyConcern;
+            public StringField SafetyText;
+            public BooleanField GateComplete;
+            public StringField Summary;
+            public Int32Field FollowUpDay;
+            public StringField ContactMethod;
+            public BooleanField LongTermAdmission;
+            public StringField DischargeSummary;
         }
     }
 }

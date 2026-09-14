@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -176,7 +176,7 @@ namespace GeniusOneAi.Modules.Common.CustomClasses
                 rec.Field10Type = row.Field10Type;
                 rec.SiteName = row.SiteName;
                 rec.ProgressNoteLocation = row.ProgressNoteLocation;
-                rec.ProgramName = GetServiceProvided(row.ClientId, row.UserId, row.AuthorizationId);
+                rec.ProgramName = ServiceProvidedSafe(row);
                 rec.ApprovedBy = row.ApprovedBy;
                 rec.DateApproved = row.DateApproved;
                 rec.GoalData = row.GoalData;
@@ -290,7 +290,7 @@ namespace GeniusOneAi.Modules.Common.CustomClasses
                 rec.Field10Type = row.Field10Type;
                 rec.SiteName = row.SiteName;
                 rec.ProgressNoteLocation = row.ProgressNoteLocation;
-                rec.ProgramName = GetServiceProvided(row.ClientId, row.UserId, row.AuthorizationId);
+                rec.ProgramName = ServiceProvidedSafe(row);
                 rec.DateApproved = row.DateApproved;
                 rec.ApprovedBy = row.ApprovedBy;
             }
@@ -485,6 +485,17 @@ namespace GeniusOneAi.Modules.Common.CustomClasses
             dic.Add("Interventions", iv);
             return dic;
 
+        }
+        /// <summary>Encounter-engine notes may exist before a billing authorization is on file; fall back to the MCM service name instead of failing the page.</summary>
+        private static string ServiceProvidedSafe(dynamic row)
+        {
+            try
+            {
+                if (row.AuthorizationId == null) return "Mobile Crisis Management (MCM)";
+                var s = GetServiceProvided((int)row.ClientId, (int)row.UserId, (int)row.AuthorizationId);
+                return string.IsNullOrEmpty(s) ? "Mobile Crisis Management (MCM)" : s;
+            }
+            catch { return "Mobile Crisis Management (MCM)"; }
         }
         public static string GetServiceProvided(int ClientId, int UserId, int AuthId)
         {

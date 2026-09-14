@@ -1,4 +1,4 @@
-﻿@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
+@model GeniusOneAi.MiscEntities.Entities.TimesheetNoteDataRow
 @{
     ViewData["Title"] = "Progress Notes";
     ViewData["PageId"] = "Progress Notes";
@@ -22,6 +22,10 @@
         <div class="container">
             <strong>NoteID: GenOneAi-000-@Model.ActivityId</strong><br /><br />
             <partial name="@MVC.Views.Shared.CommonNoteHeader" />
+            @if (ViewData["EpisodeSummary"] != null)
+            {
+                <div class="alert alert-info encounter-summary"><strong>Crisis episode encounter note.</strong> @ViewData["EpisodeSummary"] Sections 1-4 below were written by the encounter engine from the worker's checks and answers.</div>
+            }
             <div class="row">
                 <div class="col-md-12">
                     <div class="panel panel-default">

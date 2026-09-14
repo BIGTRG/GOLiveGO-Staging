@@ -1,4 +1,4 @@
-﻿
+
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using GeniusOneAi.Modules.Common.CustomClasses;
@@ -75,8 +75,12 @@ namespace GeniusOneAi.ProgramNoteManager.Repositories
                             TimesheetExtension.UpdateTimeRecordStatus((int)Row.ActivityId, "Notes Saved", uid);
                         break;
                     case "SignAction":
+                        // Encounter engine: an episode note cannot be signed until every goal has an outcome and the safety question is answered.
+                        if ((Row.EpisodeId ?? Old?.EpisodeId) != null)
+                            GeniusOneAi.CrisisEpisodes.Services.EncounterNoteService.EnsureGate(Connection, (int)Row.ActivityId);
                         Row.DateSigned = DateTime.Now;
                         // Encounter engine: fix the encounter number and phase at signature time.
+                        if (Row.EpisodeId == null && Old?.EpisodeId != null) { Row.EpisodeId = Old.EpisodeId; Row.EncounterNo = Old.EncounterNo; Row.Phase = Old.Phase; }
                         GeniusOneAi.CrisisEpisodes.Services.EpisodeService.StampNoteOnSign(Connection, Row);
                         var hasRejections = Row.ActivityId != null && TimesheetExtension.HasRejection((int)Row.ActivityId);
                         Row.Status = hasRejections ? "Re-Submitted": "Submitted";
@@ -116,13 +120,19 @@ namespace GeniusOneAi.ProgramNoteManager.Repositories
                         if (Row.ActivityId != null)
                         {
                             TimesheetExtension.UpdateTimeRecordStatus((int)Row.ActivityId, "Approved", uid);
+                            var epId = Row.EpisodeId ?? Old?.EpisodeId;
                             if(Row.Field00 == "Final Discharge") { TimesheetExtension.CloseoutGoalsForDischarge((int)Row.ActivityId); }
-                            Pdf.UpdateGoalsInter(Row.Field01, Row.Field02, (int)Row.ActivityId);//remove this patch
-                            Pdf.CreateProgressNotePdf((int)Row.ActivityId, Row.FileName, uid);
+                            if (epId == null) Pdf.UpdateGoalsInter(Row.Field01, Row.Field02, (int)Row.ActivityId);//remove this patch (legacy weekday goals only)
+                            else { Row.Field01 = Old?.Field01 ?? Row.Field01; Row.Field02 = Old?.Field02 ?? Row.Field02; } // encounter notes are composed server side; approval must not overwrite them
+                            try { Pdf.CreateProgressNotePdf((int)Row.ActivityId, Row.FileName ?? Old?.FileName, uid); }
+                            catch (Exception ex) when (epId != null) { System.Diagnostics.Debug.WriteLine("Encounter note PDF could not be generated (SelectPdf needs Windows): " + ex.Message); }
+                            // Encounter engine: an approved note moves its episode to the next phase, schedules follow-ups, closes when done.
+                            if (epId != null)
+                            {
+                                GeniusOneAi.CrisisEpisodes.Services.EpisodeService.AdvanceAfterApproval(UnitOfWork, epId.Value, Row.EncounterNo ?? Old?.EncounterNo ?? 1);
+                                GeniusOneAi.CrisisEpisodes.Services.EncounterNoteService.AfterApproval(UnitOfWork, (int)(Row.ProgramNoteId ?? Old?.ProgramNoteId), uid);
+                            }
                         }
-                        // Encounter engine: an approved note moves its episode to the next phase.
-                        if (Row.EpisodeId != null)
-                            GeniusOneAi.CrisisEpisodes.Services.EpisodeService.AdvanceAfterApproval(UnitOfWork, Row.EpisodeId.Value, Row.EncounterNo ?? 1);
 
                         break;
                     case "RejectAction":
