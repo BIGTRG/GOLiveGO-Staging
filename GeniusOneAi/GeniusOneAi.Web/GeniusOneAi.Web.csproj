@@ -32,6 +32,8 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\**\*.sql" Exclude="bin\**;obj\**;**\*.xproj;packages\**;@(EmbeddedResource)" />
+    <EmbeddedResource Include="..\..\GeniusOneDatabase\Seed\goal_library_seed.sql" LogicalName="GeniusOneAi.Seed.goal_library_seed.sql" />
+    <EmbeddedResource Include="..\..\GeniusOneDatabase\Seed\synthetic_clients_staging.sql" LogicalName="GeniusOneAi.Seed.synthetic_clients_staging.sql" />
     <Compile Remove="wwwroot\App_Data\DocumentCache\**" />
     <Content Remove="wwwroot\App_Data\DocumentCache\**" />
     <EmbeddedResource Remove="wwwroot\App_Data\DocumentCache\**" />

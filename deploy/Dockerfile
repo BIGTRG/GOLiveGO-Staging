@@ -10,6 +10,7 @@ COPY GeniusOneAi.sln ./
 COPY GeniusOneAi/GeniusOneAi.Web/GeniusOneAi.Web.csproj GeniusOneAi/GeniusOneAi.Web/
 RUN dotnet restore GeniusOneAi/GeniusOneAi.Web/GeniusOneAi.Web.csproj
 COPY GeniusOneAi ./GeniusOneAi
+COPY GeniusOneDatabase/Seed ./GeniusOneDatabase/Seed
 RUN dotnet publish GeniusOneAi/GeniusOneAi.Web/GeniusOneAi.Web.csproj -c Release -o /app/publish /p:TypeScriptCompileBlocked=true
 
 FROM mcr.microsoft.com/dotnet/aspnet:7.0-bookworm-slim

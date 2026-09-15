@@ -251,6 +251,8 @@ namespace GeniusOneAi
             backgroundJobManager.Initialize();
 
             app.ApplicationServices.GetRequiredService<IDataMigrations>().Initialize();
+            DemoDataSeeder.Run(app.ApplicationServices.GetRequiredService<ISqlConnections>(), Configuration,
+                app.ApplicationServices.GetService<ILoggerFactory>()?.CreateLogger("DemoDataSeeder"));
             AppDomain.CurrentDomain.SetData("ContentRootPath", env.ContentRootPath);
             AppDomain.CurrentDomain.SetData("WebRootPath", env.WebRootPath);
             //app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());//Review this for security
