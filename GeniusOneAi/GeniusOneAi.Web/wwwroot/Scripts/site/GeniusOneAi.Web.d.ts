@@ -6,6 +6,7 @@
 /// <reference types="serenity.pro.extensions" />
 /// <reference types="serenity.pro.ui" />
 /// <reference types="serenity.extensions" />
+/// <reference types="react" />
 declare namespace GeniusOneAi.Administration {
     class BillingColumns {
         static columnsKey: string;
@@ -794,15 +795,29 @@ declare namespace GeniusOneAi.AgencyAdministration {
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
-    class ClientGoalsLibraryColumns {
-        static columnsKey: string;
+    namespace ClientGoalsLibraryColumns {
+        const columnsKey = "AgencyAdministration.ClientGoalsLibrary";
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
     interface ClientGoalsLibraryForm {
+        Code: Serenity.StringEditor;
         GoalType: Serenity.LookupEditor;
+        Phase: CustomEditors.EpisodePhaseEditor;
+        NeedKey: Serenity.LookupEditor;
+        Domain: Serenity.StringEditor;
+        LeadRole: Serenity.StringEditor;
+        TriggerKey: Serenity.TextAreaEditor;
         Description: Serenity.TextAreaEditor;
+        EffectivenessMeasure: Serenity.TextAreaEditor;
+        Timeframe: Serenity.StringEditor;
+        ResourceType: CustomEditors.ResourceTypeEditor;
+        IsProtocol: Serenity.BooleanEditor;
+        IsActive: Serenity.BooleanEditor;
+        Origin: CustomEditors.GoalOriginEditor;
+        LinkedNextPhaseGoalId: Serenity.LookupEditor;
         ClientInterventionsLibraryList: ClientGoalInterventionsLibraryEditor;
+        OutcomesList: LibraryGoalOutcomesEditor;
     }
     class ClientGoalsLibraryForm extends Serenity.PrefixedContext {
         static formKey: string;
@@ -816,12 +831,31 @@ declare namespace GeniusOneAi.AgencyAdministration {
         Description?: string;
         GoalType?: string;
         TenantId?: number;
+        Code?: string;
+        Phase?: string;
+        NeedKey?: string;
+        NeedLabel?: string;
+        NeedCategoryLabel?: string;
+        Domain?: string;
+        TriggerKey?: string;
+        EffectivenessMeasure?: string;
+        Timeframe?: string;
+        LeadRole?: string;
+        ResourceType?: string;
+        LinkedNextPhaseGoalId?: number;
+        LinkedNextPhaseGoalCode?: string;
+        IsProtocol?: boolean;
+        Origin?: string;
+        IsActive?: boolean;
         ClientInterventionsLibraryList?: ClientGoalInterventionsLibraryRow[];
+        OutcomesList?: LibraryGoalOutcomesRow[];
     }
     namespace ClientGoalsLibraryRow {
         const idProperty = "ClientGoalId";
         const nameProperty = "Description";
         const localTextPrefix = "AgencyAdministration.ClientGoalsLibrary";
+        const lookupKey = "AgencyAdministration.ClientGoalsLibrary";
+        function getLookup(): Q.Lookup<ClientGoalsLibraryRow>;
         const deletePermission = "AgencyAdministration:GoalLibrary";
         const insertPermission = "AgencyAdministration:GoalLibrary";
         const readPermission = "AgencyAdministration:GoalLibrary";
@@ -831,7 +865,24 @@ declare namespace GeniusOneAi.AgencyAdministration {
             Description = "Description",
             GoalType = "GoalType",
             TenantId = "TenantId",
-            ClientInterventionsLibraryList = "ClientInterventionsLibraryList"
+            Code = "Code",
+            Phase = "Phase",
+            NeedKey = "NeedKey",
+            NeedLabel = "NeedLabel",
+            NeedCategoryLabel = "NeedCategoryLabel",
+            Domain = "Domain",
+            TriggerKey = "TriggerKey",
+            EffectivenessMeasure = "EffectivenessMeasure",
+            Timeframe = "Timeframe",
+            LeadRole = "LeadRole",
+            ResourceType = "ResourceType",
+            LinkedNextPhaseGoalId = "LinkedNextPhaseGoalId",
+            LinkedNextPhaseGoalCode = "LinkedNextPhaseGoalCode",
+            IsProtocol = "IsProtocol",
+            Origin = "Origin",
+            IsActive = "IsActive",
+            ClientInterventionsLibraryList = "ClientInterventionsLibraryList",
+            OutcomesList = "OutcomesList"
         }
     }
 }
@@ -968,6 +1019,75 @@ declare namespace GeniusOneAi.AgencyAdministration {
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
+    namespace CrisisNeedsColumns {
+        const columnsKey = "AgencyAdministration.CrisisNeeds";
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface CrisisNeedsForm {
+        NeedKey: Serenity.StringEditor;
+        Label: Serenity.StringEditor;
+        Category: CustomEditors.NeedCategoryEditor;
+        CategoryLabel: Serenity.StringEditor;
+        SortOrder: Serenity.IntegerEditor;
+        IsActive: Serenity.BooleanEditor;
+    }
+    class CrisisNeedsForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface CrisisNeedsRow {
+        NeedId?: number;
+        NeedKey?: string;
+        Label?: string;
+        Category?: string;
+        CategoryLabel?: string;
+        SortOrder?: number;
+        IsActive?: boolean;
+        [key: string]: any;
+    }
+    namespace CrisisNeedsRow {
+        const idProperty = "NeedId";
+        const nameProperty = "Label";
+        const localTextPrefix = "AgencyAdministration.CrisisNeeds";
+        const lookupKey = "AgencyAdministration.CrisisNeeds";
+        function getLookup(): Q.Lookup<CrisisNeedsRow>;
+        const deletePermission = "AgencyAdministration:GoalLibrary";
+        const insertPermission = "AgencyAdministration:GoalLibrary";
+        const readPermission = "AgencyAdministration:GoalLibrary";
+        const updatePermission = "AgencyAdministration:GoalLibrary";
+        const enum Fields {
+            NeedId = "NeedId",
+            NeedKey = "NeedKey",
+            Label = "Label",
+            Category = "Category",
+            CategoryLabel = "CategoryLabel",
+            SortOrder = "SortOrder",
+            IsActive = "IsActive"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace CrisisNeedsService {
+        const baseUrl = "AgencyAdministration/CrisisNeeds";
+        function Create(request: Serenity.SaveRequest<CrisisNeedsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<CrisisNeedsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisNeedsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisNeedsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "AgencyAdministration/CrisisNeeds/Create",
+            Update = "AgencyAdministration/CrisisNeeds/Update",
+            Delete = "AgencyAdministration/CrisisNeeds/Delete",
+            Retrieve = "AgencyAdministration/CrisisNeeds/Retrieve",
+            List = "AgencyAdministration/CrisisNeeds/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
     class FormTypesColumns {
         static columnsKey: string;
     }
@@ -1020,6 +1140,155 @@ declare namespace GeniusOneAi.AgencyAdministration {
             Delete = "AgencyAdministration/FormTypes/Delete",
             Retrieve = "AgencyAdministration/FormTypes/Retrieve",
             List = "AgencyAdministration/FormTypes/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace LibraryGoalOutcomesColumns {
+        const columnsKey = "AgencyAdministration.LibraryGoalOutcomes";
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface LibraryGoalOutcomesForm {
+        SortOrder: Serenity.IntegerEditor;
+        StatusRule: CustomEditors.StatusRuleEditor;
+        OutcomeText: Serenity.TextAreaEditor;
+        EffectivenessTemplate: Serenity.TextAreaEditor;
+        SendsToCrisisPlan: Serenity.BooleanEditor;
+        QuestionsList: OutcomeQuestionsEditor;
+    }
+    class LibraryGoalOutcomesForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface LibraryGoalOutcomesRow {
+        LibraryOutcomeId?: number;
+        LibraryGoalId?: number;
+        SortOrder?: number;
+        OutcomeText?: string;
+        EffectivenessTemplate?: string;
+        StatusRule?: string;
+        SendsToCrisisPlan?: boolean;
+        TenantId?: number;
+        [key: string]: any;
+    }
+    namespace LibraryGoalOutcomesRow {
+        const idProperty = "LibraryOutcomeId";
+        const nameProperty = "OutcomeText";
+        const localTextPrefix = "AgencyAdministration.LibraryGoalOutcomes";
+        const deletePermission = "AgencyAdministration:GoalLibrary";
+        const insertPermission = "AgencyAdministration:GoalLibrary";
+        const readPermission = "AgencyAdministration:GoalLibrary";
+        const updatePermission = "AgencyAdministration:GoalLibrary";
+        const enum Fields {
+            LibraryOutcomeId = "LibraryOutcomeId",
+            LibraryGoalId = "LibraryGoalId",
+            SortOrder = "SortOrder",
+            OutcomeText = "OutcomeText",
+            EffectivenessTemplate = "EffectivenessTemplate",
+            StatusRule = "StatusRule",
+            SendsToCrisisPlan = "SendsToCrisisPlan",
+            TenantId = "TenantId"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace LibraryGoalOutcomesService {
+        const baseUrl = "AgencyAdministration/LibraryGoalOutcomes";
+        function Create(request: Serenity.SaveRequest<LibraryGoalOutcomesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<LibraryGoalOutcomesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<LibraryGoalOutcomesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<LibraryGoalOutcomesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "AgencyAdministration/LibraryGoalOutcomes/Create",
+            Update = "AgencyAdministration/LibraryGoalOutcomes/Update",
+            Delete = "AgencyAdministration/LibraryGoalOutcomes/Delete",
+            Retrieve = "AgencyAdministration/LibraryGoalOutcomes/Retrieve",
+            List = "AgencyAdministration/LibraryGoalOutcomes/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace OutcomeQuestionsColumns {
+        const columnsKey = "AgencyAdministration.OutcomeQuestions";
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface OutcomeQuestionsForm {
+        SortOrder: Serenity.IntegerEditor;
+        AnswerType: CustomEditors.AnswerTypeEditor;
+        Prompt: Serenity.StringEditor;
+        Options: Serenity.StringEditor;
+        ResourceType: CustomEditors.ResourceTypeEditor;
+        ShowWhen: Serenity.StringEditor;
+        SentenceTemplate: Serenity.TextAreaEditor;
+        SendsToCrisisPlan: Serenity.BooleanEditor;
+        IsRequired: Serenity.BooleanEditor;
+    }
+    class OutcomeQuestionsForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface OutcomeQuestionsRow {
+        QuestionId?: number;
+        LibraryOutcomeId?: number;
+        SortOrder?: number;
+        Prompt?: string;
+        AnswerType?: string;
+        Options?: string;
+        SentenceTemplate?: string;
+        ResourceType?: string;
+        SendsToCrisisPlan?: boolean;
+        IsRequired?: boolean;
+        ShowWhen?: string;
+        TenantId?: number;
+        [key: string]: any;
+    }
+    namespace OutcomeQuestionsRow {
+        const idProperty = "QuestionId";
+        const nameProperty = "Prompt";
+        const localTextPrefix = "AgencyAdministration.OutcomeQuestions";
+        const deletePermission = "AgencyAdministration:GoalLibrary";
+        const insertPermission = "AgencyAdministration:GoalLibrary";
+        const readPermission = "AgencyAdministration:GoalLibrary";
+        const updatePermission = "AgencyAdministration:GoalLibrary";
+        const enum Fields {
+            QuestionId = "QuestionId",
+            LibraryOutcomeId = "LibraryOutcomeId",
+            SortOrder = "SortOrder",
+            Prompt = "Prompt",
+            AnswerType = "AnswerType",
+            Options = "Options",
+            SentenceTemplate = "SentenceTemplate",
+            ResourceType = "ResourceType",
+            SendsToCrisisPlan = "SendsToCrisisPlan",
+            IsRequired = "IsRequired",
+            ShowWhen = "ShowWhen",
+            TenantId = "TenantId"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace OutcomeQuestionsService {
+        const baseUrl = "AgencyAdministration/OutcomeQuestions";
+        function Create(request: Serenity.SaveRequest<OutcomeQuestionsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<OutcomeQuestionsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<OutcomeQuestionsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<OutcomeQuestionsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "AgencyAdministration/OutcomeQuestions/Create",
+            Update = "AgencyAdministration/OutcomeQuestions/Update",
+            Delete = "AgencyAdministration/OutcomeQuestions/Delete",
+            Retrieve = "AgencyAdministration/OutcomeQuestions/Retrieve",
+            List = "AgencyAdministration/OutcomeQuestions/List"
         }
     }
 }
@@ -1307,6 +1576,91 @@ declare namespace GeniusOneAi.AgencyAdministration {
             Delete = "AgencyAdministration/ProgramTypes/Delete",
             Retrieve = "AgencyAdministration/ProgramTypes/Retrieve",
             List = "AgencyAdministration/ProgramTypes/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace ResourceDirectoryColumns {
+        const columnsKey = "AgencyAdministration.ResourceDirectory";
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface ResourceDirectoryForm {
+        ResourceType: CustomEditors.ResourceTypeEditor;
+        County: Serenity.StringEditor;
+        Name: Serenity.StringEditor;
+        Phone: Serenity.StringEditor;
+        Hours: Serenity.StringEditor;
+        Website: Serenity.StringEditor;
+        Address: Serenity.StringEditor;
+        City: Serenity.StringEditor;
+        IsActive: Serenity.BooleanEditor;
+        Notes: Serenity.TextAreaEditor;
+    }
+    class ResourceDirectoryForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    interface ResourceDirectoryRow {
+        ResourceId?: number;
+        TenantId?: number;
+        ResourceType?: string;
+        Name?: string;
+        Phone?: string;
+        Website?: string;
+        Address?: string;
+        City?: string;
+        County?: string;
+        Hours?: string;
+        Notes?: string;
+        IsActive?: boolean;
+        Owner?: number;
+        OwnerCreateDate?: string;
+        [key: string]: any;
+    }
+    namespace ResourceDirectoryRow {
+        const idProperty = "ResourceId";
+        const nameProperty = "Name";
+        const localTextPrefix = "AgencyAdministration.ResourceDirectory";
+        const deletePermission = "AgencyAdministration:GoalLibrary";
+        const insertPermission = "AgencyAdministration:GoalLibrary";
+        const readPermission = "AgencyAdministration:GoalLibrary";
+        const updatePermission = "AgencyAdministration:GoalLibrary";
+        const enum Fields {
+            ResourceId = "ResourceId",
+            TenantId = "TenantId",
+            ResourceType = "ResourceType",
+            Name = "Name",
+            Phone = "Phone",
+            Website = "Website",
+            Address = "Address",
+            City = "City",
+            County = "County",
+            Hours = "Hours",
+            Notes = "Notes",
+            IsActive = "IsActive",
+            Owner = "Owner",
+            OwnerCreateDate = "OwnerCreateDate"
+        }
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    namespace ResourceDirectoryService {
+        const baseUrl = "AgencyAdministration/ResourceDirectory";
+        function Create(request: Serenity.SaveRequest<ResourceDirectoryRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<ResourceDirectoryRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<ResourceDirectoryRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<ResourceDirectoryRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "AgencyAdministration/ResourceDirectory/Create",
+            Update = "AgencyAdministration/ResourceDirectory/Update",
+            Delete = "AgencyAdministration/ResourceDirectory/Delete",
+            Retrieve = "AgencyAdministration/ResourceDirectory/Retrieve",
+            List = "AgencyAdministration/ResourceDirectory/List"
         }
     }
 }
@@ -1939,25 +2293,106 @@ declare namespace GeniusOneAi.ClientManager {
     }
 }
 declare namespace GeniusOneAi.ClientManager {
+    namespace ClientGoalOutcomesColumns {
+        const columnsKey = "ClientManager.ClientGoalOutcomes";
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
+    interface ClientGoalOutcomesForm {
+        SortOrder: Serenity.IntegerEditor;
+        StatusRule: CustomEditors.StatusRuleEditor;
+        OutcomeText: Serenity.TextAreaEditor;
+        IsMet: Serenity.BooleanEditor;
+        CheckedAt: Serenity.DateTimeEditor;
+        Summary: Serenity.TextAreaEditor;
+        SendsToCrisisPlan: Serenity.BooleanEditor;
+    }
+    class ClientGoalOutcomesForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
+    interface ClientGoalOutcomesRow {
+        OutcomeId?: number;
+        ClientGoalId?: number;
+        LibraryOutcomeId?: number;
+        SortOrder?: number;
+        OutcomeText?: string;
+        EffectivenessTemplate?: string;
+        StatusRule?: string;
+        SendsToCrisisPlan?: boolean;
+        IsMet?: boolean;
+        CheckedInNoteId?: number;
+        CheckedAt?: string;
+        Summary?: string;
+        TenantId?: number;
+        [key: string]: any;
+    }
+    namespace ClientGoalOutcomesRow {
+        const idProperty = "OutcomeId";
+        const nameProperty = "OutcomeText";
+        const localTextPrefix = "ClientManager.ClientGoalOutcomes";
+        const deletePermission = "PatientManager:Patients";
+        const insertPermission = "PatientManager:Patients";
+        const readPermission = "PatientManager:Patients";
+        const updatePermission = "PatientManager:Patients";
+        const enum Fields {
+            OutcomeId = "OutcomeId",
+            ClientGoalId = "ClientGoalId",
+            LibraryOutcomeId = "LibraryOutcomeId",
+            SortOrder = "SortOrder",
+            OutcomeText = "OutcomeText",
+            EffectivenessTemplate = "EffectivenessTemplate",
+            StatusRule = "StatusRule",
+            SendsToCrisisPlan = "SendsToCrisisPlan",
+            IsMet = "IsMet",
+            CheckedInNoteId = "CheckedInNoteId",
+            CheckedAt = "CheckedAt",
+            Summary = "Summary",
+            TenantId = "TenantId"
+        }
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
+    namespace ClientGoalOutcomesService {
+        const baseUrl = "ClientManager/ClientGoalOutcomes";
+        function Create(request: Serenity.SaveRequest<ClientGoalOutcomesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<ClientGoalOutcomesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<ClientGoalOutcomesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<ClientGoalOutcomesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "ClientManager/ClientGoalOutcomes/Create",
+            Update = "ClientManager/ClientGoalOutcomes/Update",
+            Delete = "ClientManager/ClientGoalOutcomes/Delete",
+            Retrieve = "ClientManager/ClientGoalOutcomes/Retrieve",
+            List = "ClientManager/ClientGoalOutcomes/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
     class ClientGoalsColumns {
         static columnsKey: string;
     }
 }
 declare namespace GeniusOneAi.ClientManager {
     interface ClientGoalsForm {
-        IsActiveMonday: Serenity.BooleanEditor;
-        IsActiveTuesday: Serenity.BooleanEditor;
-        IsActiveWednesday: Serenity.BooleanEditor;
-        IsActiveThursday: Serenity.BooleanEditor;
-        IsActiveFriday: Serenity.BooleanEditor;
-        IsActiveSaturday: Serenity.BooleanEditor;
-        IsActiveSunday: Serenity.BooleanEditor;
+        Phase: CustomEditors.EpisodePhaseEditor;
+        IsProtocol: Serenity.BooleanEditor;
+        EpisodeId: Serenity.IntegerEditor;
+        LibraryGoalId: Serenity.IntegerEditor;
+        NeedKey: Serenity.LookupEditor;
+        CarriedFromGoalId: Serenity.IntegerEditor;
         GoalType: Serenity.LookupEditor;
         Goal: CustomEditors.GoalEditor;
         Description: Serenity.TextAreaEditor;
-        Status: CustomEditors.ClientGoalEditor;
+        Status: CustomEditors.GoalStatusEditor;
         CompletionDate: Serenity.DateEditor;
+        EffectivenessMeasure: Serenity.TextAreaEditor;
         ClientInterventionsList: ClientGoalInterventionsEditor;
+        OutcomesList: ClientGoalOutcomesEditor;
         ClientId: Serenity.IntegerEditor;
     }
     class ClientGoalsForm extends Serenity.PrefixedContext {
@@ -1989,10 +2424,19 @@ declare namespace GeniusOneAi.ClientManager {
         GoalType?: string;
         Description?: string;
         TenantId?: number;
+        Code?: string;
+        Phase?: string;
+        NeedKey?: string;
+        NeedLabel?: string;
+        Domain?: string;
+        TriggerKey?: string;
+        Timeframe?: string;
+        IsProtocol?: boolean;
+        IsActive?: boolean;
     }
     namespace ClientGoalsLibrarySelectorRow {
         const idProperty = "ClientGoalId";
-        const nameProperty = "GoalType";
+        const nameProperty = "Description";
         const localTextPrefix = "ClientManager.ClientGoalsLibrarySelector";
         const deletePermission = "PatientManager:Patients";
         const insertPermission = "PatientManager:Patients";
@@ -2002,7 +2446,16 @@ declare namespace GeniusOneAi.ClientManager {
             ClientGoalId = "ClientGoalId",
             GoalType = "GoalType",
             Description = "Description",
-            TenantId = "TenantId"
+            TenantId = "TenantId",
+            Code = "Code",
+            Phase = "Phase",
+            NeedKey = "NeedKey",
+            NeedLabel = "NeedLabel",
+            Domain = "Domain",
+            TriggerKey = "TriggerKey",
+            Timeframe = "Timeframe",
+            IsProtocol = "IsProtocol",
+            IsActive = "IsActive"
         }
     }
 }
@@ -2013,6 +2466,7 @@ declare namespace GeniusOneAi.ClientManager {
         function Update(request: Serenity.SaveRequest<ClientGoalsLibrarySelectorRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<ClientGoalsLibrarySelectorRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function CopyLibraryGoals(request: CopyLibraryGoalsRequest, onSuccess?: (response: CopyLibraryGoalsResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<ClientGoalsLibrarySelectorRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         function CopyGoalsToClient(request: Modules.Common.CustomClasses.BaseRecsRequest, onSuccess?: (response: Modules.Common.CustomClasses.BaseResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
         const enum Methods {
@@ -2021,8 +2475,20 @@ declare namespace GeniusOneAi.ClientManager {
             Delete = "ClientManager/ClientGoalsLibrarySelector/Delete",
             Retrieve = "ClientManager/ClientGoalsLibrarySelector/Retrieve",
             List = "ClientManager/ClientGoalsLibrarySelector/List",
-            CopyGoalsToClient = "ClientManager/ClientGoalsLibrarySelector/CopyGoalsToClient"
+            CopyGoalsToClient = "ClientManager/ClientGoalsLibrarySelector/CopyGoalsToClient",
+            CopyLibraryGoals = "ClientManager/ClientGoalsLibrarySelector/CopyLibraryGoals"
         }
+    }
+    interface CopyLibraryGoalsRequest extends Serenity.ServiceRequest {
+        ClientId?: number;
+        EpisodeId?: number;
+        Phase?: string;
+        Ids?: number[];
+    }
+    interface CopyLibraryGoalsResponse extends Serenity.ServiceResponse {
+        Copied?: number;
+        Skipped?: number;
+        GoalIds?: number[];
     }
 }
 declare namespace GeniusOneAi.ClientManager {
@@ -2046,6 +2512,16 @@ declare namespace GeniusOneAi.ClientManager {
         IsActiveFriday?: boolean;
         IsActiveSaturday?: boolean;
         IsActiveSunday?: boolean;
+        EpisodeId?: number;
+        Phase?: string;
+        LibraryGoalId?: number;
+        SourceRuleId?: number;
+        IsProtocol?: boolean;
+        NeedKey?: string;
+        NeedLabel?: string;
+        CarriedFromGoalId?: number;
+        EffectivenessMeasure?: string;
+        OutcomesList?: ClientGoalOutcomesRow[];
     }
     namespace ClientGoalsRow {
         const idProperty = "ClientGoalId";
@@ -2074,7 +2550,17 @@ declare namespace GeniusOneAi.ClientManager {
             IsActiveThursday = "IsActiveThursday",
             IsActiveFriday = "IsActiveFriday",
             IsActiveSaturday = "IsActiveSaturday",
-            IsActiveSunday = "IsActiveSunday"
+            IsActiveSunday = "IsActiveSunday",
+            EpisodeId = "EpisodeId",
+            Phase = "Phase",
+            LibraryGoalId = "LibraryGoalId",
+            SourceRuleId = "SourceRuleId",
+            IsProtocol = "IsProtocol",
+            NeedKey = "NeedKey",
+            NeedLabel = "NeedLabel",
+            CarriedFromGoalId = "CarriedFromGoalId",
+            EffectivenessMeasure = "EffectivenessMeasure",
+            OutcomesList = "OutcomesList"
         }
     }
 }
@@ -2529,6 +3015,820 @@ declare namespace GeniusOneAi.ClientManager {
             Retrieve = "ClientManager/WorkerCaseAssignments/Retrieve",
             List = "ClientManager/WorkerCaseAssignments/List"
         }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    interface CrisisAssessmentGoalDecisionsRow {
+        DecisionId?: number;
+        AssessmentId?: number;
+        EpisodeId?: number;
+        LibraryGoalId?: number;
+        Code?: string;
+        Description?: string;
+        Source?: string;
+        Kept?: boolean;
+        Reason?: string;
+        ClientGoalId?: number;
+        [key: string]: any;
+    }
+    namespace CrisisAssessmentGoalDecisionsRow {
+        const idProperty = "DecisionId";
+        const nameProperty = "Code";
+        const localTextPrefix = "CrisisAssessments.CrisisAssessmentGoalDecisions";
+        const deletePermission = "PatientManager:Patients";
+        const insertPermission = "PatientManager:Patients";
+        const readPermission = "PatientManager:Patients";
+        const updatePermission = "PatientManager:Patients";
+        const enum Fields {
+            DecisionId = "DecisionId",
+            AssessmentId = "AssessmentId",
+            EpisodeId = "EpisodeId",
+            LibraryGoalId = "LibraryGoalId",
+            Code = "Code",
+            Description = "Description",
+            Source = "Source",
+            Kept = "Kept",
+            Reason = "Reason",
+            ClientGoalId = "ClientGoalId"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    namespace CrisisAssessmentGoalDecisionsService {
+        const baseUrl = "CrisisAssessments/CrisisAssessmentGoalDecisions";
+        function Create(request: Serenity.SaveRequest<CrisisAssessmentGoalDecisionsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<CrisisAssessmentGoalDecisionsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisAssessmentGoalDecisionsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisAssessmentGoalDecisionsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "CrisisAssessments/CrisisAssessmentGoalDecisions/Create",
+            Update = "CrisisAssessments/CrisisAssessmentGoalDecisions/Update",
+            Delete = "CrisisAssessments/CrisisAssessmentGoalDecisions/Delete",
+            Retrieve = "CrisisAssessments/CrisisAssessmentGoalDecisions/Retrieve",
+            List = "CrisisAssessments/CrisisAssessmentGoalDecisions/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    interface CrisisAssessmentNeedsRow {
+        NeedRecId?: number;
+        AssessmentId?: number;
+        EpisodeId?: number;
+        ClientId?: number;
+        TenantId?: number;
+        NeedKey?: string;
+        Priority?: string;
+        Source?: string;
+        Accepted?: boolean;
+        Status?: string;
+        SortOrder?: number;
+        GoalsCreated?: number;
+        NeedLabel?: string;
+        CategoryLabel?: string;
+        [key: string]: any;
+    }
+    namespace CrisisAssessmentNeedsRow {
+        const idProperty = "NeedRecId";
+        const nameProperty = "NeedKey";
+        const localTextPrefix = "CrisisAssessments.CrisisAssessmentNeeds";
+        const deletePermission = "PatientManager:Patients";
+        const insertPermission = "PatientManager:Patients";
+        const readPermission = "PatientManager:Patients";
+        const updatePermission = "PatientManager:Patients";
+        const enum Fields {
+            NeedRecId = "NeedRecId",
+            AssessmentId = "AssessmentId",
+            EpisodeId = "EpisodeId",
+            ClientId = "ClientId",
+            TenantId = "TenantId",
+            NeedKey = "NeedKey",
+            Priority = "Priority",
+            Source = "Source",
+            Accepted = "Accepted",
+            Status = "Status",
+            SortOrder = "SortOrder",
+            GoalsCreated = "GoalsCreated"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    namespace CrisisAssessmentNeedsService {
+        const baseUrl = "CrisisAssessments/CrisisAssessmentNeeds";
+        function Create(request: Serenity.SaveRequest<CrisisAssessmentNeedsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<CrisisAssessmentNeedsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisAssessmentNeedsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisAssessmentNeedsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "CrisisAssessments/CrisisAssessmentNeeds/Create",
+            Update = "CrisisAssessments/CrisisAssessmentNeeds/Update",
+            Delete = "CrisisAssessments/CrisisAssessmentNeeds/Delete",
+            Retrieve = "CrisisAssessments/CrisisAssessmentNeeds/Retrieve",
+            List = "CrisisAssessments/CrisisAssessmentNeeds/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    namespace CrisisAssessmentsColumns {
+        const columnsKey = "CrisisAssessments.CrisisAssessments";
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    interface CrisisAssessmentsForm {
+        FormType: CustomEditors.FormTypeRadioEditor;
+        ClientId: Serenity.LookupEditor;
+        ServiceDate: Serenity.DateEditor;
+        StartTime: Serenity.StringEditor;
+        EndTime: Serenity.StringEditor;
+        County: Serenity.StringEditor;
+        Zip: Serenity.StringEditor;
+        TeamMember1: Serenity.LookupEditor;
+        TeamMember2: Serenity.LookupEditor;
+        ResponderCredentials: Serenity.StringEditor;
+        ParentPresent: CustomEditors.YesNoRadioEditor;
+        ParentName: Serenity.StringEditor;
+        ParentPhone: Serenity.StringEditor;
+        Location: CustomEditors.LocationEditor;
+        ChildrenInHome: Serenity.BooleanEditor;
+        RiskCategories: CustomEditors.RiskCategoriesEditor;
+        PrimaryRisk: CustomEditors.PrimaryRiskEditor;
+        Diagnoses: Serenity.TextAreaEditor;
+        SubstanceType: Serenity.StringEditor;
+        SubstanceAmount: Serenity.StringEditor;
+        SubstanceFrequency: CustomEditors.SubstanceFrequencyEditor;
+        AgeBand: CustomEditors.AgeBandEditor;
+        GradeLevel: Serenity.StringEditor;
+        Disabilities: CustomEditors.DisabilitiesEditor;
+        Gender: CustomEditors.GenderRadioEditor;
+        Language: CustomEditors.LanguageRadioEditor;
+        RaceEthnicity: CustomEditors.RaceEthnicityEditor;
+        Immigrated: CustomEditors.YesNoRadioEditor;
+        Q1: CustomEditors.ScaleEditor;
+        Q2: CustomEditors.ScaleEditor;
+        Q3: CustomEditors.ScaleEditor;
+        Q4: CustomEditors.ScaleEditor;
+        Q5: CustomEditors.ScaleEditor;
+        Q6: CustomEditors.ScaleEditor;
+        Q7: CustomEditors.ScaleEditor;
+        Q8: CustomEditors.ScaleEditor;
+        Q9: CustomEditors.ScaleEditor;
+        Q10: CustomEditors.ScaleEditor;
+        Q11: CustomEditors.ScaleEditor;
+        Q12: CustomEditors.ScaleEditor;
+        Q13: CustomEditors.ScaleEditor;
+        Q14: CustomEditors.ScaleEditor;
+        Q15: CustomEditors.ScaleEditor;
+        Q16: CustomEditors.ScaleEditor;
+        Q17: CustomEditors.ScaleEditor;
+        Q18: CustomEditors.ScaleEditor;
+        Q19: CustomEditors.ScaleEditor;
+        Q20: CustomEditors.ScaleEditor;
+        QuestionNotes: Serenity.TextAreaEditor;
+        S1: CustomEditors.YesNoRadioEditor;
+        S2: CustomEditors.YesNoRadioEditor;
+        S3: CustomEditors.YesNoRadioEditor;
+        S4: CustomEditors.YesNoRadioEditor;
+        S5: CustomEditors.YesNoRadioEditor;
+        S6: CustomEditors.YesNoRadioEditor;
+        S6b: CustomEditors.YesNoRadioEditor;
+        SuicideNotes: Serenity.TextAreaEditor;
+        Referrals: CustomEditors.ReferralsEditor;
+        ReferralAccepted: CustomEditors.YesNoRadioEditor;
+        ReferralAcceptedChild: CustomEditors.YesNoRadioEditor;
+        ReferralAcceptedParent: CustomEditors.YesNoRadioEditor;
+        ProjectedDischarge: Serenity.DateEditor;
+        Narrative: Serenity.TextAreaEditor;
+        Status: Serenity.StringEditor;
+        EpisodeId: Serenity.IntegerEditor;
+    }
+    class CrisisAssessmentsForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    interface CrisisAssessmentsRow {
+        AssessmentId?: number;
+        TenantId?: number;
+        ClientId?: number;
+        EpisodeId?: number;
+        FormType?: string;
+        Status?: string;
+        ServiceDate?: string;
+        StartTime?: string;
+        EndTime?: string;
+        County?: string;
+        Zip?: string;
+        TeamMember1?: number;
+        TeamMember2?: number;
+        ResponderCredentials?: string;
+        ParentPresent?: string;
+        ParentName?: string;
+        ParentPhone?: string;
+        GradeLevel?: string;
+        Location?: string;
+        ChildrenInHome?: boolean;
+        RiskCategories?: string;
+        PrimaryRisk?: string;
+        Diagnoses?: string;
+        SubstanceType?: string;
+        SubstanceAmount?: string;
+        SubstanceFrequency?: string;
+        AgeBand?: string;
+        Disabilities?: string;
+        Gender?: string;
+        Language?: string;
+        RaceEthnicity?: string;
+        Immigrated?: string;
+        Q1?: number;
+        Q2?: number;
+        Q3?: number;
+        Q4?: number;
+        Q5?: number;
+        Q6?: number;
+        Q7?: number;
+        Q8?: number;
+        Q9?: number;
+        Q10?: number;
+        Q11?: number;
+        Q12?: number;
+        Q13?: number;
+        Q14?: number;
+        Q15?: number;
+        Q16?: number;
+        Q17?: number;
+        Q18?: number;
+        Q19?: number;
+        Q20?: number;
+        S1?: string;
+        S2?: string;
+        S3?: string;
+        S4?: string;
+        S5?: string;
+        S6?: string;
+        S6b?: string;
+        Score?: number;
+        HighRisk?: boolean;
+        HardStopReasons?: string;
+        Referrals?: string;
+        ReferralAccepted?: string;
+        ReferralAcceptedChild?: string;
+        ReferralAcceptedParent?: string;
+        ProjectedDischarge?: string;
+        Narrative?: string;
+        QuestionNotes?: string;
+        SuicideNotes?: string;
+        ProtocolResult?: string;
+        CompletedAt?: string;
+        SignedBy?: number;
+        SignedAt?: string;
+        SignedName?: string;
+        Owner?: number;
+        OwnerCreateDate?: string;
+        ClientName?: string;
+        ClientRecordNumber?: string;
+        TeamMember1Name?: string;
+        TeamMember2Name?: string;
+        NeedCount?: number;
+        [key: string]: any;
+    }
+    namespace CrisisAssessmentsRow {
+        const idProperty = "AssessmentId";
+        const nameProperty = "FormType";
+        const localTextPrefix = "CrisisAssessments.CrisisAssessments";
+        const deletePermission = "PatientManager:Patients";
+        const insertPermission = "PatientManager:Patients";
+        const readPermission = "PatientManager:Patients";
+        const updatePermission = "PatientManager:Patients";
+        const enum Fields {
+            AssessmentId = "AssessmentId",
+            TenantId = "TenantId",
+            ClientId = "ClientId",
+            EpisodeId = "EpisodeId",
+            FormType = "FormType",
+            Status = "Status",
+            ServiceDate = "ServiceDate",
+            StartTime = "StartTime",
+            EndTime = "EndTime",
+            County = "County",
+            Zip = "Zip",
+            TeamMember1 = "TeamMember1",
+            TeamMember2 = "TeamMember2",
+            ResponderCredentials = "ResponderCredentials",
+            ParentPresent = "ParentPresent",
+            ParentName = "ParentName",
+            ParentPhone = "ParentPhone",
+            GradeLevel = "GradeLevel",
+            Location = "Location",
+            ChildrenInHome = "ChildrenInHome",
+            RiskCategories = "RiskCategories",
+            PrimaryRisk = "PrimaryRisk",
+            Diagnoses = "Diagnoses",
+            SubstanceType = "SubstanceType",
+            SubstanceAmount = "SubstanceAmount",
+            SubstanceFrequency = "SubstanceFrequency",
+            AgeBand = "AgeBand",
+            Disabilities = "Disabilities",
+            Gender = "Gender",
+            Language = "Language",
+            RaceEthnicity = "RaceEthnicity",
+            Immigrated = "Immigrated",
+            Q1 = "Q1",
+            Q2 = "Q2",
+            Q3 = "Q3",
+            Q4 = "Q4",
+            Q5 = "Q5",
+            Q6 = "Q6",
+            Q7 = "Q7",
+            Q8 = "Q8",
+            Q9 = "Q9",
+            Q10 = "Q10",
+            Q11 = "Q11",
+            Q12 = "Q12",
+            Q13 = "Q13",
+            Q14 = "Q14",
+            Q15 = "Q15",
+            Q16 = "Q16",
+            Q17 = "Q17",
+            Q18 = "Q18",
+            Q19 = "Q19",
+            Q20 = "Q20",
+            S1 = "S1",
+            S2 = "S2",
+            S3 = "S3",
+            S4 = "S4",
+            S5 = "S5",
+            S6 = "S6",
+            S6b = "S6b",
+            Score = "Score",
+            HighRisk = "HighRisk",
+            HardStopReasons = "HardStopReasons",
+            Referrals = "Referrals",
+            ReferralAccepted = "ReferralAccepted",
+            ReferralAcceptedChild = "ReferralAcceptedChild",
+            ReferralAcceptedParent = "ReferralAcceptedParent",
+            ProjectedDischarge = "ProjectedDischarge",
+            Narrative = "Narrative",
+            QuestionNotes = "QuestionNotes",
+            SuicideNotes = "SuicideNotes",
+            ProtocolResult = "ProtocolResult",
+            CompletedAt = "CompletedAt",
+            SignedBy = "SignedBy",
+            SignedAt = "SignedAt",
+            SignedName = "SignedName",
+            Owner = "Owner",
+            OwnerCreateDate = "OwnerCreateDate"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    namespace CrisisAssessmentsService {
+        const baseUrl = "CrisisAssessments/CrisisAssessments";
+        function Create(request: Serenity.SaveRequest<CrisisAssessmentsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<CrisisAssessmentsRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisAssessmentsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Evaluate(request: EvaluateRequest, onSuccess?: (response: EvaluationResult) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Recommendations(request: Serenity.RetrieveRequest, onSuccess?: (response: EvaluationResult) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Complete(request: CompleteRequest, onSuccess?: (response: CompleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Sign(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.ServiceResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisAssessmentsRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "CrisisAssessments/CrisisAssessments/Create",
+            Update = "CrisisAssessments/CrisisAssessments/Update",
+            Delete = "CrisisAssessments/CrisisAssessments/Delete",
+            Retrieve = "CrisisAssessments/CrisisAssessments/Retrieve",
+            List = "CrisisAssessments/CrisisAssessments/List"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    interface EvaluateRequest extends Serenity.ServiceRequest {
+        Entity?: CrisisAssessmentsRow;
+    }
+    interface HardStop {
+        Title?: string;
+        Instruction?: string;
+        Source?: string;
+    }
+    interface EvalNeed {
+        NeedKey?: string;
+        Label?: string;
+        Category?: string;
+        CategoryLabel?: string;
+        Priority?: string;
+        Sources?: string;
+        E3E4Goals?: number;
+    }
+    interface EvalGoal {
+        LibraryGoalId?: number;
+        Code?: string;
+        Phase?: string;
+        Description?: string;
+        NeedKey?: string;
+        IsProtocol?: boolean;
+        Locked?: boolean;
+        Preselected?: boolean;
+        Source?: string;
+    }
+    interface EvaluationResult extends Serenity.ServiceResponse {
+        FormType?: string;
+        Score?: number;
+        ScoreCutoff?: number;
+        ScoreReached?: boolean;
+        Answered?: number;
+        QuestionCount?: number;
+        HighRisk?: boolean;
+        HardStops?: HardStop[];
+        Needs?: EvalNeed[];
+        TonightGoals?: EvalGoal[];
+        FiredRuleIds?: number[];
+        E2ProtocolGoals?: number;
+        E5ProtocolGoals?: number;
+        FollowUpGoals?: number;
+        RepeatEpisode?: boolean;
+        ProtocolResult?: string;
+    }
+    interface DeclinedGoal {
+        LibraryGoalId?: number;
+        Reason?: string;
+    }
+    interface CompleteRequest extends Serenity.ServiceRequest {
+        AssessmentId?: number;
+        NeedKeys?: string[];
+        GoalIds?: number[];
+        Declined?: DeclinedGoal[];
+    }
+    interface CompleteResponse extends Serenity.ServiceResponse {
+        EpisodeId?: number;
+        EpisodeOpened?: boolean;
+        NeedsCreated?: number;
+        GoalsByPhase?: {
+            [key: string]: number;
+        };
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    interface ConsentItem {
+        RequestId?: number;
+        TemplateId?: number;
+        Code?: string;
+        Title?: string;
+        Summary?: string;
+        SignerRoles?: string;
+        RequiredAtIntake?: boolean;
+        Status?: string;
+        Channel?: string;
+        SignedAt?: string;
+        SignerName?: string;
+        SignerRelationship?: string;
+        WorkerName?: string;
+        WrittenDueAt?: string;
+        RefusalReason?: string;
+        DocumentHash?: string;
+        ClientDocumentId?: number;
+    }
+    interface ConsentInviteInfo {
+        InviteId?: number;
+        SentTo?: string;
+        SentAt?: string;
+        ExpiresAt?: string;
+        UsedAt?: string;
+        RevokedAt?: string;
+        Attempts?: number;
+        LockedAt?: string;
+    }
+    interface ConsentState extends Serenity.ServiceResponse {
+        EpisodeId?: number;
+        ClientId?: number;
+        ClientName?: string;
+        ClientEmail?: string;
+        IsMinor?: boolean;
+        Complete?: boolean;
+        Verbal?: boolean;
+        GateOk?: boolean;
+        Summary?: string;
+        Items?: ConsentItem[];
+        Invite?: ConsentInviteInfo;
+        Audit?: string[];
+    }
+    interface ConsentEpisodeRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+    }
+    interface ConsentSignRequest extends Serenity.ServiceRequest {
+        RequestId?: number;
+        SignerName?: string;
+        SignerRelationship?: string;
+        SignatureImage?: string;
+        WorkerSignatureImage?: string;
+        FieldData?: string;
+    }
+    interface ConsentInviteRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+        Email?: string;
+    }
+    interface ConsentVerbalRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+        FieldData?: string;
+        WorkerSignatureImage?: string;
+    }
+    interface ConsentRefuseRequest extends Serenity.ServiceRequest {
+        RequestId?: number;
+        Reason?: string;
+    }
+    namespace ConsentService {
+        const baseUrl = "CrisisEpisodes/Consent";
+        function State(request: ConsentEpisodeRequest, onSuccess?: (response: ConsentState) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function SignInPerson(request: ConsentSignRequest, onSuccess?: (response: ConsentItem) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function SendInvite(request: ConsentInviteRequest, onSuccess?: (response: ConsentState) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function RecordVerbal(request: ConsentVerbalRequest, onSuccess?: (response: ConsentState) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function RecordRefusal(request: ConsentRefuseRequest, onSuccess?: (response: ConsentState) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    namespace CrisisEpisodesColumns {
+        const columnsKey = "CrisisEpisodes.CrisisEpisodes";
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    interface CrisisEpisodesForm {
+        PresentingTrigger: Serenity.TextAreaEditor;
+        Phase: CustomEditors.EpisodePhaseEditor;
+        EncounterCount: Serenity.IntegerEditor;
+        OpenedAt: Serenity.DateEditor;
+        ProjectedDischarge: Serenity.DateEditor;
+        ClinicianId: Serenity.LookupEditor;
+        ClosedAt: Serenity.DateEditor;
+        Disposition: CustomEditors.EpisodeDispositionEditor;
+        Notes: Serenity.TextAreaEditor;
+        ClientId: Serenity.IntegerEditor;
+    }
+    class CrisisEpisodesForm extends Serenity.PrefixedContext {
+        static formKey: string;
+        private static init;
+        constructor(prefix: string);
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    interface CrisisEpisodesRow {
+        EpisodeId?: number;
+        ClientId?: number;
+        ClientName?: string;
+        ClientRecordNumber?: string;
+        TenantId?: number;
+        OpenedAt?: string;
+        OpenedBy?: number;
+        OpenedByName?: string;
+        PresentingTrigger?: string;
+        AssessmentId?: number;
+        ClinicianId?: number;
+        ClinicianName?: string;
+        Phase?: string;
+        EncounterCount?: number;
+        ProjectedDischarge?: string;
+        ClosedAt?: string;
+        Disposition?: string;
+        Notes?: string;
+        Owner?: number;
+        OwnerCreateDate?: string;
+    }
+    namespace CrisisEpisodesRow {
+        const idProperty = "EpisodeId";
+        const nameProperty = "PresentingTrigger";
+        const localTextPrefix = "CrisisEpisodes.CrisisEpisodes";
+        const deletePermission = "PatientManager:Patients";
+        const insertPermission = "PatientManager:Patients";
+        const readPermission = "PatientManager:Patients";
+        const updatePermission = "PatientManager:Patients";
+        const enum Fields {
+            EpisodeId = "EpisodeId",
+            ClientId = "ClientId",
+            ClientName = "ClientName",
+            ClientRecordNumber = "ClientRecordNumber",
+            TenantId = "TenantId",
+            OpenedAt = "OpenedAt",
+            OpenedBy = "OpenedBy",
+            OpenedByName = "OpenedByName",
+            PresentingTrigger = "PresentingTrigger",
+            AssessmentId = "AssessmentId",
+            ClinicianId = "ClinicianId",
+            ClinicianName = "ClinicianName",
+            Phase = "Phase",
+            EncounterCount = "EncounterCount",
+            ProjectedDischarge = "ProjectedDischarge",
+            ClosedAt = "ClosedAt",
+            Disposition = "Disposition",
+            Notes = "Notes",
+            Owner = "Owner",
+            OwnerCreateDate = "OwnerCreateDate"
+        }
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    namespace CrisisEpisodesService {
+        const baseUrl = "CrisisEpisodes/CrisisEpisodes";
+        function Create(request: Serenity.SaveRequest<CrisisEpisodesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Update(request: Serenity.SaveRequest<CrisisEpisodesRow>, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Delete(request: Serenity.DeleteRequest, onSuccess?: (response: Serenity.DeleteResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Retrieve(request: Serenity.RetrieveRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisEpisodesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function List(request: Serenity.ListRequest, onSuccess?: (response: Serenity.ListResponse<CrisisEpisodesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function GetOpen(request: GetOpenEpisodeRequest, onSuccess?: (response: Serenity.RetrieveResponse<CrisisEpisodesRow>) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Close(request: CloseEpisodeRequest, onSuccess?: (response: Serenity.SaveResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        const enum Methods {
+            Create = "CrisisEpisodes/CrisisEpisodes/Create",
+            Update = "CrisisEpisodes/CrisisEpisodes/Update",
+            Delete = "CrisisEpisodes/CrisisEpisodes/Delete",
+            Retrieve = "CrisisEpisodes/CrisisEpisodes/Retrieve",
+            List = "CrisisEpisodes/CrisisEpisodes/List",
+            GetOpen = "CrisisEpisodes/CrisisEpisodes/GetOpen",
+            Close = "CrisisEpisodes/CrisisEpisodes/Close"
+        }
+    }
+    interface GetOpenEpisodeRequest extends Serenity.ServiceRequest {
+        ClientId?: number;
+    }
+    interface CloseEpisodeRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+        Disposition?: string;
+        Notes?: string;
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    interface NoteQuestion {
+        QuestionId?: number;
+        SortOrder?: number;
+        Prompt?: string;
+        AnswerType?: string;
+        Options?: string[];
+        SentenceTemplate?: string;
+        ResourceType?: string;
+        SendsToCrisisPlan?: boolean;
+        IsRequired?: boolean;
+        ShowWhen?: string;
+        Answer?: string;
+    }
+    interface NoteOutcome {
+        OutcomeId?: number;
+        LibraryOutcomeId?: number;
+        Text?: string;
+        StatusRule?: string;
+        EffectivenessTemplate?: string;
+        IsMet?: boolean;
+        Questions?: NoteQuestion[];
+    }
+    interface NoteIntervention {
+        ClientGoalInterventionId?: number;
+        Number?: number;
+        Desc?: string;
+        Provided?: boolean;
+        Detail?: string;
+    }
+    interface NoteGoal {
+        ClientGoalId?: number;
+        Code?: string;
+        Description?: string;
+        Phase?: string;
+        IsProtocol?: boolean;
+        IsCarried?: boolean;
+        NeedKey?: string;
+        EffectivenessMeasure?: string;
+        Status?: string;
+        StatusOverride?: boolean;
+        OutcomeText?: string;
+        EffectivenessText?: string;
+        WorkerNote?: string;
+        Interventions?: NoteIntervention[];
+        Outcomes?: NoteOutcome[];
+    }
+    interface GateState {
+        Ready?: boolean;
+        Missing?: string[];
+    }
+    interface PlanEntry {
+        EntryId?: number;
+        EntryType?: string;
+        EntryText?: string;
+        SourceGoalId?: number;
+        SourceNoteId?: number;
+    }
+    interface EpisodeGoalSummary {
+        ClientGoalId?: number;
+        Code?: string;
+        Description?: string;
+        Phase?: string;
+        Status?: string;
+        LastOutcome?: string;
+        LastEncounter?: number;
+    }
+    interface NoteData extends Serenity.ServiceResponse {
+        ActivityId?: number;
+        ProgramNoteId?: number;
+        EpisodeId?: number;
+        EncounterNo?: number;
+        Phase?: string;
+        PhaseLabel?: string;
+        ClientId?: number;
+        ClientName?: string;
+        ServiceDate?: string;
+        NoteStatus?: string;
+        Locked?: boolean;
+        FollowUpDay?: number;
+        ContactMethod?: string;
+        SafetyConcern?: boolean;
+        SafetyText?: string;
+        LongTermAdmission?: boolean;
+        Summary?: string;
+        DischargeSummary?: string;
+        Goals?: NoteGoal[];
+        Gate?: GateState;
+        CrisisPlan?: PlanEntry[];
+        EpisodeGoals?: EpisodeGoalSummary[];
+        Field01?: string;
+        Field02?: string;
+        Field03?: string;
+        Field04?: string;
+    }
+    interface SaveAnswer {
+        OutcomeId?: number;
+        QuestionId?: number;
+        Answer?: string;
+    }
+    interface SaveGoal {
+        ClientGoalId?: number;
+        Status?: string;
+        StatusOverride?: boolean;
+        WorkerNote?: string;
+        Interventions?: NoteIntervention[];
+        Answers?: SaveAnswer[];
+    }
+    interface SaveNoteDataRequest extends Serenity.ServiceRequest {
+        ActivityId?: number;
+        Goals?: SaveGoal[];
+        SafetyConcern?: boolean;
+        SafetyText?: string;
+        ContactMethod?: string;
+        LongTermAdmission?: boolean;
+    }
+    interface StartEncounterRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+        ServiceDate?: string;
+        FromTime?: string;
+        ToTime?: string;
+        Location?: string;
+        IsBillable?: boolean;
+        FollowUpId?: number;
+        ContactMethod?: string;
+    }
+    interface StartEncounterResponse extends Serenity.ServiceResponse {
+        ActivityId?: number;
+        ProgramNoteId?: number;
+        Resumed?: boolean;
+    }
+    interface ActivityRequest extends Serenity.ServiceRequest {
+        ActivityId?: number;
+    }
+    interface EpisodeRequest extends Serenity.ServiceRequest {
+        EpisodeId?: number;
+    }
+    interface TimelineEncounter {
+        ActivityId?: number;
+        ProgramNoteId?: number;
+        EncounterNo?: number;
+        Phase?: string;
+        PhaseLabel?: string;
+        ServiceDate?: string;
+        Status?: string;
+        FollowUpDay?: number;
+        Summary?: string;
+    }
+    interface TimelineFollowUp {
+        FollowUpId?: number;
+        Day?: number;
+        DueDate?: string;
+        Status?: string;
+        ActivityId?: number;
+        Result?: string;
+    }
+    interface EpisodeTimeline extends Serenity.ServiceResponse {
+        EpisodeId?: number;
+        Phase?: string;
+        PhaseLabel?: string;
+        Closed?: boolean;
+        Disposition?: string;
+        NextAction?: string;
+        OpenActivityId?: number;
+        Encounters?: TimelineEncounter[];
+        FollowUps?: TimelineFollowUp[];
+        Goals?: EpisodeGoalSummary[];
+    }
+    namespace EncounterNotesService {
+        const baseUrl = "CrisisEpisodes/EncounterNotes";
+        function GetNoteData(request: ActivityRequest, onSuccess?: (response: NoteData) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function SaveNoteData(request: SaveNoteDataRequest, onSuccess?: (response: NoteData) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function StartEncounter(request: StartEncounterRequest, onSuccess?: (response: StartEncounterResponse) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
+        function Timeline(request: EpisodeRequest, onSuccess?: (response: EpisodeTimeline) => void, opt?: Q.ServiceOptions<any>): JQueryXHR;
     }
 }
 declare namespace GeniusOneAi.Dashboards {
@@ -3578,6 +4878,9 @@ declare namespace GeniusOneAi.ProgramNoteManager {
         SignatureImage?: string;
         SignatureGuid?: string;
         FileName?: string;
+        EpisodeId?: number;
+        EncounterNo?: number;
+        Phase?: string;
     }
     namespace ProgramNotesRow {
         const idProperty = "ProgramNoteId";
@@ -3608,7 +4911,10 @@ declare namespace GeniusOneAi.ProgramNoteManager {
             ESignaturePlainText = "ESignaturePlainText",
             SignatureImage = "SignatureImage",
             SignatureGuid = "SignatureGuid",
-            FileName = "FileName"
+            FileName = "FileName",
+            EpisodeId = "EpisodeId",
+            EncounterNo = "EncounterNo",
+            Phase = "Phase"
         }
     }
 }
@@ -4825,6 +6131,15 @@ declare namespace GeniusOneAi.WorkerPortal {
         TenantId?: number;
         OwnerCreateDate?: string;
         Owner?: number;
+        EpisodeId?: number;
+        Phase?: string;
+        LibraryGoalId?: number;
+        SourceRuleId?: number;
+        IsProtocol?: boolean;
+        NeedKey?: string;
+        NeedLabel?: string;
+        CarriedFromGoalId?: number;
+        EffectivenessMeasure?: string;
     }
     namespace ClientGoalsRow {
         const idProperty = "ClientGoalId";
@@ -4843,7 +6158,16 @@ declare namespace GeniusOneAi.WorkerPortal {
             Status = "Status",
             TenantId = "TenantId",
             OwnerCreateDate = "OwnerCreateDate",
-            Owner = "Owner"
+            Owner = "Owner",
+            EpisodeId = "EpisodeId",
+            Phase = "Phase",
+            LibraryGoalId = "LibraryGoalId",
+            SourceRuleId = "SourceRuleId",
+            IsProtocol = "IsProtocol",
+            NeedKey = "NeedKey",
+            NeedLabel = "NeedLabel",
+            CarriedFromGoalId = "CarriedFromGoalId",
+            EffectivenessMeasure = "EffectivenessMeasure"
         }
     }
 }
@@ -6765,7 +8089,7 @@ declare namespace GeniusOneAi.AgencyAdministration {
         protected form: ClientGoalsLibraryForm;
         protected getDialogOptions(): JQueryUI.DialogOptions;
         protected updateTitle(): void;
-        protected updateInterface(): void;
+        protected getSaveEntity(): ClientGoalsLibraryRow;
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
@@ -6777,6 +8101,10 @@ declare namespace GeniusOneAi.AgencyAdministration {
         protected getLocalTextPrefix(): string;
         protected getService(): string;
         constructor(container: JQuery);
+        protected getInitialTitle(): string;
+        protected getDefaultSortBy(): string[];
+        protected getSlickOptions(): Slick.GridOptions;
+        protected createSlickGrid(): Slick.Grid;
         protected getColumns(): Slick.Column[];
         protected getButtons(): Serenity.ToolButton[];
         protected onClick(e: JQueryEventObject, row: number, cell: number): void;
@@ -6847,6 +8175,31 @@ declare namespace GeniusOneAi.AgencyAdministration {
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
+    class CrisisNeedsDialog extends Serenity.EntityDialog<CrisisNeedsRow, any> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: CrisisNeedsForm;
+        protected updateTitle(): void;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class CrisisNeedsGrid extends Serenity.EntityGrid<CrisisNeedsRow, any> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof CrisisNeedsDialog;
+        protected getIdProperty(): string;
+        protected getInsertPermission(): string;
+        protected getLocalTextPrefix(): string;
+        protected getService(): string;
+        constructor(container: JQuery);
+        protected getDefaultSortBy(): string[];
+        protected getInitialTitle(): string;
+        protected getAddButtonCaption(): string;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
     class FormTypesDialog extends Serenity.EntityDialog<FormTypesRow, any> {
         protected getFormKey(): string;
         protected getIdProperty(): string;
@@ -6876,6 +8229,56 @@ declare namespace GeniusOneAi.AgencyAdministration {
         protected createQuickSearchInput(): void;
         protected onClick(e: JQueryEventObject, row: number, cell: number): void;
         protected getQuickFilters(): Serenity.QuickFilter<Serenity.Widget<any>, any>[];
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class LibraryGoalOutcomesDialog extends Serenity.Extensions.GridEditorDialog<LibraryGoalOutcomesRow> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: LibraryGoalOutcomesForm;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+        protected loadEntity(entity: LibraryGoalOutcomesRow): void;
+        protected updateInterface(): void;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class LibraryGoalOutcomesEditor extends Serenity.Extensions.GridEditorBase<LibraryGoalOutcomesRow> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof LibraryGoalOutcomesDialog;
+        protected getLocalTextPrefix(): string;
+        constructor(container: JQuery);
+        protected getButtons(): Serenity.ToolButton[];
+        protected getAddButtonCaption(): string;
+        protected getColumns(): Slick.Column[];
+        protected validateEntity(row: LibraryGoalOutcomesRow, id: number): boolean;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class OutcomeQuestionsDialog extends Serenity.Extensions.GridEditorDialog<OutcomeQuestionsRow> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: OutcomeQuestionsForm;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class OutcomeQuestionsEditor extends Serenity.Extensions.GridEditorBase<OutcomeQuestionsRow> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof OutcomeQuestionsDialog;
+        protected getLocalTextPrefix(): string;
+        constructor(container: JQuery);
+        protected getButtons(): Serenity.ToolButton[];
+        protected getAddButtonCaption(): string;
+        protected getColumns(): Slick.Column[];
+        protected validateEntity(row: OutcomeQuestionsRow, id: number): boolean;
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
@@ -6971,6 +8374,33 @@ declare namespace GeniusOneAi.AgencyAdministration {
         protected createQuickSearchInput(): void;
         protected onClick(e: JQueryEventObject, row: number, cell: number): void;
         protected getQuickFilters(): Serenity.QuickFilter<Serenity.Widget<any>, any>[];
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class ResourceDirectoryDialog extends Serenity.EntityDialog<ResourceDirectoryRow, any> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: ResourceDirectoryForm;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+    }
+}
+declare namespace GeniusOneAi.AgencyAdministration {
+    class ResourceDirectoryGrid extends Serenity.EntityGrid<ResourceDirectoryRow, any> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof ResourceDirectoryDialog;
+        protected getIdProperty(): string;
+        protected getInsertPermission(): string;
+        protected getLocalTextPrefix(): string;
+        protected getService(): string;
+        constructor(container: JQuery);
+        protected getDefaultSortBy(): string[];
+        protected getInitialTitle(): string;
+        protected getAddButtonCaption(): string;
+        protected getColumns(): Slick.Column[];
     }
 }
 declare namespace GeniusOneAi.AgencyAdministration {
@@ -7219,6 +8649,30 @@ declare namespace GeniusOneAi.ClientManager {
     }
 }
 declare namespace GeniusOneAi.ClientManager {
+    class ClientGoalOutcomesDialog extends Serenity.Extensions.GridEditorDialog<ClientGoalOutcomesRow> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: ClientGoalOutcomesForm;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
+    class ClientGoalOutcomesEditor extends Serenity.Extensions.GridEditorBase<ClientGoalOutcomesRow> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof ClientGoalOutcomesDialog;
+        protected getLocalTextPrefix(): string;
+        constructor(container: JQuery);
+        protected getButtons(): Serenity.ToolButton[];
+        protected getAddButtonCaption(): string;
+        protected getColumns(): Slick.Column[];
+        protected validateEntity(row: ClientGoalOutcomesRow, id: number): boolean;
+    }
+}
+declare namespace GeniusOneAi.ClientManager {
     class ClientGoalsDialog extends Serenity.EntityDialog<ClientGoalsRow, any> {
         protected getFormKey(): string;
         protected getIdProperty(): string;
@@ -7248,6 +8702,8 @@ declare namespace GeniusOneAi.ClientManager {
         protected createQuickSearchInput(): void;
         protected getAddButtonCaption(): string;
         protected getSlickOptions(): Slick.GridOptions;
+        protected createSlickGrid(): Slick.Grid;
+        protected getDefaultSortBy(): string[];
         protected getColumns(): Slick.Column[];
         protected getButtons(): Serenity.ToolButton[];
         protected onClick(e: JQueryEventObject, row: number, cell: number): void;
@@ -7258,14 +8714,26 @@ declare namespace GeniusOneAi.ClientManager {
     class ClientGoalsLibrarySelectorDialog extends Serenity.TemplatedDialog<any> {
         private goalsGrid;
         clientID: number;
+        episodeId: number;
+        phase: string;
+        onAdded: () => void;
         constructor();
-        getToolbarButtons(): Serenity.ToolButton[];
         protected getTemplate(): string;
         protected onDialogOpen(): void;
         protected getDialogOptions(): JQueryUI.DialogOptions;
     }
+    /** Opens the library picker for the client's open episode (phase pre-selected), or plain if none. */
+    function openGoalLibraryForClient(clientId: number, onAdded?: () => void, phase?: string): void;
 }
 declare namespace GeniusOneAi.ClientManager {
+    interface LibrarySelectorContext {
+        clientID: number;
+        episodeId?: number;
+        phase?: string;
+        onAdded?: () => void;
+    }
+    /** Need label from the CrisisNeeds lookup (NeedKey -> Label); falls back to the key. */
+    function needLabel(key: string): string;
     class ClientGoalsLibrarySelectorGrid extends Serenity.EntityGrid<ClientGoalsLibrarySelectorRow, any> {
         protected getColumnsKey(): string;
         protected getDialogType(): typeof ClientGoalsLibrarySelectorDialog;
@@ -7274,13 +8742,19 @@ declare namespace GeniusOneAi.ClientManager {
         protected getLocalTextPrefix(): string;
         protected getService(): string;
         private rowSelection;
+        private phaseSelect;
+        clientID: number;
+        episodeId: number;
+        phase: string;
+        onAdded: () => void;
         constructor(container: JQuery);
-        private _clientID;
-        get clientID(): string;
-        set clientID(value: string);
+        protected getGridCanLoad(): boolean;
+        setContext(ctx: LibrarySelectorContext): void;
         protected createToolbarExtensions(): void;
+        protected onViewSubmit(): boolean;
         protected createQuickSearchInput(): void;
         protected getInitialTitle(): string;
+        protected getDefaultSortBy(): string[];
         protected getSlickOptions(): Slick.GridOptions;
         protected getButtons(): {
             title: string;
@@ -7299,6 +8773,8 @@ declare namespace GeniusOneAi.ClientManager {
         protected getService(): string;
         private authorizationsGrid;
         private goalsGrid;
+        private episodesGrid;
+        private assessmentsGrid;
         private documentsGrid;
         private teamAssignmentGrid;
         private duplicateRecordNumber;
@@ -7414,6 +8890,96 @@ declare namespace GeniusOneAi.LanguageList {
 declare namespace GeniusOneAi.ScriptInitialization {
 }
 declare namespace GeniusOneAi.CustomEditors {
+    interface ListOpt {
+        key: string;
+        label: string;
+        forms?: string;
+    }
+    /** Checkbox / radio option list stored as a pipe-delimited string. Options can be limited to the adult or child form. */
+    class OptionListEditor extends Serenity.Widget<any> implements Serenity.IStringValue, Serenity.IReadOnly {
+        protected opts: ListOpt[];
+        protected multi: boolean;
+        protected formKind: string;
+        private ro;
+        private pending;
+        constructor(container: JQuery);
+        static labelOf(opts: ListOpt[], key: string): string;
+        protected buildOptions(opts: ListOpt[], multi: boolean): void;
+        protected renderList(): void;
+        setFormKind(k: string): void;
+        get_value(): string;
+        set_value(v: string): void;
+        get value(): string;
+        set value(v: string);
+        get_readOnly(): boolean;
+        set_readOnly(v: boolean): void;
+    }
+    class FormTypeRadioEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class LocationEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class RiskCategoriesEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class PrimaryRiskEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class SubstanceFrequencyEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class AgeBandEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class DisabilitiesEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class GenderRadioEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class LanguageRadioEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class RaceEthnicityEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class YesNoRadioEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    class ReferralsEditor extends OptionListEditor {
+        constructor(c: JQuery);
+        static label(key: string): string;
+    }
+    /** 1-5 (adult) or 0-4 (child) response card as a row of pills. */
+    class ScaleEditor extends Serenity.Widget<any> implements Serenity.IDoubleValue, Serenity.IReadOnly {
+        static adult: [number, string][];
+        static child: [number, string][];
+        private items;
+        private ro;
+        constructor(c: JQuery);
+        private renderList;
+        setScale(kind: string): void;
+        get_value(): number;
+        set_value(v: number): void;
+        get value(): number;
+        set value(v: number);
+        get_readOnly(): boolean;
+        set_readOnly(v: boolean): void;
+    }
+}
+declare namespace GeniusOneAi.CustomEditors {
     class AuthorizationApprovalEditor extends Serenity.Select2Editor<any, any> {
         constructor(container: JQuery);
     }
@@ -7469,6 +9035,19 @@ declare namespace GeniusOneAi.CustomEditors {
     }
 }
 declare namespace GeniusOneAi.CustomEditors {
+    class EpisodePhaseEditor extends Serenity.Select2Editor<any, any> {
+        static items: [string, string][];
+        static label(key: string): string;
+        static order(key: string): number;
+        constructor(container: JQuery);
+    }
+    class EpisodeDispositionEditor extends Serenity.Select2Editor<any, any> {
+        static items: [string, string][];
+        static label(key: string): string;
+        constructor(container: JQuery);
+    }
+}
+declare namespace GeniusOneAi.CustomEditors {
     class FormTypeEditor extends Serenity.Select2Editor<any, any> {
         constructor(container: JQuery);
     }
@@ -7487,6 +9066,791 @@ declare namespace GeniusOneAi.CustomEditors {
     class GoalEditor extends Serenity.Select2Editor<any, any> {
         constructor(container: JQuery);
     }
+}
+declare namespace GeniusOneAi.CustomEditors {
+    const AnswerTypeEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    export class AnswerTypeEditor extends AnswerTypeEditor_base {
+    }
+    const ResourceTypeEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    export class ResourceTypeEditor extends ResourceTypeEditor_base {
+    }
+    const GoalOriginEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    export class GoalOriginEditor extends GoalOriginEditor_base {
+    }
+    const StatusRuleEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    export class StatusRuleEditor extends StatusRuleEditor_base {
+    }
+    const NeedCategoryEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    export class NeedCategoryEditor extends NeedCategoryEditor_base {
+    }
+    const GoalStatusEditor_base: {
+        new (container: JQuery): {
+            _items: any;
+            _itemById: any;
+            lastCreateTerm: string;
+            destroy(): void;
+            hasAsyncSource(): boolean;
+            asyncSearch(query: Serenity.Select2SearchQuery, results: (result: Serenity.Select2SearchResult<any>) => void): Serenity.Select2SearchPromise;
+            getTypeDelay(): any;
+            emptyItemText(): string;
+            getPageSize(): number;
+            getIdField(): any;
+            itemId(item: any): string;
+            getTextField(): any;
+            itemText(item: any): string;
+            itemDisabled(item: any): boolean;
+            mapItem(item: any): Serenity.Select2Item;
+            mapItems(items: any[]): Serenity.Select2Item[];
+            allowClear(): boolean;
+            isMultiple(): boolean;
+            getSelect2Options(): Select2Options;
+            get_delimited(): boolean;
+            items: Serenity.Select2Item[];
+            itemById: {
+                [key: string]: Serenity.Select2Item;
+            };
+            clearItems(): void;
+            addItem(item: Serenity.Select2Item): void;
+            addOption(key: string, text: string, source?: any, disabled?: boolean): void;
+            addInplaceCreate(addTitle: string, editTitle: string): void;
+            useInplaceAdd(): boolean;
+            isAutoComplete(): boolean;
+            getCreateSearchChoice(getName: (z: any) => string): (s: string) => {
+                id: string;
+                text: string;
+            };
+            setEditValue(source: any, property: Serenity.PropertyItem): void;
+            getEditValue(property: Serenity.PropertyItem, target: any): void;
+            get_select2Container(): JQuery;
+            get_items(): Serenity.Select2Item[];
+            get_itemByKey(): {
+                [key: string]: Serenity.Select2Item;
+            };
+            get_value(): any;
+            value: string;
+            set_value(value: string): void;
+            readonly selectedItem: any;
+            readonly selectedItems: any[];
+            get_values(): string[];
+            values: string[];
+            set_values(value: string[]): void;
+            get_text(): string;
+            readonly text: string;
+            get_readOnly(): boolean;
+            readOnly: boolean;
+            updateInplaceReadOnly: any;
+            set_readOnly(value: boolean): void;
+            getCascadeFromValue(parent: Serenity.Widget<any>): any;
+            cascadeLink: Serenity.CascadedWidgetLink<Serenity.Widget<any>>;
+            setCascadeFrom(value: string): void;
+            get_cascadeFrom(): string;
+            cascadeFrom: string;
+            set_cascadeFrom(value: string): void;
+            get_cascadeField(): string;
+            cascadeField: string;
+            set_cascadeField(value: string): void;
+            get_cascadeValue(): any;
+            cascadeValue: any;
+            set_cascadeValue(value: any): void;
+            get_filterField(): string;
+            filterField: string;
+            set_filterField(value: string): void;
+            get_filterValue(): any;
+            filterValue: any;
+            set_filterValue(value: any): void;
+            cascadeItems(items: any[]): any[];
+            filterItems(items: any[]): any[];
+            updateItems(): void;
+            getDialogTypeKey(): string;
+            createEditDialog(callback: (dlg: Serenity.IEditDialog) => void): void;
+            onInitNewEntity: (entity: any) => void;
+            initNewEntity(entity: any): void;
+            setEditDialogReadOnly(dialog: any): void;
+            editDialogDataChange(): void;
+            setTermOnNewEntity(entity: any, term: string): void;
+            inplaceCreateClick(e: JQueryEventObject): void;
+            openDialogAsPanel: boolean;
+            element: JQuery;
+            options: any;
+            widgetName: string;
+            uniqueName: string;
+            addCssClass(): void;
+            getCssClass(): string;
+            addValidationRule(eventClass: string, rule: (p1: JQuery) => string): JQuery;
+            getGridField(): JQuery;
+            initialize(): void;
+            init(action?: (widget: any) => void): any;
+            props: Readonly<{
+                children?: React.ReactNode;
+            }> & Readonly<any> & Serenity.WidgetComponentProps<any>;
+            change(handler: (e: JQueryEventObject) => void): void;
+            changeSelect2(handler: (e: JQueryEventObject) => void): void;
+            setState<K extends never>(state: {} | ((prevState: Readonly<{}>, props: any) => {} | Pick<{}, K>) | Pick<{}, K>, callback?: () => void): void;
+            forceUpdate(callBack?: () => void): void;
+            render(): React.ReactNode;
+            state: Readonly<{}>;
+            context: any;
+            refs: {
+                [key: string]: React.ReactInstance;
+            };
+            componentWillMount?(): void;
+            componentDidMount?(): void;
+            componentWillReceiveProps?(nextProps: Readonly<any>, nextContext: any): void;
+            shouldComponentUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): boolean;
+            componentWillUpdate?(nextProps: Readonly<any>, nextState: Readonly<{}>, nextContext: any): void;
+            componentDidUpdate?(prevProps: Readonly<any>, prevState: Readonly<{}>, prevContext: any): void;
+            componentWillUnmount?(): void;
+            componentDidCatch?(error: Error, errorInfo: React.ErrorInfo): void;
+        };
+        items: [string, string][];
+        label(key: string): string;
+        filterByText<TItem>(items: TItem[], getText: (item: TItem) => string, term: string): TItem[];
+        nextWidgetNumber: any;
+        getWidgetName(type: Function): string;
+        elementFor<TWidget>(editorType: new (...args: any[]) => TWidget): JQuery;
+        create<TWidget_1 extends Serenity.Widget<TOpt>, TOpt>(params: Serenity.CreateWidgetParams<TWidget_1, TOpt>): TWidget_1;
+        __isWidgetType: any;
+    };
+    /** Goal status set agreed 9/12 (matches the earlier five-phase design). Legacy values stay selectable so old rows still load. */
+    export class GoalStatusEditor extends GoalStatusEditor_base {
+        static css(v: string): string;
+    }
+    export {};
 }
 declare namespace GeniusOneAi.CustomEditors {
     class IncomePerEditor extends Serenity.Select2Editor<any, any> {
@@ -7624,6 +9988,199 @@ declare namespace GeniusOneAi.Common {
         private menuUL;
         constructor(input: JQuery, menuUL: JQuery);
         protected updateMatchFlags(text: string): void;
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    /** Review step: the clinician confirms needs and tonight's goals; the engine then opens/links the episode and copies goals per encounter. */
+    class AssessmentReviewDialog extends Serenity.TemplatedDialog<any> {
+        assessmentId: any;
+        onConfirmed: (r: CompleteResponse) => void;
+        private ev;
+        constructor();
+        protected getTemplate(): string;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected getToolbarButtons(): {
+            title: string;
+            cssClass: string;
+            icon: string;
+            onClick: () => void;
+        }[];
+        protected onDialogOpen(): void;
+        private renderReview;
+        private goalRow;
+        private confirm;
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    /**
+     * Adult / child crisis assessment. The form is the paper MCM assessment; the right rail evaluates
+     * live (score, hard stops, needs, goals for tonight) and "Complete and Recommend Goals" opens the
+     * review step where the clinician confirms what goes onto the episode.
+     */
+    class CrisisAssessmentsDialog extends Serenity.EntityDialog<CrisisAssessmentsRow, any> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: CrisisAssessmentsForm;
+        private rail;
+        private evalTimer;
+        private lastEval;
+        onCompleted: () => void;
+        static ADULT_Q: string[];
+        static CHILD_Q: string[];
+        static ADULT_S: string[];
+        static CHILD_S: string[];
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+        protected getToolbarButtons(): Serenity.ToolButton[];
+        protected onDialogOpen(): void;
+        protected afterLoadEntity(): void;
+        protected updateInterface(): void;
+        private kind;
+        /** Adult and child forms share one record; this swaps labels, scales and which fields show. */
+        private applyFormType;
+        private scheduleEvaluate;
+        private currentEntity;
+        evaluate(): void;
+        private renderRail;
+        private signClick;
+        private completeClick;
+        protected onSaveSuccess(response: Serenity.SaveResponse): void;
+    }
+}
+declare namespace GeniusOneAi.CrisisAssessments {
+    class CrisisAssessmentsGrid extends Serenity.EntityGrid<CrisisAssessmentsRow, any> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof CrisisAssessmentsDialog;
+        protected getIdProperty(): string;
+        protected getInsertPermission(): string;
+        protected getLocalTextPrefix(): string;
+        protected getService(): string;
+        onCompleted: () => void;
+        constructor(container: JQuery, options?: {
+            clientScoped?: boolean;
+        });
+        protected getGridCanLoad(): boolean;
+        get clientScoped(): boolean;
+        private _clientID;
+        get clientID(): number;
+        set clientID(value: number);
+        protected getAddButtonCaption(): string;
+        protected addButtonClick(): void;
+        protected editItem(id: any): void;
+        protected getDefaultSortBy(): string[];
+        protected getInitialTitle(): string;
+        protected getColumns(): Slick.Column[];
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    class ConsentPanel {
+        private $host;
+        private episodeId;
+        private onChange?;
+        private state;
+        constructor($host: JQuery, episodeId: number, onChange?: (s: ConsentState) => void);
+        destroy(): void;
+        reload(): void;
+        private static statusLabel;
+        private render;
+    }
+    class SendLinkDialog extends Serenity.TemplatedDialog<any> {
+        state: ConsentState;
+        onDone: () => void;
+        protected getTemplate(): string;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected onDialogOpen(): void;
+    }
+    class RefusalDialog extends Serenity.TemplatedDialog<any> {
+        requestId: number;
+        code: string;
+        onDone: () => void;
+        protected getTemplate(): string;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected onDialogOpen(): void;
+    }
+    class RecordVerbalDialog extends Serenity.TemplatedDialog<any> {
+        state: ConsentState;
+        onDone: () => void;
+        protected getTemplate(): string;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        private pad;
+        protected onDialogOpen(): void;
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    class CrisisEpisodesDialog extends Serenity.EntityDialog<CrisisEpisodesRow, any> {
+        protected getFormKey(): string;
+        protected getIdProperty(): string;
+        protected getLocalTextPrefix(): string;
+        protected getNameProperty(): string;
+        protected getService(): string;
+        protected form: CrisisEpisodesForm;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected updateTitle(): void;
+        private timeline;
+        private consent;
+        protected onDialogOpen(): void;
+        protected afterLoadEntity(): void;
+        protected onDialogClose(): void;
+        private loadConsent;
+        private loadTimeline;
+        private renderTimeline;
+        private startEncounter;
+        protected updateInterface(): void;
+        protected getToolbarButtons(): Serenity.ToolButton[];
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    class CrisisEpisodesGrid extends Serenity.EntityGrid<CrisisEpisodesRow, any> {
+        protected getColumnsKey(): string;
+        protected getDialogType(): typeof CrisisEpisodesDialog;
+        protected getIdProperty(): string;
+        protected getInsertPermission(): string;
+        protected getLocalTextPrefix(): string;
+        protected getService(): string;
+        constructor(container: JQuery, options?: {
+            clientScoped?: boolean;
+        });
+        protected getGridCanLoad(): boolean;
+        get clientScoped(): boolean;
+        private _clientID;
+        get clientID(): number;
+        set clientID(value: number);
+        protected getAddButtonCaption(): string;
+        protected addButtonClick(): void;
+        protected getDefaultSortBy(): string[];
+        protected getColumns(): Slick.Column[];
+        protected onClick(e: JQueryEventObject, row: number, cell: number): void;
+        private statusFilter;
+        protected createToolbarExtensions(): void;
+        protected onViewSubmit(): boolean;
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    /**
+     * Worker view of an encounter note. Lives on the existing Progress Note page above the four MCM
+     * sections. The worker only checks interventions and answers outcome questions; the server writes
+     * Sections 1-4, the goal statuses and the effectiveness text, and the panel mirrors them into the
+     * note fields. Sign stays locked until the gate (every goal answered + safety question) is complete.
+     */
+    namespace EncounterNotePanel {
+        function init(actId: number, noteId: number): void;
+    }
+}
+declare namespace GeniusOneAi.CrisisEpisodes {
+    /** Starts the next encounter of an episode: creates the timesheet activity + the encounter note pre-loaded with the phase goals, then opens the note. */
+    class StartEncounterDialog extends Serenity.TemplatedDialog<any> {
+        episodeId: number;
+        phaseLabel: string;
+        followUp: TimelineFollowUp;
+        constructor();
+        protected getTemplate(): string;
+        protected getDialogOptions(): JQueryUI.DialogOptions;
+        protected onDialogOpen(): void;
     }
 }
 declare namespace GeniusOneAi.DocumentManager {

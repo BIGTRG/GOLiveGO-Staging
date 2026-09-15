@@ -277,6 +277,12 @@ SELECT @noteId, ClientGoalId, ClientGoalInterventionId, 0, @tenantId FROM Client
                 Field01 = h.Field01, Field02 = h.Field02, Field03 = h.Field03, Field04 = h.Field04,
             };
             d.Goals = LoadGoals(c, h.ProgramNoteId);
+            // Late sync: the encounter was started before the assessment was confirmed (no goals yet). Pull the episode's goals in now, once, while the note is still editable.
+            if (d.Goals.Count == 0 && !d.Locked && h.Phase != null)
+            {
+                PreloadGoals(c, h.ProgramNoteId, h.EpisodeId.Value, h.Phase, h.TenantId);
+                d.Goals = LoadGoals(c, h.ProgramNoteId);
+            }
             if (h.Phase == EpisodePhase.FirstResponder && h.EpisodeId != null) d.ConsentGateMessage = ConsentService.GateMessage(c, h.EpisodeId.Value);
             d.Gate = Gate(d);
             d.CrisisPlan = Q<PlanEntry>(c, @"SELECT e.EntryId, e.EntryType, e.EntryText, e.SourceGoalId, e.SourceNoteId FROM ClientCrisisPlanEntries e JOIN ClientCrisisPlans p ON p.PlanId = e.PlanId
