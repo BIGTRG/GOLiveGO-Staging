@@ -32,11 +32,12 @@ namespace GeniusOneAi.FieldMode.Pages
             "<meta name=\"robots\" content=\"noindex\"><meta name=\"theme-color\" content=\"#19355f\">" +
             "<meta name=\"mobile-web-app-capable\" content=\"yes\"><meta name=\"apple-mobile-web-app-capable\" content=\"yes\"><meta name=\"apple-mobile-web-app-status-bar-style\" content=\"black-translucent\">" +
             "<title>GeniusOneAi Field</title>" +
-            "<link rel=\"stylesheet\" href=\"/field/field.css?v=1\">" +
+            "<link rel=\"stylesheet\" href=\"/field/field.css?v=2\"><link rel=\"stylesheet\" href=\"/field/goalcard.css?v=2\">" +
             "</head><body><div id=\"app\" class=\"fd-app\"><div class=\"fd-boot\">Loading Field mode...</div></div>" +
             "<script>window.FIELD_BOOT=" + boot + ";</script>" +
-            "<script src=\"/field/field-options.js?v=1\"></script>" +
-            "<script src=\"/field/field.js?v=1\"></script>" +
+            "<script src=\"/field/field-options.js?v=2\"></script>" +
+            "<script src=\"/field/goalcard.js?v=2\"></script>" +
+            "<script src=\"/field/field.js?v=2\"></script>" +
             "</body></html>";
     }
 }

@@ -1,0 +1,76 @@
+/* Worker Tonight dashboard (desktop/tablet). Scoped copies of the Field controls so they do not fight Bootstrap, plus the page layout. Card styles: goalcard.css */
+#tonight{--bg:#f4f7fb;--navy:#19355f;--kpi:#253a63;--blue:#1f63d8;--blue2:#164eb0;--lab:#73819d;--bd:rgb(196,211,235);--ok:#158a4e;--okbg:#e6f6ec;--okbd:#9ad6b2;--warn:#c98a12;--warnbg:#fff6e5;--bad:#b42323;--badbg:#fdeaea;--radius:14px;--foot:0px;color:var(--navy);font-size:15px;line-height:1.4;max-width:1280px}
+#tonight *{box-sizing:border-box}
+#tonight .btn{border:1.5px solid var(--bd);background:#fff;color:var(--navy);border-radius:12px;padding:14px 16px;font-weight:600;text-align:center;flex:1;cursor:pointer;min-height:50px}
+#tonight .btn.primary{flex:2;background:linear-gradient(90deg,var(--blue),var(--blue2));color:#fff;border-color:transparent;font-weight:700}
+#tonight .btn.ok{background:var(--ok);color:#fff;border-color:transparent}
+#tonight .btn.ghost{background:transparent}
+#tonight .btn.small{padding:9px 12px;min-height:0;font-size:14px;flex:none;border-radius:10px}
+#tonight .btn[disabled]{opacity:.45;cursor:default}
+#tonight .btn.danger{color:var(--bad);border-color:#f0b9b9}
+#tonight .q{font-size:21px;font-weight:700;line-height:1.3;color:var(--navy)}
+#tonight .q.small{font-size:18px}
+#tonight .sub{color:var(--lab);font-size:13.5px;margin-top:6px}
+#tonight .lbl{font-size:12px;color:var(--lab);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin:18px 0 8px}
+#tonight .field{margin-top:14px}
+#tonight .field label{display:block;font-size:12.5px;color:var(--lab);font-weight:600;margin-bottom:6px}
+#tonight .inp,#tonight textarea.inp,#tonight select.inp{width:100%;border:1.5px solid var(--bd);border-radius:12px;padding:13px 14px;background:#fff;font-size:16px;min-height:50px}
+#tonight .chips{display:flex;flex-wrap:wrap;gap:8px}
+#tonight .chip{border:1.5px solid var(--bd);background:#fff;border-radius:999px;padding:9px 14px;font-size:14px;font-weight:600;color:var(--navy);cursor:pointer}
+#tonight .chip.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+#tonight .yn{display:flex;gap:8px;margin-top:10px}
+#tonight .yn .btn{min-height:46px;padding:11px}
+#tonight .yn .btn.yes.on{background:var(--ok);color:#fff;border-color:transparent}
+#tonight .yn .btn.no.on{background:var(--navy);color:#fff;border-color:transparent}
+#tonight .tag{display:inline-block;flex:none;align-self:flex-start;font-size:11px;font-weight:700;padding:5px 9px;border-radius:999px;color:#fff;background:var(--lab);white-space:nowrap}
+#tonight .tag.met,#tonight .tag.ok{background:var(--ok)}#tonight .tag.partial,#tonight .tag.warn{background:var(--warn)}#tonight .tag.notmet,#tonight .tag.bad{background:var(--bad)}#tonight .tag.blue{background:var(--blue)}#tonight .tag.navy{background:var(--navy)}
+#tonight .banner{border-radius:12px;padding:12px 14px;font-size:13.5px;font-weight:600;margin-top:12px}
+#tonight .banner.ok{background:var(--okbg);border:1.5px solid var(--okbd);color:#136b3c}
+#tonight .banner.warn{background:var(--warnbg);border:1.5px solid #f2d59a;color:#7a5200}
+#tonight .banner.bad{background:var(--badbg);border:1.5px solid #f0b9b9;color:#7a1a1a}
+#tonight .banner ul{margin:6px 0 0 18px;padding:0;font-weight:500}
+#tonight .goal-code{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:.08em;text-transform:uppercase}
+#tonight .inter{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:12px 14px;cursor:pointer}
+#tonight .inter.on{border-color:var(--blue)}
+#tonight .inter .cb{display:block;width:22px;height:22px;border-radius:6px;flex:none;border:1.5px solid var(--bd);background:#fff;color:#fff;text-align:center;line-height:20px;font-size:14px;margin-top:1px}
+#tonight .inter.on .cb{background:var(--blue);border-color:var(--blue)}
+#tonight .inter .t{font-size:14.5px;line-height:1.35;flex:1}
+#tonight .inter .detail{margin-top:8px}
+#tonight .outcome{background:#fff;border:1.5px solid var(--bd);border-radius:var(--radius);padding:14px;margin-top:10px}
+#tonight .outcome .ot{font-size:14.5px;font-weight:700}
+#tonight .outcome .ot small{color:var(--lab);font-weight:500}
+#tonight .outcome .qq{margin-top:12px}
+#tonight .outcome .qq label{display:block;font-size:13px;color:var(--lab);font-weight:600;margin-bottom:6px}
+#tonight .outcome .qq .plan{color:var(--blue);font-size:11px;font-weight:700;margin-left:6px}
+#tonight .sec{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.5;color:#334;margin-top:10px;white-space:pre-wrap}
+#tonight .sec b{color:var(--navy)}
+#tonight-toast{position:fixed;left:auto;right:24px;bottom:24px;background:var(--navy);color:#fff;padding:12px 16px;border-radius:12px;font-size:14px;z-index:20;box-shadow:0 8px 24px rgba(16,42,67,.25)}
+#tonight-toast.bad{background:var(--bad)}
+#tonight .btn{flex:0 0 auto;min-height:44px;padding:11px 20px;border-radius:10px}
+#tonight .btn.primary{flex:0 0 auto;font-size:15px}
+#tonight .btn.big{min-height:52px;padding:14px 28px;font-size:16px}
+#tonight .yn .btn{flex:1}
+#tonight .hero{background:#fff;border:1.5px solid var(--bd);border-radius:14px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+#tonight .hero h2{margin:0;font-size:22px;color:var(--navy);font-weight:700}
+#tonight .hero .m{color:var(--lab);font-size:14px;margin-top:4px}
+#tonight .kpi{display:flex;gap:12px}
+#tonight .kpi div{background:var(--bg);border-radius:10px;padding:10px 16px;text-align:center;min-width:96px}
+#tonight .kpi b{display:block;font-size:22px;color:var(--kpi)}
+#tonight .kpi small{color:var(--lab)}
+#tonight .kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--blue)}
+#tonight .foot{display:flex;justify-content:flex-end;gap:12px;margin:18px 0 8px;align-items:center;flex-wrap:wrap}
+#tonight .foot .sub{margin:0 auto 0 0}
+#tonight .queue{margin-top:28px}
+#tonight .qrow{background:#fff;border:1.5px solid var(--bd);border-radius:12px;padding:12px 16px;margin-top:8px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+#tonight .qrow .n{font-weight:700;flex:1;min-width:200px}
+#tonight .qrow .m{color:var(--lab);font-size:13px}
+#tonight .safety{background:#fff;border:1.5px solid var(--bd);border-radius:14px;padding:16px 20px;margin-top:14px}
+#tonight .safety textarea.inp{min-height:80px}
+#tonight .sections{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+#tonight .empty{background:#fff;border:1.5px dashed var(--bd);border-radius:14px;padding:28px;text-align:center;color:var(--lab);margin-top:14px}
+#tonight .tn-modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:1050;display:flex;align-items:center;justify-content:center}
+#tonight .tn-modal{background:#fff;border-radius:16px;padding:22px 24px;width:min(560px,92vw);max-height:86vh;overflow:auto}
+#tonight .tn-modal .q{font-size:18px;font-weight:700}
+#tonight .tn-modal .txt{font-size:13.5px;color:#334;line-height:1.5;margin-top:10px}
+#tonight .tn-modal .acts{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}
+@media (max-width:899px){#tonight .sections{grid-template-columns:1fr}#tonight .kpi{width:100%;justify-content:space-between}}

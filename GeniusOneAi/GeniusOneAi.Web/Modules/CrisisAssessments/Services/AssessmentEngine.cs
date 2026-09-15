@@ -45,6 +45,8 @@ namespace GeniusOneAi.CrisisAssessments.Services
         public string[] NeedKeys { get; set; }
         public int[] GoalIds { get; set; }
         public List<DeclinedGoal> Declined { get; set; }
+        /// <summary>Crisis worker who works the episode (sees it on the Tonight dashboard). Defaults to the signed-in user.</summary>
+        public int? AssignedWorkerId { get; set; }
     }
     public class CompleteResponse : ServiceResponse
     {
@@ -191,6 +193,11 @@ namespace GeniusOneAi.CrisisAssessments.Services
             }
             res.EpisodeId = ep.EpisodeId.Value;
             conn.UpdateById(new EpisodeRow { EpisodeId = ep.EpisodeId, AssessmentId = a.AssessmentId });
+            // assigned worker: explicit pick, else the signed-in user; never overwrite an existing assignment with the default
+            Dapper.SqlMapper.Execute(conn, req.AssignedWorkerId != null
+                ? "UPDATE CrisisEpisodes SET AssignedWorkerId = @w, AssignedAt = GETDATE(), AssignedBy = @u WHERE EpisodeId = @id"
+                : "UPDATE CrisisEpisodes SET AssignedWorkerId = @u, AssignedAt = GETDATE(), AssignedBy = @u WHERE EpisodeId = @id AND AssignedWorkerId IS NULL",
+                new { w = req.AssignedWorkerId, u = userId, id = ep.EpisodeId });
 
             // 2. needs the clinician accepted
             var accepted = new HashSet<string>(req.NeedKeys ?? new string[0]);

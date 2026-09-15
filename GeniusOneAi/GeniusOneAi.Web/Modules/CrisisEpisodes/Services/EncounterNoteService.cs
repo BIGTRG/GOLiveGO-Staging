@@ -188,6 +188,8 @@ WHERE n.ActivityId = @activityId", new { activityId });
             var ep = F<dynamic>(c, "SELECT EpisodeId, ClientId, Phase, ClosedAt, TenantId, EncounterCount FROM CrisisEpisodes WHERE EpisodeId = @id", new { id = r.EpisodeId });
             if (ep == null) throw new ValidationError("Episode not found.");
             if (ep.ClosedAt != null) throw new ValidationError("This episode is closed. Open a new episode for a new crisis.");
+            // the worker who starts an encounter on an unassigned episode becomes its assigned worker (Tonight dashboard)
+            X(c, "UPDATE CrisisEpisodes SET AssignedWorkerId = @uid, AssignedAt = GETDATE(), AssignedBy = @uid WHERE EpisodeId = @id AND AssignedWorkerId IS NULL", new { uid = userId, id = r.EpisodeId });
 
             // Resume an unsigned note of this episode instead of creating a second one.
             var open = F<OpenNote>(c, 

@@ -39,6 +39,6 @@ namespace GeniusOneAi.CrisisAssessments {
         E2ProtocolGoals?: number; E5ProtocolGoals?: number; FollowUpGoals?: number; RepeatEpisode?: boolean; ProtocolResult?: string;
     }
     export interface DeclinedGoal { LibraryGoalId?: number; Reason?: string; }
-    export interface CompleteRequest extends Serenity.ServiceRequest { AssessmentId?: number; NeedKeys?: string[]; GoalIds?: number[]; Declined?: DeclinedGoal[]; }
+    export interface CompleteRequest extends Serenity.ServiceRequest { AssessmentId?: number; NeedKeys?: string[]; GoalIds?: number[]; Declined?: DeclinedGoal[]; AssignedWorkerId?: number; }
     export interface CompleteResponse extends Serenity.ServiceResponse { EpisodeId?: number; EpisodeOpened?: boolean; NeedsCreated?: number; GoalsByPhase?: { [key: string]: number }; }
 }

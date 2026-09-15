@@ -1,0 +1,22 @@
+@{
+    ViewData["Title"] = "Tonight";
+    ViewData["PageId"] = "Tonight";
+}
+
+@section Head {
+    <link rel="stylesheet" href="~/field/goalcard.css?v=2" />
+    <link rel="stylesheet" href="~/field/tonight.css?v=2" />
+}
+
+@section ContentHeader {
+    <h3>Tonight - your client, your goals</h3>
+}
+
+<div class="s-Panel">
+    <section class="content">
+        <div id="tonight"></div>
+    </section>
+</div>
+
+<script src="~/field/goalcard.js?v=2"></script>
+<script src="~/field/tonight.js?v=2"></script>

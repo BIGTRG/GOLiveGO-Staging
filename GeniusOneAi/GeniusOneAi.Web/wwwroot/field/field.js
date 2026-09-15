@@ -89,7 +89,21 @@
     // ------------------------------------------------------------------ home
     function loadHome() {
         page(top('', 'Tonight'));
-        api('/Services/Field/Home').then(function (r) { S.home = r; renderHome(); }).catch(function () { });
+        Promise.all([api('/Services/Field/Home'), api('/Services/Field/Tonight')]).then(function (rs) { S.home = rs[0]; S.tonight = rs[1]; renderHome(); }).catch(function () { });
+    }
+    function myClientCard(t) {
+        var e = t.Assignment, h = [];
+        h.push('<div class="card mine"><div class="kicker">Your client</div><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div class="h" style="font-size:20px"><a href="#/client/' + e.ClientId + '" style="color:inherit;text-decoration:none">' + enc(e.ClientName) + '</a></div><div class="m">' + enc(e.RecordNumber || '') + ' &middot; ' + enc(PHASE[e.Phase] || e.Phase) + '</div></div>' + (e.ConsentOk ? '<span class="tag ok">Consent on file</span>' : '<span class="tag bad">Consent needed</span>') + '</div>');
+        if (e.PresentingTrigger) h.push('<div class="sub" style="margin-top:6px">' + enc(e.PresentingTrigger) + '</div>');
+        if (e.Needs) h.push('<div class="sub">Needs: ' + enc(e.Needs) + '</div>');
+        var goals = t.Note ? (t.Note.Goals || []) : (t.Goals || []);
+        if (goals.length) {
+            h.push('<div class="lbl">' + goals.length + ' goal' + (goals.length === 1 ? '' : 's') + ' for this encounter</div>');
+            goals.forEach(function (g) { var st = g.Status ? STATUS[g.Status] : null; h.push('<div class="list-item" style="padding:8px 0"><div class="t"><span class="goal-code">' + enc(g.Code) + '</span> ' + enc(g.Description) + (g.EffectivenessMeasure || g.Target ? '<div class="s">Target: ' + enc(g.EffectivenessMeasure || g.Target) + '</div>' : '') + '</div>' + (st ? '<span class="tag ' + st[1] + '">' + st[0].toUpperCase() + '</span>' : '') + '</div>'); });
+        }
+        var action = e.OpenActivityId ? btn('Work the goals', 'go', 'primary', '#/note/' + e.OpenActivityId + '/0') : e.WaitingApproval ? '<div class="sub">Note submitted - waiting on the team lead.</div>' : e.Phase === 'FU' && e.NextFollowUpId ? btn('Start Day ' + e.NextFollowUpDay + ' call', 'go', 'primary', '#/start/' + e.EpisodeId + '/' + e.NextFollowUpId) : e.Phase !== 'FU' ? btn('Start ' + (PHASE[e.Phase] || e.Phase).split(' - ')[0], 'go', 'primary', '#/start/' + e.EpisodeId) : '';
+        h.push('<div style="display:flex;gap:8px;margin-top:12px;align-items:center;flex-wrap:wrap">' + (!e.ConsentOk ? btn('Consent', 'go', 'small', '#/consent/' + e.EpisodeId) : '') + action + '</div></div>');
+        return h.join('');
     }
     function episodeCard(e) {
         var action = '', tag = '';
@@ -101,14 +115,16 @@
         var consent = e.Closed ? '' : (e.ConsentOk ? '<span class="tag ok">Consent on file</span>' : '<span class="tag bad">Consent needed</span>');
         return '<div class="card"><div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div class="h"><a href="#/client/' + e.ClientId + '" style="color:inherit;text-decoration:none">' + enc(e.ClientName) + '</a></div><div class="m">' + enc(e.RecordNumber || '') + ' &middot; Episode #' + e.EpisodeId + ' &middot; ' + e.EncounterCount + ' signed</div></div><div>' + tag + '</div></div>' +
             '<div class="sub" style="margin-top:8px">' + enc(PHASE[e.Phase] || e.Phase) + '<br>' + enc(e.NextAction || '') + '</div>' +
-            '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">' + consent + (!e.Closed && !e.ConsentOk ? btn('Consent', 'go', 'small', '#/consent/' + e.EpisodeId) : '') + action + '</div></div>';
+            (e.AssignedWorkerName ? '<div class="sub">Assigned to ' + enc(e.AssignedWorkerName) + '</div>' : '') +
+            '<div style="display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap">' + consent + (!e.Closed && !e.ConsentOk ? btn('Consent', 'go', 'small', '#/consent/' + e.EpisodeId) : '') + action + (!e.Closed && S.user && e.AssignedWorkerId !== +S.user.id ? btn('Take this client', 'take', 'small', String(e.EpisodeId)) : '') + '</div></div>';
     }
     function renderHome() {
-        var r = S.home, open = r.Episodes.filter(function (e) { return !e.Closed; });
-        page(top('', 'Tonight - ' + open.length + ' open episode' + (open.length === 1 ? '' : 's')) +
+        var r = S.home, t = S.tonight || {}, mine = t.Assignment, open = r.Episodes.filter(function (e) { return !e.Closed && (!mine || e.EpisodeId !== mine.EpisodeId); });
+        page(top('', 'Tonight') +
             '<div class="fd-body">' +
+            (mine ? myClientCard(t) : '') +
             '<div class="search"><input class="inp" id="q" placeholder="Find a client by name or record #" autocomplete="off"><button class="btn small" data-act="search">Search</button></div>' +
-            (open.length ? open.map(episodeCard).join('') : '<div class="card"><div class="h">No open episodes</div><div class="m">Find a client and start a crisis assessment.</div></div>') +
+            (open.length ? '<div class="lbl">' + (mine ? 'Other open episodes' : 'Open episodes') + ' (' + open.length + ')</div>' + open.map(episodeCard).join('') : mine ? '' : '<div class="card"><div class="h">No open episodes</div><div class="m">Find a client and start a crisis assessment.</div></div>') +
             (r.Recent.length ? '<div class="lbl">Recent clients</div>' + r.Recent.map(clientRow).join('') : '') +
             '</div>' + foot([btn('New crisis assessment', 'go', 'primary', '#/search')]));
     }
@@ -275,6 +291,8 @@
         if (!r.Needs.length) h.push('<div class="sub">No needs triggered by the answers.</div>');
         h.push('<div class="lbl">Goals for tonight - Encounter 1 (' + r.TonightGoals.length + ')</div>');
         r.TonightGoals.forEach(function (g) { var on = g.Locked || (g.Preselected ? !A.goalsOff[g.LibraryGoalId] : !!A.goalsOff[g.LibraryGoalId]); h.push('<button type="button" class="opt multi compact' + (on ? ' on' : '') + '" data-act="goal" data-arg="' + g.LibraryGoalId + '"' + (g.Locked || done ? ' disabled' : '') + ' style="margin-top:8px"><span class="t"><span class="goal-code">' + enc(g.Code) + (g.Locked ? ' - protocol' : '') + '</span><br>' + enc(g.Description) + '</span><span class="n">' + (on ? '&#10003;' : '') + '</span></button>'); });
+        if (!done) h.push('<div class="lbl">Crisis worker for this episode</div><div class="sub" style="margin-top:0">Sees the goals on their Tonight screen the moment you sign.</div><select class="inp" id="assign-worker" style="margin-top:8px">' + (A.workers ? '<option value="">Assign later</option>' + A.workers.map(function (w) { return '<option value="' + w.UserId + '"' + (S.user && +S.user.id === w.UserId ? ' selected' : '') + '>' + enc(w.DisplayName || w.Username) + '</option>'; }).join('') : '<option value="">Loading workers...</option>') + '</select>');
+        if (!A.workers && !A.workersLoading) { A.workersLoading = true; api('/Services/Field/Workers').then(function (w) { A.workers = w.Workers || []; var sel = document.getElementById('assign-worker'); if (sel) sel.outerHTML = '<select class="inp" id="assign-worker" style="margin-top:8px"><option value="">Assign later</option>' + A.workers.map(function (w) { return '<option value="' + w.UserId + '"' + (S.user && +S.user.id === w.UserId ? ' selected' : '') + '>' + enc(w.DisplayName || w.Username) + '</option>'; }).join('') + '</select>'; }).catch(function () { A.workers = []; }); }
         h.push('<div class="strip">Later encounters: ' + r.E2ProtocolGoals + ' needs-assessment goals, ' + (r.Needs.reduce(function (a, n) { return a + (n.E3E4Goals || 0); }, 0)) + ' act/confirm goals, ' + r.E5ProtocolGoals + ' pre-discharge, ' + r.FollowUpGoals + ' follow-up - copied to the episode automatically when you complete.</div>');
         if (done) h.push('<div class="banner ok">' + (e.Status === 'Signed' ? 'Signed by ' + enc(e.SignedName || '') + '. ' : 'Completed. ') + 'Goals are on episode #' + (e.EpisodeId || (A.completed && A.completed.EpisodeId) || '') + '.</div>');
         return h.join('');
@@ -310,7 +328,8 @@
         var needs = r.Needs.filter(function (n) { return !A.needsOff[n.NeedKey]; }).map(function (n) { return n.NeedKey; });
         var goals = r.TonightGoals.filter(function (g) { return g.Locked || (g.Preselected ? !A.goalsOff[g.LibraryGoalId] : !!A.goalsOff[g.LibraryGoalId]); }).map(function (g) { return g.LibraryGoalId; });
         var declined = r.TonightGoals.filter(function (g) { return goals.indexOf(g.LibraryGoalId) < 0 && g.Preselected; }).map(function (g) { return { LibraryGoalId: g.LibraryGoalId, Reason: 'Removed by worker in Field mode' }; });
-        busy(saveAssess().then(function () { return api('/Services/CrisisAssessments/CrisisAssessments/Complete', { AssessmentId: A.id, NeedKeys: needs, GoalIds: goals, Declined: declined }); }))
+        var wsel = document.getElementById('assign-worker'), worker = wsel && wsel.value ? +wsel.value : null;
+        busy(saveAssess().then(function () { return api('/Services/CrisisAssessments/CrisisAssessments/Complete', { AssessmentId: A.id, NeedKeys: needs, GoalIds: goals, Declined: declined, AssignedWorkerId: worker }); }))
             .then(function (c) { A.completed = c; A.e.Status = 'Completed'; A.e.EpisodeId = c.EpisodeId; toast('Completed - goals copied to episode #' + c.EpisodeId); renderAssess(A.clientId, String(A.i), A.id); }).catch(function () { });
     }
     function assessSign() {
@@ -400,48 +419,8 @@
         else { title = 'Review and sign'; body = noteReview(d); footBtns = [btn('Back', 'go', '', back), btn('Sign and submit note', 'note-sign', 'primary', null, !(d.Gate && d.Gate.Ready))]; }
         page(top(kicker, title, prog, back) + '<div class="fd-body">' + body + '</div>' + foot(footBtns));
     }
-    function noteGoal(d, g, gi) {
-        var h = [];
-        h.push('<div class="goal-code">' + enc(g.Code) + (g.NeedKey ? ' - ' + enc(g.NeedKey.replace(/_/g, ' ')) : '') + (g.IsProtocol ? ' - protocol' : '') + (g.IsCarried ? ' - carried from the last encounter' : '') + '</div>');
-        h.push('<div class="q small" style="margin-top:4px">' + enc(g.Description) + '</div>');
-        if (g.EffectivenessMeasure) h.push('<div class="sub">Effectiveness: ' + enc(g.EffectivenessMeasure) + '</div>');
-        h.push('<div class="lbl">What did you do? tap all that apply</div><div style="display:grid;gap:8px">');
-        (g.Interventions || []).forEach(function (it, ii) {
-            h.push('<div class="inter' + (it.Provided ? ' on' : '') + '" data-act="inter" data-arg="' + gi + '|' + ii + '"><div class="cb">' + (it.Provided ? '&#10003;' : '') + '</div><div class="t">' + enc(it.Desc) + (it.Provided ? '<div class="detail"><input class="inp" data-act-input="inter-detail" data-arg="' + gi + '|' + ii + '" placeholder="who / where / amount / reference" value="' + enc(it.Detail || '') + '"></div>' : '') + '</div></div>');
-        });
-        if (!(g.Interventions || []).length) h.push('<div class="sub">No library interventions for this goal.</div>');
-        h.push('</div>');
-        h.push('<div class="lbl">Projected outcome' + ((g.Outcomes || []).length === 1 ? '' : 's') + ' - did it happen?</div>');
-        (g.Outcomes || []).forEach(function (o, oi) {
-            var qs = (o.Questions || []).slice().sort(function (a, b) { return a.SortOrder - b.SortOrder; }), q1 = qs[0], a1 = q1 ? q1.Answer : null;
-            h.push('<div class="outcome"><div class="ot">' + enc(o.Text) + (o.StatusRule === 'Required' ? '' : ' <small>(supporting)</small>') + '</div>');
-            if (q1) h.push('<div class="yn"><button type="button" class="btn yes' + (a1 === 'Yes' ? ' on' : '') + '" data-act="ans" data-arg="' + gi + '|' + oi + '|' + q1.QuestionId + '|Yes">Yes</button><button type="button" class="btn no' + (a1 === 'No' ? ' on' : '') + '" data-act="ans" data-arg="' + gi + '|' + oi + '|' + q1.QuestionId + '|No">No</button></div>');
-            if (a1 != null) qs.slice(1).forEach(function (q) { if (!visible(q, a1)) return; h.push(noteQuestion(q, gi, oi)); });
-            h.push('</div>');
-        });
-        if (!(g.Outcomes || []).length) h.push('<div class="sub">No projected outcomes in the library for this goal - set the status below.</div>');
-        h.push('<div class="lbl">Result for this goal <span class="muted" style="text-transform:none;letter-spacing:0">(written from the answers)</span></div>');
-        h.push('<div class="gen">' + (g.Status ? '<b>' + STATUS[g.Status][0] + (g.StatusOverride ? ' (set by worker)' : '') + '.</b> ' + enc(g.OutcomeText || '') + (g.EffectivenessText ? '<br>' + enc(g.EffectivenessText) : '') : '<i>Answer the outcome question(s) above; the status, outcome and effectiveness sentences write themselves when you tap Next.</i>') + '</div>');
-        h.push('<div class="field"><label>Status override (only if the automatic one is wrong)</label><select class="inp" data-act-input="status" data-arg="' + gi + '"><option value="">automatic</option>' + Object.keys(STATUS).map(function (k) { return '<option value="' + k + '"' + (g.StatusOverride && g.Status === k ? ' selected' : '') + '>' + STATUS[k][0] + '</option>'; }).join('') + '</select></div>');
-        h.push('<div class="field"><label>One line to add (optional)</label><input class="inp" data-act-input="worker-note" data-arg="' + gi + '" value="' + enc(g.WorkerNote || '') + '"></div>');
-        return h.join('');
-    }
-    function visible(q, a1) { if (!q.ShowWhen) return true; var p = q.ShowWhen.split('='); return p.length === 2 && (p[1] || '').toLowerCase() === (a1 || '').toLowerCase(); }
-    function noteQuestion(q, gi, oi) {
-        var key = gi + '|' + oi + '|' + q.QuestionId, h = '<div class="qq"><label>' + enc(q.Prompt) + (q.IsRequired ? ' *' : '') + (q.SendsToCrisisPlan ? '<span class="plan">to Crisis Plan</span>' : '') + '</label>';
-        switch (q.AnswerType) {
-            case 'YesNo': h += '<div class="yn"><button type="button" class="btn yes' + (q.Answer === 'Yes' ? ' on' : '') + '" data-act="ans" data-arg="' + key + '|Yes">Yes</button><button type="button" class="btn no' + (q.Answer === 'No' ? ' on' : '') + '" data-act="ans" data-arg="' + key + '|No">No</button></div>'; break;
-            case 'Pick': h += '<div class="chips">' + (q.Options || []).map(function (o) { return '<button type="button" class="chip' + (q.Answer === o ? ' on' : '') + '" data-act="ans" data-arg="' + key + '|' + enc(o) + '">' + enc(o) + '</button>'; }).join('') + '</div><input class="inp" style="margin-top:8px" data-act-input="ans" data-arg="' + key + '" placeholder="other..." value="' + ((q.Options || []).indexOf(q.Answer) < 0 ? enc(q.Answer || '') : '') + '">'; break;
-            case 'Date': h += '<input class="inp" type="date" data-act-input="ans" data-arg="' + key + '" value="' + enc(q.Answer || '') + '">'; break;
-            case 'Time': h += '<input class="inp" type="time" data-act-input="ans" data-arg="' + key + '" value="' + enc(q.Answer || '') + '">'; break;
-            case 'Resource':
-                var list = (S.resources || {})[q.ResourceType] || [];
-                h += '<select class="inp" data-act-input="ans" data-arg="' + key + '"><option value="">-- pick from the directory (' + enc(q.ResourceType || 'resource') + ') --</option>' + list.map(function (r) { return '<option value="' + enc(r.Name) + '"' + (q.Answer === r.Name ? ' selected' : '') + '>' + enc(r.Name) + (r.Phone ? ' - ' + enc(r.Phone) : '') + '</option>'; }).join('') + '</select>' +
-                    '<input class="inp" style="margin-top:8px" data-act-input="ans" data-arg="' + key + '" placeholder="or type the name / address" value="' + (list.some(function (r) { return r.Name === q.Answer; }) ? '' : enc(q.Answer || '')) + '">'; break;
-            default: h += '<input class="inp" data-act-input="ans" data-arg="' + key + '" value="' + enc(q.Answer || '') + '">';
-        }
-        return h + '</div>';
-    }
+    function noteGoal(d, g, gi) { return window.GoalCard.render(g, gi, { resources: S.resources, locked: !!d.Locked }); }
+    function visible(q, a1) { return window.GoalCard.visible(q, a1); }
     function noteSafety(d) {
         var sc = d.SafetyConcern;
         return '<div class="q small">Any safety concern at the end of this contact?</div>' +
@@ -467,32 +446,9 @@
         if (d.DischargeSummary) h.push('<div class="sec"><b>Pre-discharge summary</b>\n' + enc(d.DischargeSummary) + '</div>');
         return h.join('');
     }
-    function collectNote() {
-        var d = S.note.d, req = { ActivityId: d.ActivityId, Goals: [], SafetyConcern: d.SafetyConcern, SafetyText: d.SafetyText, ContactMethod: d.ContactMethod, LongTermAdmission: d.LongTermAdmission };
-        var st = document.getElementById('safety-text'); if (st) req.SafetyText = d.SafetyText = st.value;
-        // pull typed inputs from the current screen into the model first
-        app.querySelectorAll('[data-act-input]').forEach(function (el) { applyInput(el); });
-        (d.Goals || []).forEach(function (g) {
-            var sg = { ClientGoalId: g.ClientGoalId, Interventions: [], Answers: [], StatusOverride: !!g.StatusOverride, Status: g.StatusOverride ? g.Status : null, WorkerNote: g.WorkerNote };
-            (g.Interventions || []).forEach(function (it) { sg.Interventions.push({ ClientGoalInterventionId: it.ClientGoalInterventionId, Provided: !!it.Provided, Detail: it.Detail || null }); });
-            (g.Outcomes || []).forEach(function (o) {
-                var qs = (o.Questions || []).slice().sort(function (a, b) { return a.SortOrder - b.SortOrder; }), q1 = qs[0], a1 = q1 ? q1.Answer : null;
-                if (q1 && a1) sg.Answers.push({ OutcomeId: o.OutcomeId, QuestionId: q1.QuestionId, Answer: a1 });
-                if (a1 != null) qs.slice(1).forEach(function (q) { if (visible(q, a1) && q.Answer) sg.Answers.push({ OutcomeId: o.OutcomeId, QuestionId: q.QuestionId, Answer: String(q.Answer) }); });
-            });
-            req.Goals.push(sg);
-        });
-        return req;
-    }
-    function applyInput(el) {
-        var N = S.note; if (!N || !N.d) return;
-        var kind = el.getAttribute('data-act-input'), arg = el.getAttribute('data-arg').split('|'), g = N.d.Goals[+arg[0]];
-        if (kind === 'inter-detail') g.Interventions[+arg[1]].Detail = el.value;
-        else if (kind === 'status') { g.StatusOverride = !!el.value; if (el.value) g.Status = el.value; }
-        else if (kind === 'worker-note') g.WorkerNote = el.value;
-        else if (kind === 'ans') { var q = findQ(g, +arg[1], +arg[2]); if (q && (el.value || el.tagName !== 'INPUT' || !q.Options)) q.Answer = el.value || (el.tagName === 'SELECT' ? q.Answer : null); }
-    }
-    function findQ(g, oi, qid) { var o = g.Outcomes[oi]; if (!o) return null; for (var i = 0; i < o.Questions.length; i++) if (o.Questions[i].QuestionId === qid) return o.Questions[i]; return null; }
+    function collectNote() { return window.GoalCard.collect(S.note.d, app); }
+    function applyInput(el) { var N = S.note; if (!N || !N.d) return; window.GoalCard.applyInput(el, N.d.Goals || []); }
+    function findQ(g, oi, qid) { return window.GoalCard.findQ(g, oi, qid); }
     function saveNote() {
         var N = S.note;
         return api('/Services/CrisisEpisodes/EncounterNotes/SaveNoteData', collectNote()).then(function (d) { N.d = d; return d; });
@@ -551,6 +507,7 @@
             case 'go': go(arg); break;
             case 'login': doLogin(); break;
             case 'search': doSearch(); break;
+            case 'take': busy(api('/Services/Field/Assign', { EpisodeId: +arg })).then(function () { toast('Assigned to you'); loadHome(); }).catch(function () { }); break;
             case 'set': if (name && name.indexOf('vc-') === 0) break; if (name && name.indexOf('se-') === 0) { S.start[name] = arg; el.parentNode.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('on', c === el); }); break; }
                 if (name === 'contact') { N.d.ContactMethod = arg; el.parentNode.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('on', c === el); }); break; }
                 collectInputs(); if (name === 'ChildrenInHome') A.e.ChildrenInHome = arg === 'Yes'; else A.e[name] = A.e[name] === arg && name !== 'FormType' ? null : arg;
@@ -571,8 +528,11 @@
             case 'consent-refuse': var mr = modal('Client refused this form', '<input class="inp" id="refuse-reason" placeholder="reason, in the client\'s words">', [btn('Cancel', 'modal-close', ''), btn('Record refusal', 'consent-refuse-go', 'danger')]);
                 mr.querySelector('[data-act=consent-refuse-go]').addEventListener('click', function () { var reason = document.getElementById('refuse-reason').value.trim(); if (!reason) { toast('A reason is required.', true); return; } mr.remove(); busy(api('/Services/CrisisEpisodes/Consent/RecordRefusal', { RequestId: +arg, Reason: reason })).then(function (st) { renderConsent(st); }).catch(function () { }); }); break;
             case 'start-go': startGo(arg); break;
-            case 'inter': var p = arg.split('|'), it = N.d.Goals[+p[0]].Interventions[+p[1]]; if (ev.target.closest('input')) break; it.Provided = !it.Provided; renderNote(N.activityId, String(N.i)); if (it.Provided) { var inp = app.querySelector('[data-act-input=inter-detail][data-arg="' + arg + '"]'); if (inp) inp.focus(); } break;
-            case 'ans': var q = arg.split('|'), g = N.d.Goals[+q[0]], qq = findQ(g, +q[1], +q[2]); if (qq) { app.querySelectorAll('[data-act-input]').forEach(applyInput); qq.Answer = qq.Answer === q.slice(3).join('|') && qq.AnswerType === 'Pick' ? null : q.slice(3).join('|'); renderNote(N.activityId, String(N.i)); } break;
+            case 'inter': case 'ans': case 'gstatus':
+                var res = window.GoalCard.handle(act, arg, ev, N.d.Goals || [], app);
+                if (res === 'save') busy(saveNote()).then(function () { renderNote(N.activityId, String(N.i)); }).catch(function () { });
+                else if (res === 'render') { renderNote(N.activityId, String(N.i)); if (act === 'inter') { var inp = app.querySelector('[data-act-input=inter-detail][data-arg="' + arg + '"]'); if (inp) inp.focus(); } }
+                break;
             case 'safety': N.d.SafetyConcern = arg === 'Yes'; var stx = document.getElementById('safety-text'); if (stx) N.d.SafetyText = stx.value; renderNote(N.activityId, String(N.i)); break;
             case 'lta': N.d.LongTermAdmission = arg === 'Yes'; renderNote(N.activityId, String(N.i)); break;
             case 'note-next': noteNext(); break;

@@ -21,6 +21,7 @@ using Administration = GeniusOneAi.Administration.Pages;
 [assembly: NavigationMenu(300, "Worker Portal", icon: "fa-clipboard")]
 //[assembly: NavigationLink(301, "Worker Portal/My Inbox", typeof(wpp.InboxController), icon: null)]
 //[assembly: NavigationLink(303, "Worker Portal/My Calendar", typeof(wpp.CalendarController), icon: null)]
+[assembly: NavigationLink(303, "Worker Portal/Tonight", typeof(wpp.TonightController), icon: null)]
 [assembly: NavigationLink(304, "Worker Portal/My Dashboard", typeof(wpp.MyDashboardController), icon: null)]
 [assembly: NavigationLink(305, "Worker Portal/My Activities", typeof(wpp.MyActivitiesController), icon: null)]
 [assembly: NavigationLink(306, "Worker Portal/My Patients", typeof(wcp.ClientsController), icon: null)]

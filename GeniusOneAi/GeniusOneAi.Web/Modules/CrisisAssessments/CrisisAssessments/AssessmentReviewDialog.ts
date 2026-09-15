@@ -44,6 +44,8 @@ namespace GeniusOneAi.CrisisAssessments {
                 opt.forEach(g => h.push(this.goalRow(g, false)));
             }
             h.push('<h4>' + (opt.length ? '4' : '3') + '. Added automatically for the next encounters</h4>');
+            h.push('<h4>' + (opt.length ? '5' : '4') + '. Crisis worker who works this episode <small>sees the goals on Tonight the moment you sign</small></h4>');
+            h.push('<div class="rv-plan"><select class="rv-worker form-control" style="max-width:420px"><option value="">Loading workers...</option></select></div>');
             h.push('<div class="rv-plan"><div><b>Encounter 2 - Needs Assessment:</b> ' + r.E2ProtocolGoals + ' protocol goals</div><div><b>Encounters 3 and 4:</b> one Act-on-Need and one Confirm-and-Link goal per accepted need (<span class="rv-pair-count">0</span> goals)</div><div><b>Encounter 5 - Pre-Discharge:</b> ' + r.E5ProtocolGoals + ' goals</div><div><b>Follow-up:</b> Day 7, Day 14, Day 21</div><div class="rv-note">Goals arrive Active with their interventions (checkboxes) and projected outcomes; the outcome questions become the note approval gate for each encounter.</div></div>');
             this.byId('Body').html(h.join(''));
             var recount = () => this.byId('Body').find('.rv-pair-count').text(this.byId('Body').find('.rv-need:checked:not(:disabled)').length * 2);
@@ -51,6 +53,13 @@ namespace GeniusOneAi.CrisisAssessments {
             var syncReasons = () => this.byId('Body').find('.rv-goal').each((i, e) => { var $e = $(e); $e.find('.rv-reason').toggle(!$e.find('.rv-goal-cb').is(':checked')); });
             this.byId('Body').on('change', '.rv-goal-cb', syncReasons); syncReasons();
             this.byId('Body').on('click', '.rv-reason-input', ev => ev.preventDefault());
+            var me = (Q.Authorization.userDefinition as any) ? (Q.Authorization.userDefinition as any).UserId : null;
+            Q.serviceCall({ service: 'Field/Workers', request: {}, onSuccess: (wr: any) => {
+                var sel = this.byId('Body').find('.rv-worker');
+                sel.empty().append('<option value="">Assign later</option>');
+                (wr.Workers || []).forEach((w: any) => sel.append($('<option>').val(w.UserId).text(w.DisplayName || w.Username)));
+                if (me) sel.val(String(me));
+            }, onError: () => { this.byId('Body').find('.rv-worker').empty().append('<option value="">Assign later</option>'); } });
         }
         private goalRow(g: EvalGoal, pre: boolean): string {
             var enc = Q.htmlEncode;
@@ -62,7 +71,8 @@ namespace GeniusOneAi.CrisisAssessments {
             var goals: number[] = []; body.find('.rv-goal-cb:checked').each((i, e) => { goals.push(parseInt($(e).val() as string, 10)); });
             var declined: DeclinedGoal[] = [];
             body.find('.rv-goal-cb:not(:checked)').each((i, e) => { var row = $(e).closest('.rv-goal'); declined.push({ LibraryGoalId: parseInt($(e).val() as string, 10), Reason: (row.find('.rv-reason-input').val() as string || '').trim() }); });
-            CrisisAssessmentsService.Complete({ AssessmentId: this.assessmentId, NeedKeys: needs, GoalIds: goals, Declined: declined }, r => {
+            var workerVal = body.find('.rv-worker').val() as string;
+            CrisisAssessmentsService.Complete({ AssessmentId: this.assessmentId, NeedKeys: needs, GoalIds: goals, Declined: declined, AssignedWorkerId: workerVal ? parseInt(workerVal, 10) : null }, r => {
                 this.dialogClose();
                 if (this.onConfirmed) this.onConfirmed(r);
             });

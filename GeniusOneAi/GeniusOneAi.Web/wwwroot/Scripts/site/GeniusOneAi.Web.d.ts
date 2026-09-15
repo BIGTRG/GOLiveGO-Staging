@@ -3460,6 +3460,7 @@ declare namespace GeniusOneAi.CrisisAssessments {
         NeedKeys?: string[];
         GoalIds?: number[];
         Declined?: DeclinedGoal[];
+        AssignedWorkerId?: number;
     }
     interface CompleteResponse extends Serenity.ServiceResponse {
         EpisodeId?: number;
