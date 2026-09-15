@@ -13,11 +13,11 @@ namespace GeniusOneAi.CrisisEpisodes.Pages
     public class ConsentPageController : Controller
     {
         [HttpGet, Route("~/CrisisEpisodes/Consent/Sign/{id:int}")]
-        public IActionResult Sign(int id, [FromServices] ISqlConnections sqlConnections)
+        public IActionResult Sign(int id, [FromServices] ISqlConnections sqlConnections, string returnUrl = null)
         {
             using var c = sqlConnections.NewFor<EpRow>();
             var form = ConsentService.FormForRequest(c, id, out var ep);
-            var model = JsonSerializer.Serialize(new { form.RequestId, form.Code, form.Title, form.Summary, form.Citation, form.Revision, form.BodyHtml, form.FieldSchema, form.Status, form.NeedsClient, ep.EpisodeId, ep.ClientName, ep.IsMinor, ep.NextOfKin, WorkerSigned = false, Mode = "inperson", ReturnUrl = "/CrisisEpisodes/CrisisEpisodes" });
+            var model = JsonSerializer.Serialize(new { form.RequestId, form.Code, form.Title, form.Summary, form.Citation, form.Revision, form.BodyHtml, form.FieldSchema, form.Status, form.NeedsClient, ep.EpisodeId, ep.ClientName, ep.IsMinor, ep.NextOfKin, WorkerSigned = false, Mode = "inperson", ReturnUrl = (returnUrl != null && returnUrl.StartsWith("/") && !returnUrl.StartsWith("//")) ? returnUrl : "/CrisisEpisodes/CrisisEpisodes" });
             return Content(ConsentPages.SignPage(model, inApp: true), "text/html; charset=utf-8");
         }
 

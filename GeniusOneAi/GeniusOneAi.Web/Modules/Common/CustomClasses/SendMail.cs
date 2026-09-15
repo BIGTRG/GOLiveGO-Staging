@@ -142,10 +142,11 @@ namespace GeniusOneAi.Web.Modules.Common.CustomClasses
         {
             using var connection = new SqlConnection(DbConn);
             var fields = ActivitiesRow.Fields;
-            var actId = connection.Query<int>(new SqlQuery().From(fields)
+            // Encounter-engine activities (mobile crisis episodes) carry no authorization; a NULL here used to throw inside Dapper on sign.
+            var actId = connection.Query<int?>(new SqlQuery().From(fields)
                 .Select(fields.AuthorizationId)
                 .Where(fields.ActivityId == activityId)).FirstOrDefault();
-            return actId;
+            return actId ?? 0;
         }
         public int GetAuthWorkerId(int activityId)
         {

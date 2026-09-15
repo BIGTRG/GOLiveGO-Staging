@@ -7,3 +7,16 @@ On startup, after the migrations, `Initialization/DemoDataSeeder.cs` seeds:
 2. The demonstration case unless `"DemoData": { "Enabled": false }` is set: synthetic clients STG-1057 Ashley Yolanda, STG-1042 Jordan Doe, STG-2011 Sam Rivers, and a completed, signed adult crisis assessment for Jordan Doe that opens his episode and copies the goals for every encounter (E1 to Day 21) through `AssessmentEngine.Complete`.
 
 To see it: Patient Manager > Jordan Doe > Assessments tab (signed assessment, Document), Episodes tab (episode with goals grouped by encounter), then Start Encounter 1 on the episode; the progress note opens with the goals, interventions and outcome questions pre-loaded. Consent must be recorded (in person, link, or verbal) before Encounter 1 can be signed. Set `DemoData:Enabled` to `false` in `appsettings.machine.json` on any server with real clients.
+
+## Field mode (feat/encounter-engine)
+
+`/Field` is the phone-first flow for mobile crisis workers (Direction A, "Clinical Clean"): sign in with the same
+GeniusOne account, Tonight list of open episodes, client card, one-question-per-screen crisis assessment with live
+evaluation, consent (in person, emailed link, verbal OC-VCD-003), start encounter, goal-by-goal encounter note with
+tap interventions and outcome questions, review and sign with the worker's stored e-signature.
+
+- Server: `Modules/Field/FieldPage.cs` (HTML shell + CSRF cookie) and `Modules/Field/FieldEndpoint.cs`
+  (`Services/Field/Home|Search|Client`, read-only aggregates). Every write goes through the existing services.
+- Client: `wwwroot/field/field.js`, `field.css`, `field-options.js` (generated from the assessment rules source -
+  regenerate with the toolkit script rather than editing by hand). Plain JavaScript, no build step.
+- Signing a note needs a verified e-signature on the worker's account (My Profile > eSignature).
